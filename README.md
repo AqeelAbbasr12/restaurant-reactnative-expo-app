@@ -1,1 +1,1 @@
-# restaurantapp-reactnative-expo
+# resturantapp-reactnative-expo
