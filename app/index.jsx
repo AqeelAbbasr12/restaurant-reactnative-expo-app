@@ -1,18 +1,20 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
 import useScreenDimensions from "@/hooks/useScreenDimensions";
+import { Provider as PaperProvider } from 'react-native-paper';
+import CardComponent from '../components/CardComponent';
 
 export default function Page() {
   const { screenWidth, screenHeight } = useScreenDimensions();
   return (
     <View style={styles.container}>
       <View style={styles.main}>
-        <Text style={styles.title}>Hello World</Text>
-        <Text style={styles.subtitle}>This is the first page of your app.</Text>
-        <Link href={"/users"}>Go to user</Link>
+        <PaperProvider>
+          <View>
+            <CardComponent ></CardComponent>
+          </View>
 
-        <Text>Screen Width: {screenWidth}</Text>
-        <Text>Screen Height: {screenHeight}</Text>
+        </PaperProvider>
       </View>
     </View>
   );
@@ -29,13 +31,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     maxWidth: 960,
     marginHorizontal: "auto",
-  },
-  title: {
-    fontSize: 64,
-    fontWeight: "bold",
-  },
-  subtitle: {
-    fontSize: 36,
-    color: "#38434D",
   },
 });
