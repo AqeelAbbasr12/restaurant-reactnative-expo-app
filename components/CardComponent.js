@@ -3,7 +3,7 @@ import { StyleSheet, Image, View } from 'react-native';
 import { Avatar, Button, Card, Text } from 'react-native-paper';
 
 
-const CardComponent = () => {
+const CardComponent = ({imageSource, title, buttonText, buttonTextColor, onPress}) => {
   const source = require('../assets/images/burger.png');
   const handlePress = () => {
     console.log('Button pressed');
@@ -14,15 +14,15 @@ const CardComponent = () => {
     <Card style={styles.container}>
       
       <View style={styles.imageContainer}>
-        <Image source={source} style={styles.image} />
+        <Image source={imageSource} style={styles.image} />
       </View>
       <View style={styles.buttonContainer}>
-      <Button style={styles.button} mode="contained" onPress={() => console.log('Pressed')} textColor="#F29434" uppercase 
+      <Button style={styles.button} mode="contained" onPress={onPress} textColor={buttonTextColor} uppercase 
         labelStyle={styles.buttonLabel}
-        >Top Seller</Button>
+        >{buttonText}</Button>
       </View>
       <Card.Content>
-        <Text style={styles.title}>DD Smokey House</Text>
+        <Text style={styles.title}>{title}</Text>
       </Card.Content>
       <Image source={require('../assets/images/fire.png')} style={styles.backgroundImage} />
     </Card>
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
   image: {
     position: 'absolute',
-    right: -45,
+    right: -35,
     top: -5,
     width: '100%',
     height: '100%',
