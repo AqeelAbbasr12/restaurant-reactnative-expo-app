@@ -6,7 +6,7 @@ export const customTheme = {
     colors: {
         ...DefaultTheme.colors,
         ...MD2DarkTheme.colors,
-        primary: 'darkorange',
+        primary: '#db7a00',
         secondary: 'yellow',
     },
 };
