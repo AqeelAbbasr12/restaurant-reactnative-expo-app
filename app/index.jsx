@@ -9,10 +9,12 @@ export default function Page() {
   return (
     <View style={styles.container}>
       <View style={styles.main}>
+
         <PaperProvider>
           <View style={styles.cardComponentContainer} source={require('../assets/images/fire.png')}>
             <CardComponent ></CardComponent>
           </View>
+
 
         </PaperProvider>
       </View>
