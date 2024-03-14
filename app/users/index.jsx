@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Link } from "expo-router";
 import { useSelector, useDispatch } from "react-redux";
 import { increment, decrement } from "@/store/counter/counterSlice";
+import { Button } from "react-native-paper";
 
 export default function Page() {
   const count = useSelector((state) => state.counter.value);
@@ -14,13 +15,13 @@ export default function Page() {
       </View>
 
       <View>
-        <TouchableOpacity onPress={() => dispatch(increment())}>
-          <Text>+</Text>
-        </TouchableOpacity>
+        <Button mode="contained" onPress={() => dispatch(increment())}>
+          +
+        </Button>
         <Text>{count}</Text>
-        <TouchableOpacity onPress={() => dispatch(decrement())}>
-          <Text>-</Text>
-        </TouchableOpacity>
+        <Button mode="contained" onPress={() => dispatch(decrement())}>
+          -
+        </Button>
       </View>
     </View>
   );
