@@ -9,10 +9,12 @@ export default function Page() {
   return (
     <View style={styles.container}>
       <View style={styles.main}>
+
         <PaperProvider>
           <View>
             <CardComponent ></CardComponent>
           </View>
+
 
         </PaperProvider>
       </View>
