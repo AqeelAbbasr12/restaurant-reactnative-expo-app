@@ -1,11 +1,13 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
 import { useSelector, useDispatch } from "react-redux";
 import { increment, decrement } from "@/store/counter/counterSlice";
+import { setAuthStatus } from "@/store/auth/authSlice";
 import { Button } from "react-native-paper";
 
 export default function Page() {
   const count = useSelector((state) => state.counter.value);
+  const auth = useSelector((state) => state.auth.value);
   const dispatch = useDispatch();
   return (
     <View style={styles.container}>
@@ -23,6 +25,10 @@ export default function Page() {
           -
         </Button>
       </View>
+
+      <Button mode="contained" onPress={() => dispatch(setAuthStatus(!auth))}>
+        auth
+      </Button>
     </View>
   );
 }

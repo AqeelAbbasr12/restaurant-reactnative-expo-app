@@ -10,6 +10,8 @@ export default function Page() {
         <Text style={styles.title}>Hello World</Text>
         <Text style={styles.subtitle}>This is the first page of your app.</Text>
         <Link href={"/users"}>Go to user</Link>
+        <Link href={"/login"}>Go to login</Link>
+        <Link href={"/register"}>Go to register</Link>
 
         <Text>Screen Width: {screenWidth}</Text>
         <Text>Screen Height: {screenHeight}</Text>
