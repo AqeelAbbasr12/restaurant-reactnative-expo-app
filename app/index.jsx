@@ -10,7 +10,7 @@ export default function Page() {
     <View style={styles.container}>
       <View style={styles.main}>
         <PaperProvider>
-          <View>
+          <View style={styles.cardComponentContainer} source={require('../assets/images/fire.png')}>
             <CardComponent ></CardComponent>
           </View>
 
@@ -25,6 +25,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     padding: 24,
+  },
+  cardComponentContainer: {
+    boxShadow: 'rgb(161, 161, 161) 1px 2px 7px 1px',
+    borderRadius: 25,
+    backgroundImage: require('../assets/images/fire.png'),
   },
   main: {
     flex: 1,

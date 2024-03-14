@@ -24,6 +24,7 @@ const CardComponent = () => {
       <Card.Content>
         <Text style={styles.title}>DD Smokey House</Text>
       </Card.Content>
+      <Image source={require('../assets/images/fire.png')} style={styles.backgroundImage} />
     </Card>
   );
 };
@@ -31,15 +32,18 @@ const CardComponent = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#F29434',
-    width: 200,
-    height: 250,
+    width: 185,
     borderRadius: 25,
-    marginTop: 50,
+    // elevation: 5,
+    shadowColor: 'black',
+    boxShadow: 'rgb(161, 161, 161) 1px 2px 7px 1px',
   },
   title: {
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: 'bold',
     color: 'white',
+    textAlign: 'center',
+    paddingBottom: 25,
   },
   content: {
     fontSize: 16,
@@ -48,12 +52,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 10,
     marginTop: 20,
   },
   button: {
-    width: 80,
-    height: 30,
+    // width: 80,
+    // height: 30,
     alignContent: 'center',
     backgroundColor: 'white',
     borderRadius: 20,
@@ -69,19 +73,29 @@ const styles = StyleSheet.create({
   },
   image: {
     position: 'absolute',
-    right: -40,
+    right: -45,
     top: -5,
     width: '100%',
     height: '100%',
     alignContent: 'center',
-    resizeMode: 'cover',
+    resizeMode: 'contain',
   },
   buttonLabel: {
     fontSize: 10,
-    marginHorizontal: 0,
-    marginVertical: 5,
-    marginHorizontal: 5,
-  }
+    marginVertical: 0,
+    marginHorizontal: 7,
+    fontWeight: 800,
+    lineHeight: 23,
+  },
+  backgroundImage: {
+    position: 'absolute',
+    zIndex: -1,
+    opacity: 0.4,
+    bottom: 0,
+    left: -5,
+    width: '55%', // Adjust as needed
+    height: '55%', // Adjust as needed
+  },
 });
 
 export default CardComponent;
