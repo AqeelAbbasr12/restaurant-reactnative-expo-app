@@ -1,9 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
-import useScreenDimensions from "@/hooks/useScreenDimensions";
 
 export default function Page() {
-  const { screenWidth, screenHeight } = useScreenDimensions();
   return (
     <View style={styles.container}>
       <View style={styles.main}>
@@ -12,9 +10,6 @@ export default function Page() {
         <Link href={"/users"}>Go to user</Link>
         <Link href={"/login"}>Go to login</Link>
         <Link href={"/register"}>Go to register</Link>
-
-        <Text>Screen Width: {screenWidth}</Text>
-        <Text>Screen Height: {screenHeight}</Text>
       </View>
     </View>
   );
