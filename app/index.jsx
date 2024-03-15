@@ -1,9 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
 
-import { Provider as PaperProvider } from 'react-native-paper';
-import CardComponent from '../components/CardComponent';
-
 export default function Page() {
   return (
     <View style={styles.container}>
@@ -24,11 +21,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 24,
   },
-  
   main: {
     flex: 1,
     justifyContent: "center",
     maxWidth: 960,
     marginHorizontal: "auto",
+  },
+  title: {
+    fontSize: 64,
+    fontWeight: "bold",
+  },
+  subtitle: {
+    fontSize: 36,
+    color: "#38434D",
   },
 });
