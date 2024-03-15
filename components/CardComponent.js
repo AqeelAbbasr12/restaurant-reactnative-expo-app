@@ -1,38 +1,40 @@
 import * as React from 'react';
+import { customTheme } from "@/utils/theme";
 import { StyleSheet, Image, View } from 'react-native';
-import { Avatar, Button, Card, Text } from 'react-native-paper';
+import { Button, Card, Text } from 'react-native-paper';
 
 
 const CardComponent = ({imageSource, title, buttonText, buttonTextColor, onPress}) => {
-  const source = require('../assets/images/burger1.png');
-  const handlePress = () => {
-    console.log('Button pressed');
-    // Add your button press logic here
-  };
 
   return (
-    <Card style={styles.container}>
-      
-      <View style={styles.imageContainer}>
-        <Image source={imageSource} style={styles.image} />
-      </View>
-      <View style={styles.buttonContainer}>
-      <Button style={styles.button} mode="contained" onPress={onPress} textColor={buttonTextColor} uppercase 
-        labelStyle={styles.buttonLabel}
-        >{buttonText}</Button>
-      </View>
-      <Card.Content>
-        <Text style={styles.title}>{title}</Text>
-      </Card.Content>
-      <Image source={require('../assets/images/fire.png')} style={styles.backgroundImage} />
-    </Card>
+    <View style={styles.cardComponentContainer}>
+      <Card style={styles.container}>
+        
+        <View style={styles.imageContainer}>
+          <Image source={imageSource} style={styles.image} />
+        </View>
+        <View style={styles.buttonContainer}>
+        <Button style={styles.button} mode="contained" onPress={onPress} textColor={buttonTextColor} uppercase 
+          labelStyle={styles.buttonLabel}
+          >{buttonText}</Button>
+        </View>
+        <Card.Content>
+          <Text style={styles.title}>{title}</Text>
+        </Card.Content>
+        <Image source={require('../assets/images/fire.png')} style={styles.backgroundImage} />
+      </Card>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  cardComponentContainer: {
+    boxShadow: 'rgb(161, 161, 161) 1px 2px 7px 1px',
+    borderRadius: 25,
+    width: 185,
+  },
   container: {
     backgroundColor: '#F29434',
-    width: 185,
     borderRadius: 25,
     // elevation: 5,
     shadowColor: 'black',
