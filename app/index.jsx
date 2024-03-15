@@ -13,7 +13,7 @@ export default function Page() {
         <PaperProvider>
           <View style={styles.cardComponentContainer} source={require('../assets/images/fire.png')}>
             <CardComponent 
-              imageSource={require('../assets/images/burger.png')}
+              imageSource={require('../assets/images/burger1.png')}
               title="DD Smokey House"
               buttonText="Top Seller"
               buttonTextColor="#F29434"
