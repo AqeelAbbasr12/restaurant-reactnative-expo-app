@@ -8,5 +8,9 @@ export const customTheme = {
         ...MD2DarkTheme.colors,
         primary: '#db7a00',
         secondary: 'yellow',
+        textWhite: 'white',
+        textDark: '#333232',
+        iconColorWhite: 'white',
+        iconColorDark: '#333232',
     },
 };

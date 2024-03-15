@@ -1,11 +1,26 @@
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { customTheme } from "@/utils/theme";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 
-export function Screen({ children }) {
+export function Screen({ children, SideItems }) {
   const { w, h } = useResponsiveScreen();
   return (
-    <View style={{ backgroundColor: customTheme.colors.primary, flex: 1 }}>
+    <View
+      style={{
+        backgroundColor: customTheme.colors.primary,
+        flex: 1,
+        paddingTop: h(6),
+      }}
+    >
+      <View
+        style={{
+          width: w(17),
+          flex: 1,
+          alignItems: "center",
+        }}
+      >
+        <SideItems />
+      </View>
       <View
         style={{
           backgroundColor: "white",
@@ -14,6 +29,8 @@ export function Screen({ children }) {
           width: w(83),
           height: h(100),
           borderTopLeftRadius: 50,
+          paddingTop: h(6),
+          paddingLeft: w(7),
         }}
       >
         {children}

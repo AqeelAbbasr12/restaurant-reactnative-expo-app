@@ -1,38 +1,50 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { Link } from "expo-router";
+import { Screen } from "@/components/Screen";
+import { Heading } from "@/components/Heading";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { customTheme } from "@/utils/theme";
+import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
+import { Header } from "@/components/Header";
 
-export default function Page() {
+const SideItems = () => {
   return (
-    <View style={styles.container}>
-      <View style={styles.main}>
-        <Text style={styles.title}>Hello World</Text>
-        <Text style={styles.subtitle}>This is the first page of your app.</Text>
-        <Link href={"/users"}>Go to user</Link>
-        <Link href={"/login"}>Go to login</Link>
-        <Link href={"/register"}>Go to register</Link>
-      </View>
+    <View>
+      <Text>
+        <Icon name="menu" size={30} color={customTheme.colors.iconColorWhite} />
+      </Text>
     </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    padding: 24,
-  },
-  main: {
-    flex: 1,
-    justifyContent: "center",
-    maxWidth: 960,
-    marginHorizontal: "auto",
-  },
-  title: {
-    fontSize: 64,
-    fontWeight: "bold",
-  },
-  subtitle: {
-    fontSize: 36,
-    color: "#38434D",
-  },
-});
+export default function HomePage() {
+  const { w } = useResponsiveScreen();
+
+  return (
+    <Screen SideItems={SideItems}>
+      <Header>
+        <Heading text="Welcome Back!" />
+
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: w(3),
+          }}
+        >
+          <Icon
+            name="cart-outline"
+            size={30}
+            color={customTheme.colors.iconColorDark}
+          />
+          <Icon
+            name="bell-outline"
+            size={30}
+            color={customTheme.colors.iconColorDark}
+          />
+        </View>
+      </Header>
+      <Link href={"/users"}>Go to user</Link>
+    </Screen>
+  );
+}
