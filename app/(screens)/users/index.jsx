@@ -1,12 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
 import { useSelector, useDispatch } from "react-redux";
-import { increment, decrement } from "@/store/counter/counterSlice";
 import { setAuthStatus } from "@/store/auth/authSlice";
 import { Button } from "react-native-paper";
 
 export default function Page() {
-  const count = useSelector((state) => state.counter.value);
   const auth = useSelector((state) => state.auth.value);
   const dispatch = useDispatch();
   return (
@@ -14,16 +12,6 @@ export default function Page() {
       <View style={styles.main}>
         <Text style={styles.title}>User</Text>
         <Link href={"/"}>Go to home</Link>
-      </View>
-
-      <View>
-        <Button mode="contained" onPress={() => dispatch(increment())}>
-          +
-        </Button>
-        <Text>{count}</Text>
-        <Button mode="contained" onPress={() => dispatch(decrement())}>
-          -
-        </Button>
       </View>
 
       <Button mode="contained" onPress={() => dispatch(setAuthStatus(!auth))}>

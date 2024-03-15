@@ -1,28 +1,16 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
-import useScreenDimensions from "@/hooks/useScreenDimensions";
-import { Provider as PaperProvider } from 'react-native-paper';
-import CardComponent from '../components/CardComponent';
 
 export default function Page() {
-  const { screenWidth, screenHeight } = useScreenDimensions();
   return (
     <View style={styles.container}>
       <View style={styles.main}>
 
-        <PaperProvider>
-          <View style={styles.cardComponentContainer} source={require('../assets/images/fire.png')}>
-            <CardComponent 
-              imageSource={require('../assets/images/burger1.png')}
-              title="DD Smokey House"
-              buttonText="Top Seller"
-              buttonTextColor="#F29434"
-              onPress={() => console.log('Button pressed')}
-            ></CardComponent>
-          </View>
-
-
-        </PaperProvider>
+        <Text style={styles.title}>Hello World</Text>
+        <Text style={styles.subtitle}>This is the first page of your app.</Text>
+        <Link href={"/users"}>Go to user</Link>
+        <Link href={"/login"}>Go to login</Link>
+        <Link href={"/register"}>Go to register</Link>
       </View>
     </View>
   );
