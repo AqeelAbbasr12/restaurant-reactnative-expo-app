@@ -16,7 +16,7 @@ export const HomeComponent = ({ children }) => {
         borderTopLeftRadius: 25,
         borderBottomLeftRadius: 25,
         paddingHorizontal: w(5),
-        marginVertical: w(5),
+        marginVertical: w(3),
       }}
     >
       {children}
