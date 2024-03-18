@@ -1,4 +1,4 @@
-import {Text, View, ScrollView } from "react-native";
+import { Text, View, StyleSheet, ScrollView } from "react-native";
 import { Link } from "expo-router";
 import { Screen } from "@/components/Screen";
 import { Heading } from "@/components/Heading";
@@ -9,11 +9,58 @@ import { Header } from "@/components/Header";
 import { CardComponent } from "../components/CardComponent";
 
 const SideItems = () => {
+  const { h, f } = useResponsiveScreen();
+
+  const sideitems = [
+    "Home",
+    "Home",
+    "Home",
+    "Home",
+    "Home",
+    "Home",
+    "Home",
+    "Home",
+  ];
+
   return (
     <View>
-      <Text>
-        <Icon name="menu" size={30} color={customTheme.colors.iconColorWhite} />
-      </Text>
+      <View
+        style={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <Text>
+          <Icon
+            name="menu"
+            size={30}
+            color={customTheme.colors.iconColorWhite}
+          />
+        </Text>
+      </View>
+
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        decelerationRate={"normal"}
+        style={{
+          ...style.SideBarTextContainer,
+          marginTop: h(5),
+          marginBottom: h(4),
+        }}
+      >
+        {sideitems.map((sideitem, index) => (
+          <Text
+            key={index}
+            style={{
+              ...style.SideBarText,
+              marginVertical: h(6),
+              fontSize: f(2.8),
+            }}
+          >
+            {sideitem.toLocaleUpperCase()}
+          </Text>
+        ))}
+      </ScrollView>
     </View>
   );
 };
@@ -84,3 +131,15 @@ export default function HomePage() {
   );
   
 }
+
+const style = StyleSheet.create({
+  SideBarText: {
+    transform: [{ rotate: "270deg" }],
+    fontWeight: "900",
+    color: "white",
+  },
+  SideBarTextContainer: {
+    display: "flex",
+    flex: 1,
+  },
+});
