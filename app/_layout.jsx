@@ -1,4 +1,3 @@
-import { SafeAreaView } from "react-native";
 import { Stack } from "expo-router";
 import { store } from "@/store";
 import { Provider } from "react-redux";
@@ -8,6 +7,15 @@ import { useSelector } from "react-redux";
 import { router } from "expo-router";
 import { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+
+SplashScreen.preventAutoHideAsync();
+
+export {
+  // Catch any errors thrown by the Layout component.
+  ErrorBoundary,
+} from "expo-router";
 
 // Route auth
 const RouteAuth = ({ children }) => {
@@ -22,6 +30,26 @@ const RouteAuth = ({ children }) => {
 };
 
 const RootLayout = () => {
+  const [loaded, error] = useFonts({
+    "Montserrat-Bold": require("@/assets/fonts/Montserrat-Bold.ttf"),
+    "Montserrat-Thin": require("@/assets/fonts/Montserrat-Thin.ttf"),
+    "Montserrat-SemiBold": require("@/assets/fonts/Montserrat-SemiBold.ttf"),
+  });
+
+  useEffect(() => {
+    if (error) throw error;
+  }, [error]);
+
+  useEffect(() => {
+    if (loaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded]);
+
+  if (!loaded) {
+    return null;
+  }
+
   return (
     <Provider store={store}>
       <PaperProvider theme={customTheme}>
