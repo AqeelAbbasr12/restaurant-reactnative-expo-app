@@ -6,6 +6,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { customTheme } from "@/utils/theme";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 import { Header } from "@/components/Header";
+import { HomeComponent } from "@/components/HomeComponent";
 
 const SideItems = () => {
   const { h, f } = useResponsiveScreen();
@@ -91,6 +92,9 @@ export default function HomePage() {
           />
         </View>
       </Header>
+      <HomeComponent><Text style={{ color: 'white'}}>Our Menu</Text></HomeComponent>
+      <HomeComponent><Text style={{ color: 'white'}}>Apply Deal</Text></HomeComponent>
+      <HomeComponent><Text style={{ color: 'white'}}>What's New</Text></HomeComponent>
       <Link href={"/users"}>Go to user</Link>
     </Screen>
   );
