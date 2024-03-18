@@ -6,7 +6,7 @@ export const customTheme = {
     colors: {
         ...DefaultTheme.colors,
         ...MD2DarkTheme.colors,
-        primary: '#db7a00',
+        primary: '#ED7014',
         secondary: 'yellow',
         textWhite: 'white',
         textDark: '#333232',
