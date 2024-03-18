@@ -11,14 +11,17 @@ export const CardComponent = ({
   buttonTextColor,
   onPress,
 }) => {
-  const { f } = useResponsiveScreen();
+  const { h, f } = useResponsiveScreen();
 
   return (
-    <Card style={styles.container}>
+    <Card style={[styles.container, { backgroundColor: customTheme.colors.primary,shadowColor: '#171717',
+    shadowOffset: {width: 3, height: 7},
+    shadowOpacity: 0.4,
+    shadowRadius: 7, elevation: 5}]}>
       <View style={styles.imageContainer}>
         <Image source={imageSource} style={styles.image} />
       </View>
-      <View style={styles.buttonContainer}>
+      <View style={[styles.buttonContainer, {marginBottom: h(2)}]}>
         <Button
           style={styles.button}
           mode="contained"
@@ -31,7 +34,7 @@ export const CardComponent = ({
         </Button>
       </View>
       <Card.Content>
-        <Text style={[styles.title, { fontSize: f(2) }]}>{title}</Text>
+        <Text style={[styles.title, { fontSize: f(1.9) }]}>{title}</Text>
       </Card.Content>
       <Image
         source={require("../assets/images/fire2.png")}
@@ -43,10 +46,8 @@ export const CardComponent = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#F29434",
     borderRadius: 25,
     elevation: 0,
-    shadowColor: "black",
   },
   title: {
     fontWeight: "bold",
@@ -54,15 +55,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingBottom: 30,
   },
-  content: {
-    fontSize: 16,
-  },
   buttonContainer: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 10,
-    marginTop: 10,
   },
   button: {
     alignContent: "center",
@@ -72,8 +68,8 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   imageContainer: {
-    width: 200,
-    height: 115,
+    width: 205,
+    height: 135,
     position: "relative",
   },
   image: {

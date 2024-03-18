@@ -6,6 +6,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { customTheme } from "@/utils/theme";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 import { Header } from "@/components/Header";
+import { HomeComponent } from "@/components/HomeComponent";
 import { CardComponent } from "../components/CardComponent";
 
 const SideItems = () => {
@@ -66,16 +67,13 @@ export default function HomePage() {
       imageSource: require("../assets/images/burger1.png"),
       title: "Swiss Mushroom",
       buttonText: "Top Seller",
-      buttonTextColor: "#F29434",
     },
     {
       id: 2,
       imageSource: require("../assets/images/burger1.png"),
       title: "Sunny Rocket",
       buttonText: "Top Seller",
-      buttonTextColor: "#F29434",
     },
-    // Add more data as needed
   ];
 
   return (
@@ -119,7 +117,7 @@ export default function HomePage() {
                 boxShadow: "rgb(161, 161, 161) 1px 2px 7px 1px",
                 borderRadius: 25,
                 width: 185,
-                marginRight: w(10),
+                marginRight: w(15),
                 marginVertical: h(2),
               }}
               key={key}
@@ -130,11 +128,16 @@ export default function HomePage() {
                 buttonText={item.buttonText}
                 buttonTextColor="#F29434"
                 onPress={() => console.log("Button pressed")}
-                style={{ marginHorizontal: "10px" }}
+                style={{ marginHorizontal: "10px", boxShadow: "rgb(161, 161, 161) 1px 2px 7px 1px" }}
               />
             </View>
           ))}
         </ScrollView>
+      </View>
+      <View style={{marginTop: h(1)}}>
+        <HomeComponent mainLabel="Our" subLabel="Menu"></HomeComponent>
+        <HomeComponent mainLabel="Appy" subLabel="Deal"></HomeComponent>
+        <HomeComponent mainLabel="What's" subLabel="New"></HomeComponent>
       </View>
       <Link href={"/users"}>Go to user</Link>
     </Screen>
