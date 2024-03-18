@@ -10,18 +10,9 @@ import { HomeComponent } from "@/components/HomeComponent";
 import { CardComponent } from "../components/CardComponent";
 
 const SideItems = () => {
-  const { h, f } = useResponsiveScreen();
+  const { h, f, w } = useResponsiveScreen();
 
-  const sideitems = [
-    "Home",
-    "Home",
-    "Home",
-    "Home",
-    "Home",
-    "Home",
-    "Home",
-    "Home",
-  ];
+  const sideitems = ["Homee"];
 
   return (
     <View>
@@ -47,6 +38,7 @@ const SideItems = () => {
           ...style.SideBarTextContainer,
           marginTop: h(5),
           marginBottom: h(4),
+          backgroundColor: "red",
         }}
       >
         {sideitems.map((sideitem, index) => (
@@ -54,8 +46,8 @@ const SideItems = () => {
             key={index}
             style={{
               ...style.SideBarText,
-              marginVertical: h(6),
               fontSize: f(2.8),
+              marginVertical: h(6),
             }}
           >
             {sideitem.toLocaleUpperCase()}
@@ -67,22 +59,22 @@ const SideItems = () => {
 };
 
 export default function HomePage() {
-  const { w,h,f } = useResponsiveScreen();
+  const { w, h, f } = useResponsiveScreen();
 
   const cardData = [
     {
       id: 1,
-      imageSource: require('../assets/images/burger1.png'),
-      title: 'Swiss Mushroom',
-      buttonText: 'Top Seller',
-      buttonTextColor: '#F29434',
+      imageSource: require("../assets/images/burger1.png"),
+      title: "Swiss Mushroom",
+      buttonText: "Top Seller",
+      buttonTextColor: "#F29434",
     },
     {
       id: 2,
-      imageSource: require('../assets/images/burger1.png'),
-      title: 'Sunny Rocket',
-      buttonText: 'Top Seller',
-      buttonTextColor: '#F29434',
+      imageSource: require("../assets/images/burger1.png"),
+      title: "Sunny Rocket",
+      buttonText: "Top Seller",
+      buttonTextColor: "#F29434",
     },
     // Add more data as needed
   ];
@@ -112,19 +104,37 @@ export default function HomePage() {
         </View>
       </Header>
       <View>
-        <ScrollView style={{display: 'flex', flexDirection: 'row', gap: w(4), paddingVertical: h(3)}} horizontal={true} showsHorizontalScrollIndicator={false}>
-        {cardData.map((item, key) => (
-          <View style={{boxShadow: 'rgb(161, 161, 161) 1px 2px 7px 1px',borderRadius: 25, width: 185, marginRight: w(10), marginVertical: h(2)}} key={key}>
-            <CardComponent
-              imageSource={item.imageSource}
-              title={item.title}
-              buttonText={item.buttonText}
-              buttonTextColor="#F29434"
-              onPress={() => console.log('Button pressed')}
-              style={{ marginHorizontal: '10px' }}
-            />
-          </View>
-        ))}
+        <ScrollView
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: w(4),
+            paddingVertical: h(3),
+          }}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+        >
+          {cardData.map((item, key) => (
+            <View
+              style={{
+                boxShadow: "rgb(161, 161, 161) 1px 2px 7px 1px",
+                borderRadius: 25,
+                width: 185,
+                marginRight: w(10),
+                marginVertical: h(2),
+              }}
+              key={key}
+            >
+              <CardComponent
+                imageSource={item.imageSource}
+                title={item.title}
+                buttonText={item.buttonText}
+                buttonTextColor="#F29434"
+                onPress={() => console.log("Button pressed")}
+                style={{ marginHorizontal: "10px" }}
+              />
+            </View>
+          ))}
         </ScrollView>
       </View>
       <View>
@@ -135,14 +145,14 @@ export default function HomePage() {
       <Link href={"/users"}>Go to user</Link>
     </Screen>
   );
-  
 }
 
 const style = StyleSheet.create({
   SideBarText: {
-    transform: [{ rotate: "270deg" }],
-    fontWeight: "900",
+    transform: [{ rotate: "-90deg" }],
     color: "white",
+    fontFamily: "Montserrat-SemiBold",
+    backgroundColor: "green",
   },
   SideBarTextContainer: {
     display: "flex",
