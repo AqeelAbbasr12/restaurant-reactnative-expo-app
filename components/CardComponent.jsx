@@ -2,12 +2,14 @@ import * as React from 'react';
 import { customTheme } from "@/utils/theme";
 import { StyleSheet, Image, View } from 'react-native';
 import { Button, Card, Text } from 'react-native-paper';
+import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 
 
-const CardComponent = ({imageSource, title, buttonText, buttonTextColor, onPress}) => {
-
+export const CardComponent = ({imageSource, title, buttonText, buttonTextColor, onPress}) => {
+  const { w,h,f } = useResponsiveScreen();
+  
   return (
-    <View style={styles.cardComponentContainer}>
+    
       <Card style={styles.container}>
         
         <View style={styles.imageContainer}>
@@ -19,29 +21,23 @@ const CardComponent = ({imageSource, title, buttonText, buttonTextColor, onPress
           >{buttonText}</Button>
         </View>
         <Card.Content>
-          <Text style={styles.title}>{title}</Text>
+          <Text style={[styles.title, {fontSize: f(2)}]}>{title}</Text>
         </Card.Content>
-        <Image source={require('../assets/images/fire.png')} style={styles.backgroundImage} />
+        <Image source={require('../assets/images/fire2.png')} style={styles.backgroundImage} />
       </Card>
-    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  cardComponentContainer: {
-    boxShadow: 'rgb(161, 161, 161) 1px 2px 7px 1px',
-    borderRadius: 25,
-    width: 185,
-  },
+  
   container: {
     backgroundColor: '#F29434',
     borderRadius: 25,
-    // elevation: 5,
+    elevation: 0,
     shadowColor: 'black',
-    boxShadow: 'rgb(161, 161, 161) 1px 2px 7px 1px',
   },
   title: {
-    fontSize: 17,
+    // fontSize: 17,
     fontWeight: 'bold',
     color: 'white',
     textAlign: 'center',
@@ -78,8 +74,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     alignContent: 'center',
-    resizeMode: 'contain',
-    filter: 'brightness(0.85)',  
+    resizeMode: 'contain', 
   },
   buttonLabel: {
     fontSize: 10,
@@ -96,8 +91,7 @@ const styles = StyleSheet.create({
     left: -5,
     width: '55%', 
     height: '55%', 
-    filter: 'contrast(0.6)',
   },
 });
 
-export default CardComponent;
+// export default CardComponent;
