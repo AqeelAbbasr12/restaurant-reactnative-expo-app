@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import { customTheme } from "@/utils/theme";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 
-export function Screen({ children, SideItems }) {
+export function Screen({ children, SideItems, customStyle }) {
   const { w, h } = useResponsiveScreen();
   return (
     <View
@@ -31,6 +31,7 @@ export function Screen({ children, SideItems }) {
           borderTopLeftRadius: 50,
           paddingTop: h(6),
           paddingLeft: w(7),
+          ...customStyle
         }}
       >
         {children}
