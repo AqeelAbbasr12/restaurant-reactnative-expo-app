@@ -3,7 +3,7 @@ import { View  } from 'react-native';
 import { TextInput, HelperText } from 'react-native-paper';
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 
-export const InputComponent = ({ mode, label, value, placeholder, onChangeText, error, helperText, secureTextEntry, style, iconStyle, placeholderTextColor }) => {
+export const InputComponent = ({ mode, label, value, placeholder, onChangeText, error, helperText, secureTextEntry, style, iconStyle, placeholderTextColor, keyboardType }) => {
   const { w, h } = useResponsiveScreen();
   const [secureText, setSecureText] = useState(secureTextEntry);
   
@@ -23,6 +23,7 @@ export const InputComponent = ({ mode, label, value, placeholder, onChangeText, 
         placeholderTextColor='black'
         textColor='black'
         style={style}
+        keyboardType={keyboardType}
         outlineColor='gray'
         right={
           secureTextEntry ? 
@@ -31,7 +32,13 @@ export const InputComponent = ({ mode, label, value, placeholder, onChangeText, 
             color="#f7901e"
             onPress={toggleSecureEntry} 
             style={iconStyle} 
-          />) : null
+          />) : keyboardType === 'numeric' ? (
+            <TextInput.Icon
+              icon="keyboard"
+              color="#d8d8d8"
+              style={iconStyle}
+            />
+          ): null
         }
       />
       {error && <HelperText type="error">{helperText}</HelperText>}
