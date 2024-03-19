@@ -61,7 +61,7 @@ export default function Page() {
           style={{ backgroundColor: 'white', borderRadius: 4, fontWeight: '300' }}
           iconStyle={{ backgroundColor: 'white' }}
         />
-        <Link href="#" style={{ textDecorationLine: "underline", marginVertical: h(3), color: 'grey'}}>Forgot Password ?</Link>
+        <Link href={"/forgot"} style={{ textDecorationLine: "underline", marginVertical: h(3), color: 'grey'}}>Forgot Password ?</Link>
         <ButtonComponent 
           mode="contained"
           label="Login"
