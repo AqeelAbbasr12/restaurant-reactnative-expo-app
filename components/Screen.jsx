@@ -1,9 +1,11 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { customTheme } from "@/utils/theme";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
+import { Drawer } from "./Drawer";
 
 export function Screen({ children, SideItems, customStyle }) {
   const { w, h } = useResponsiveScreen();
+
   return (
     <View
       style={{
@@ -11,6 +13,10 @@ export function Screen({ children, SideItems, customStyle }) {
         flex: 1,
       }}
     >
+      <View>
+        <Drawer />
+      </View>
+
       <View
         style={{
           width: w(17),
@@ -32,7 +38,7 @@ export function Screen({ children, SideItems, customStyle }) {
           borderBottomLeftRadius: 50,
           paddingTop: h(6),
           paddingLeft: w(7),
-          ...customStyle
+          ...customStyle,
         }}
       >
         {children}

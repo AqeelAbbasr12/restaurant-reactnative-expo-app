@@ -7,30 +7,26 @@ import { setDrawer } from "@/store/drawer/drawerSlice";
 import React, { useState, useEffect } from "react";
 
 export const Drawer = () => {
-  const [drawerPosition] = useState(new Animated.Value(0));
-  const [overlayOpacity] = useState(new Animated.Value(0));
+  const drawerPosition = useState(new Animated.Value(0))[0];
+  const overlayOpacity = useState(new Animated.Value(0))[0];
   const { w, h } = useResponsiveScreen();
   const drawer = useSelector((state) => state.drawer.value);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    animateDrawer(drawer); // Start animation when component mounts
-  }, []);
-
-  useEffect(() => {
-    animateDrawer(drawer); // Start animation when drawer state changes
+    animateDrawer(drawer);
   }, [drawer]);
 
   const animateDrawer = (isOpen) => {
     Animated.parallel([
       Animated.timing(drawerPosition, {
         toValue: isOpen ? 1 : 0,
-        duration: 500,
+        duration: 200,
         useNativeDriver: false,
       }),
       Animated.timing(overlayOpacity, {
         toValue: isOpen ? 1 : 0,
-        duration: 500,
+        duration: 200,
         useNativeDriver: false,
       }),
     ]).start();
@@ -42,21 +38,33 @@ export const Drawer = () => {
   });
 
   return (
-    <View
-      style={{
-        flex: 1,
-        width: w(100),
-        position: "absolute",
-        top: 0,
-        left: 0,
-        zIndex: 100,
-        overflow: "hidden",
-      }}
-    >
+    <View style={{ flex: 1, zIndex: 999 }}>
+      {drawer && (
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => {
+            dispatch(setDrawer(false));
+          }}
+          style={{
+            position: "absolute",
+            right: 0,
+            top: 0,
+            backgroundColor: "rgba(0,0,0,0.6)",
+            height: h(100),
+            width: "100%",
+            zIndex: -1,
+          }}
+        ></TouchableOpacity>
+      )}
       <Animated.View
         style={{
           transform: [{ translateX: drawerTranslateX }],
           flexDirection: "row",
+          backgroundColor: "red",
+          width: w(85),
+          position: "absolute",
+          top: 0,
+          bottom: 0,
         }}
       >
         <View
@@ -80,27 +88,6 @@ export const Drawer = () => {
             <Image style={{ width: 150, height: 130 }} source={DaiyDeliLogo} />
           </View>
         </View>
-      </Animated.View>
-
-      {/* Overlay TouchableOpacity */}
-      <Animated.View
-        style={{
-          position: "absolute",
-          right: 0,
-          top: 0,
-          backgroundColor: "rgba(0,0,0,0.6)",
-          height: h(100),
-          width: w(15),
-          opacity: overlayOpacity,
-        }}
-      >
-        <TouchableOpacity
-          activeOpacity={1}
-          style={{ flex: 1 }}
-          onPress={() => {
-            dispatch(setDrawer(false)); // Toggle drawer state
-          }}
-        />
       </Animated.View>
     </View>
   );
