@@ -21,7 +21,7 @@ const SideItems = () => {
   const { h, f } = useResponsiveScreen();
   const dispatch = useDispatch();
 
-  const sideitems = ["Homee"];
+  const sideitems = ["Home"];
 
   return (
     <View>

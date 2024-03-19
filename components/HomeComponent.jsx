@@ -18,7 +18,7 @@ export const HomeComponent = ({ mainLabel, subLabel }) => {
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-          paddingVertical: w(6.2),
+          paddingVertical: w(4.2),
           borderTopLeftRadius: 25,
           borderBottomLeftRadius: 25,
           paddingHorizontal: w(5),

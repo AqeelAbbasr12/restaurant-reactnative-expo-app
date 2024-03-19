@@ -91,14 +91,13 @@ export default function RegisterPage() {
           keyboardType="numeric"
           iconStyle={{ backgroundColor: 'white' }}
         />
-        <Link href="#" style={{ textDecorationLine: "underline", marginVertical: h(3), color: 'grey'}}>Forgot Password ?</Link>
         <ButtonComponent 
           mode="contained"
           label="Sign up"
           textColor="white"
           textTransform="capitalize"
           labelStyle={{ textTransform: 'capitalize', fontWeight: 700 }}
-          style={{ color: 'white', borderRadius: 50, paddingVertical: 14, paddingHorizontal: 10}}
+          style={{ color: 'white', borderRadius: 50, paddingVertical: 14, paddingHorizontal: 10, marginTop: h(3)}}
           backgroundColor={customTheme.colors.primary}
           onPress={handleLogin}
         />
