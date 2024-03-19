@@ -1,9 +1,10 @@
 import  React, { useState} from 'react';
-import { View, TouchableOpacity  } from 'react-native';
+import { View  } from 'react-native';
 import { TextInput, HelperText } from 'react-native-paper';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 
-const InputComponent = ({ mode, label, value, placeholder, onChangeText, error, helperText, secureTextEntry, style, iconStyle, placeholderTextColor }) => {
+export const InputComponent = ({ mode, label, value, placeholder, onChangeText, error, helperText, secureTextEntry, style, iconStyle, placeholderTextColor }) => {
+  const { w, h } = useResponsiveScreen();
   const [secureText, setSecureText] = useState(secureTextEntry);
   
   const toggleSecureEntry = () => {
@@ -11,7 +12,7 @@ const InputComponent = ({ mode, label, value, placeholder, onChangeText, error, 
   };
   console.log('secure', secureTextEntry);
   return (
-    <View style={{ marginVertical: 8 }}>
+    <View style={{ marginTop: h(2) }}>
       <TextInput
         mode={mode}
         label={label}
@@ -22,11 +23,12 @@ const InputComponent = ({ mode, label, value, placeholder, onChangeText, error, 
         placeholderTextColor='black'
         textColor='black'
         style={style}
+        outlineColor='gray'
         right={
           secureTextEntry ? 
           (<TextInput.Icon 
             icon={secureText ? "eye" : "eye-off"} 
-            color="#db7a00"
+            color="#f7901e"
             onPress={toggleSecureEntry} 
             style={iconStyle} 
           />) : null
@@ -36,5 +38,3 @@ const InputComponent = ({ mode, label, value, placeholder, onChangeText, error, 
     </View>
   );
 };
-
-export default InputComponent;
