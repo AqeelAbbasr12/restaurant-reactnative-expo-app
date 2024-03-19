@@ -1,5 +1,11 @@
-import { Text, View, StyleSheet, ScrollView } from "react-native";
-import { Link } from "expo-router";
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import { Screen } from "@/components/Screen";
 import { Heading } from "@/components/Heading";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -8,9 +14,12 @@ import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 import { Header } from "@/components/Header";
 import { HomeComponent } from "@/components/HomeComponent";
 import { CardComponent } from "../components/CardComponent";
+import { useDispatch } from "react-redux";
+import { setDrawer } from "@/store/drawer/drawerSlice";
 
 const SideItems = () => {
-  const { h, f, w } = useResponsiveScreen();
+  const { h, f } = useResponsiveScreen();
+  const dispatch = useDispatch();
 
   const sideitems = ["Homee"];
 
@@ -22,13 +31,20 @@ const SideItems = () => {
           alignItems: "center",
         }}
       >
-        <Text>
-          <Icon
-            name="menu"
-            size={30}
-            color={customTheme.colors.iconColorWhite}
-          />
-        </Text>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {
+            dispatch(setDrawer(true));
+          }}
+        >
+          <Text>
+            <Icon
+              name="menu"
+              size={30}
+              color={customTheme.colors.iconColorWhite}
+            />
+          </Text>
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -38,7 +54,6 @@ const SideItems = () => {
           ...style.SideBarTextContainer,
           marginTop: h(5),
           marginBottom: h(4),
-          backgroundColor: "red",
         }}
       >
         {sideitems.map((sideitem, index) => (
@@ -47,7 +62,8 @@ const SideItems = () => {
             style={{
               ...style.SideBarText,
               fontSize: f(2.8),
-              marginVertical: h(6),
+              // marginVertical: h(6),
+              marginBottom: -4,
             }}
           >
             {sideitem.toLocaleUpperCase()}
@@ -106,7 +122,7 @@ export default function HomePage() {
             display: "flex",
             flexDirection: "row",
             gap: w(4),
-            paddingVertical: h(3),
+            paddingTop: h(3),
           }}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
@@ -114,10 +130,7 @@ export default function HomePage() {
           {cardData.map((item, key) => (
             <View
               style={{
-                boxShadow: "rgb(161, 161, 161) 1px 2px 7px 1px",
-                borderRadius: 25,
-                width: 185,
-                marginRight: w(15),
+                marginRight: w(10),
                 marginVertical: h(2),
               }}
               key={key}
@@ -126,20 +139,20 @@ export default function HomePage() {
                 imageSource={item.imageSource}
                 title={item.title}
                 buttonText={item.buttonText}
-                buttonTextColor="#F29434"
                 onPress={() => console.log("Button pressed")}
-                style={{ marginHorizontal: "10px", boxShadow: "rgb(161, 161, 161) 1px 2px 7px 1px" }}
+                style={{
+                  marginHorizontal: "10px",
+                }}
               />
             </View>
           ))}
         </ScrollView>
       </View>
-      <View style={{marginTop: h(1)}}>
+      <View style={{ marginTop: 10 }}>
         <HomeComponent mainLabel="Our" subLabel="Menu"></HomeComponent>
         <HomeComponent mainLabel="Appy" subLabel="Deal"></HomeComponent>
         <HomeComponent mainLabel="What's" subLabel="New"></HomeComponent>
       </View>
-      <Link href={"/users"}>Go to user</Link>
     </Screen>
   );
 }
@@ -149,7 +162,6 @@ const style = StyleSheet.create({
     transform: [{ rotate: "-90deg" }],
     color: "white",
     fontFamily: "Montserrat-SemiBold",
-    backgroundColor: "green",
   },
   SideBarTextContainer: {
     display: "flex",
