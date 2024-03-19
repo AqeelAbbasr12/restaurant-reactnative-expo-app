@@ -23,12 +23,12 @@ export const InputComponent = ({ mode, label, value, placeholder, onChangeText, 
         placeholderTextColor='black'
         textColor='black'
         style={style}
-        outlineColor='lightgray'
+        outlineColor='gray'
         right={
           secureTextEntry ? 
           (<TextInput.Icon 
             icon={secureText ? "eye" : "eye-off"} 
-            color="#db7a00"
+            color="#f7901e"
             onPress={toggleSecureEntry} 
             style={iconStyle} 
           />) : null

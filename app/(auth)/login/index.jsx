@@ -14,7 +14,7 @@ const SideItems = () => {
   return (
     <View>
       <Text>
-        <Icon name="menu" size={30} color={customTheme.colors.iconColor} />
+        {/* <Icon name="menu" size={30} color={customTheme.colors.iconColor} /> */}
       </Text>
     </View>
   );
@@ -35,8 +35,8 @@ export default function Page() {
     
   };
   return (
-    <Screen SideItems={SideItems} customStyle={{ paddingTop: h(0), display: 'flex', justifyContent: 'center'}}>
-      <Link href={"/"} style={{position: 'absolute', top: h(7), right: h(3)}}><Icon name="close" size={f(2)} fontWeight="700" /></Link>
+    <Screen SideItems={SideItems} customStyle={{ paddingTop: h(12)}}>
+      <Link href={"/"} style={{position: 'absolute', top: h(4), right: h(3)}}><Icon name="close" size={f(2)} fontWeight="700" /></Link>
       <View style={{paddingRight: w(7)}}>
         <Heading text="Login" alignStyle={{textAlign: 'center'}} />
         <InputComponent
@@ -47,7 +47,7 @@ export default function Page() {
           onChangeText={setEmail}
           error={error && !email}
           helperText="Email is required"
-          style={{ backgroundColor: 'transparent', borderRadius: 4 }}
+          style={{ backgroundColor: 'transparent', borderRadius: 4, fontWeight: '300' }}
         />
         <InputComponent
           mode="outlined"
@@ -58,7 +58,7 @@ export default function Page() {
           error={error && !password}
           helperText="Password is required"
           secureTextEntry
-          style={{ backgroundColor: 'white', borderRadius: 4 }}
+          style={{ backgroundColor: 'white', borderRadius: 4, fontWeight: '300' }}
           iconStyle={{ backgroundColor: 'white' }}
         />
         <Link href="#" style={{ textDecorationLine: "underline", marginVertical: h(3), color: 'grey'}}>Forgot Password ?</Link>
@@ -74,7 +74,7 @@ export default function Page() {
         />
         <View style={[styles.lineContainer, {marginVertical: h(2)}]}>
           <Divider style={[styles.divider, {marginTop: h(.5)}]} />
-          <Text style={{fontSize: f(2)}}> or </Text>
+          <Text style={{fontSize: f(1.5)}}> or </Text>
           <Divider style={[styles.divider, {marginTop: h(.5)}]} />
         </View>
         {/* Facebook Button */}
