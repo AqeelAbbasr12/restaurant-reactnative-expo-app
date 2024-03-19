@@ -9,7 +9,6 @@ export function Screen({ children, SideItems }) {
       style={{
         backgroundColor: customTheme.colors.primary,
         flex: 1,
-        paddingTop: h(6),
       }}
     >
       <View
@@ -17,6 +16,7 @@ export function Screen({ children, SideItems }) {
           width: w(17),
           flex: 1,
           alignItems: "center",
+          paddingTop: h(6),
         }}
       >
         <SideItems />
@@ -27,8 +27,9 @@ export function Screen({ children, SideItems }) {
           position: "absolute",
           right: w(0),
           width: w(83),
-          height: h(100),
+          height: "100%",
           borderTopLeftRadius: 50,
+          borderBottomLeftRadius: 50,
           paddingTop: h(6),
           paddingLeft: w(7),
         }}

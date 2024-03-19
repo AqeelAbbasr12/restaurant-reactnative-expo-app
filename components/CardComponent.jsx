@@ -4,38 +4,42 @@ import { StyleSheet, Image, View } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 
-export const CardComponent = ({
-  imageSource,
-  title,
-  buttonText,
-  buttonTextColor,
-  onPress,
-}) => {
+export const CardComponent = ({ imageSource, title, buttonText, onPress }) => {
   const { h, f } = useResponsiveScreen();
 
   return (
-    <Card style={[styles.container, { backgroundColor: customTheme.colors.primary,shadowColor: '#171717',
-    shadowOffset: {width: 3, height: 7},
-    shadowOpacity: 0.4,
-    shadowRadius: 7, elevation: 5}]}>
+    <Card
+      style={[
+        styles.container,
+        {
+          backgroundColor: customTheme.colors.primary,
+          width: 200,
+          marginLeft: 13,
+          height: 240,
+        },
+      ]}
+    >
       <View style={styles.imageContainer}>
         <Image source={imageSource} style={styles.image} />
       </View>
-      <View style={[styles.buttonContainer, {marginBottom: h(2)}]}>
-        <Button
-          style={styles.button}
-          mode="contained"
-          onPress={onPress}
-          textColor={buttonTextColor}
-          uppercase
-          labelStyle={styles.buttonLabel}
-        >
-          {buttonText}
-        </Button>
+      <View style={{ marginTop: 14 }}>
+        <View style={[styles.buttonContainer, { marginBottom: h(1) }]}>
+          <Button
+            style={styles.button}
+            mode="contained"
+            onPress={onPress}
+            textColor={customTheme.colors.primary}
+            uppercase
+            labelStyle={styles.buttonLabel}
+          >
+            {buttonText}
+          </Button>
+        </View>
+        <Card.Content>
+          <Text style={[styles.title, { fontSize: f(2.5) }]}>{title}</Text>
+        </Card.Content>
       </View>
-      <Card.Content>
-        <Text style={[styles.title, { fontSize: f(1.9) }]}>{title}</Text>
-      </Card.Content>
+
       <Image
         source={require("../assets/images/fire2.png")}
         style={styles.backgroundImage}
@@ -47,7 +51,14 @@ export const CardComponent = ({
 const styles = StyleSheet.create({
   container: {
     borderRadius: 25,
-    elevation: 0,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.32,
+    shadowRadius: 5.46,
+    elevation: 9,
   },
   title: {
     fontWeight: "bold",
@@ -64,29 +75,25 @@ const styles = StyleSheet.create({
     alignContent: "center",
     backgroundColor: "white",
     borderRadius: 20,
-    colo: "#F29434",
     textTransform: "uppercase",
   },
   imageContainer: {
-    width: 205,
+    width: 235,
     height: 135,
     position: "relative",
   },
   image: {
     position: "absolute",
-    right: -45,
-    top: -9,
-    width: "100%",
-    height: "100%",
+    right: -35,
+    top: -15,
+    width: "105%",
+    height: "105%",
     alignContent: "center",
     resizeMode: "contain",
   },
   buttonLabel: {
-    fontSize: 10,
-    marginVertical: 0,
-    marginHorizontal: 7,
-    fontWeight: 800,
-    lineHeight: 23,
+    fontSize: 12,
+    fontFamily: "Montserrat-Bold",
   },
   backgroundImage: {
     position: "absolute",
