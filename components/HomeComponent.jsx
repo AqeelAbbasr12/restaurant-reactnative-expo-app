@@ -1,5 +1,4 @@
 import { View } from "react-native";
-import { Link } from "expo-router";
 import { Text } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { customTheme } from "@/utils/theme";

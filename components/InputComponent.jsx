@@ -14,7 +14,7 @@ export const InputComponent = ({
   secureTextEntry,
   style,
   iconStyle,
-  placeholderTextColor,
+  placeholderTextColor = "black",
   keyboardType,
 }) => {
   const { w, h } = useResponsiveScreen();
@@ -32,7 +32,7 @@ export const InputComponent = ({
         placeholder={placeholder}
         onChangeText={onChangeText}
         secureTextEntry={secureText}
-        placeholderTextColor="black"
+        placeholderTextColor={placeholderTextColor}
         textColor="black"
         style={style}
         keyboardType={keyboardType}
