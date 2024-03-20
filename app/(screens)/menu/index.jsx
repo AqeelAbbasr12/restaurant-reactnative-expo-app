@@ -78,8 +78,8 @@ const SideItems = () => {
 
 export default function MenuPage() {
   const { w, h, f } = useResponsiveScreen();
-const [search, setSearch] = useState();
-const [error, setError] = useState();
+  const [search, setSearch] = useState();
+  const [error, setError] = useState();
 
   const menuItems = [
     {
@@ -100,7 +100,7 @@ const [error, setError] = useState();
       name: "Fried Fingers",
       price: "500",
     },
-    
+
     {
       id: 4,
       image: require("../../../assets/images/menu/fingers.jpg"),
@@ -113,21 +113,21 @@ const [error, setError] = useState();
       name: "Fried Fingers",
       price: "500",
     },
-    
+
     {
       id: 6,
       image: require("../../../assets/images/menu/fingers.jpg"),
       name: "Fried Fingers",
       price: "500",
     },
-    
+
     {
       id: 7,
       image: require("../../../assets/images/menu/chicken_fry.png"),
       name: "Fried Fingers",
       price: "500",
     },
-    
+
     {
       id: 8,
       image: require("../../../assets/images/menu/fingers.jpg"),
@@ -140,7 +140,7 @@ const [error, setError] = useState();
       name: "Fried Fingers",
       price: "500",
     },
-    
+
     {
       id: 10,
       image: require("../../../assets/images/menu/fingers.jpg"),
@@ -176,7 +176,7 @@ const [error, setError] = useState();
           />
         </View>
       </Header>
-      <View style={{paddingRight: w(7)}}>
+      <View style={{ paddingRight: w(7) }}>
         <InputComponent
           mode="outlined"
           label=""
@@ -184,21 +184,25 @@ const [error, setError] = useState();
           value={search}
           onChangeText={setSearch}
           error={error && !search}
-          keyboardType=""
+          keyboardType="default"
           type="search"
           placeholderTextColor="lightgray"
-          outlineStyle={{borderRadius: 12}}
-          style={{ backgroundColor: 'transparent', borderRadius: '14px', fontWeight: '300' }}
-          iconStyle={{ backgroundColor: 'white' }}
+          outlineStyle={{ borderRadius: 12 }}
+          style={{
+            backgroundColor: "transparent",
+            borderRadius: "14px",
+            fontWeight: "300",
+          }}
+          iconStyle={{ backgroundColor: "white" }}
         />
       </View>
       <View style={style.container}>
         <FlatList
           data={menuItems}
           renderItem={renderMenuItem}
-          keyExtractor={item => item.id.toString()}
+          keyExtractor={(item) => item.id.toString()}
           numColumns={2}
-          containerStyle={{ marginBottom: '20px'}}
+          containerStyle={{ marginBottom: "20px" }}
         />
       </View>
     </Screen>
@@ -210,7 +214,7 @@ const style = StyleSheet.create({
     flex: 1,
     padding: 10,
     paddingLeft: 0,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   SideBarText: {
     transform: [{ rotate: "-90deg" }],

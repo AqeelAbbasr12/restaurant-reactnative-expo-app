@@ -95,6 +95,9 @@ export const Drawer = () => {
           <Link href="/register" onPress={() => dispatch(setDrawer(false))}>
             Go to Signup
           </Link>
+          <Link href="/menu" onPress={() => dispatch(setDrawer(false))}>
+            Go to Menu
+          </Link>
         </View>
       </Animated.View>
     </View>

@@ -12,6 +12,7 @@ import { customTheme } from "@/utils/theme";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 import { useSelector, useDispatch } from "react-redux";
 import { setDrawer } from "@/store/drawer/drawerSlice";
+import { router } from "expo-router";
 
 const SideBarIcons = () => {
   const dispatch = useDispatch();
@@ -64,6 +65,9 @@ export default function HomePage() {
   const sideBarItems = ["HOME", "MENU", "CART"];
   const selecteSideBarItem = (item) => {
     console.log(item);
+    if (item === "MENU") {
+      router.replace("/menu");
+    }
   };
 
   if (!userLocation) {
