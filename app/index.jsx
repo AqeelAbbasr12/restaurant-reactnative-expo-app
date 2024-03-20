@@ -1,19 +1,16 @@
+import { Text, View, ScrollView, TouchableOpacity } from "react-native";
 import {
-  Text,
-  View,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
-import { Screen } from "@/components/Screen";
-import { Heading } from "@/components/Heading";
+  Screen,
+  Heading,
+  Header,
+  HomeComponent,
+  CardComponent,
+  Location,
+} from "@/components";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { customTheme } from "@/utils/theme";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
-import { Header } from "@/components/Header";
-import { HomeComponent } from "@/components/HomeComponent";
-import { CardComponent } from "../components/CardComponent";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { setDrawer } from "@/store/drawer/drawerSlice";
 
 const SideBarIcons = () => {
@@ -47,6 +44,7 @@ const SideBarIcons = () => {
 
 export default function HomePage() {
   const { w, h, f } = useResponsiveScreen();
+  const userLocation = useSelector((state) => state.user.location);
 
   const cardData = [
     {
@@ -67,6 +65,10 @@ export default function HomePage() {
   const selecteSideBarItem = (item) => {
     console.log(item);
   };
+
+  if (!userLocation) {
+    return <Location />;
+  }
 
   return (
     <Screen
