@@ -1,10 +1,11 @@
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
-import { Text, View, Image, TouchableOpacity, Animated } from "react-native";
+import { View, Image, TouchableOpacity, Animated } from "react-native";
 import { customTheme } from "@/utils/theme";
 import DaiyDeliLogo from "../assets/images/daily-deli.png";
 import { useSelector, useDispatch } from "react-redux";
 import { setDrawer } from "@/store/drawer/drawerSlice";
 import React, { useState, useEffect } from "react";
+import { Link } from "expo-router";
 
 export const Drawer = () => {
   const drawerPosition = useState(new Animated.Value(0))[0];
@@ -87,6 +88,13 @@ export const Drawer = () => {
           >
             <Image style={{ width: 150, height: 130 }} source={DaiyDeliLogo} />
           </View>
+
+          <Link href="/login" onPress={() => dispatch(setDrawer(false))}>
+            Go to Login
+          </Link>
+          <Link href="/register" onPress={() => dispatch(setDrawer(false))}>
+            Go to Signup
+          </Link>
         </View>
       </Animated.View>
     </View>

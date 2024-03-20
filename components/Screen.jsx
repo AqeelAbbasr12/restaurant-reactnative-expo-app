@@ -11,6 +11,7 @@ export function Screen({
   sideBarItems = [],
   sidebarItemsMargin = 20,
   sideBarItemActive = "",
+  sidebarStyle = {},
   selecteSideBarItem = () => {},
 }) {
   const { w, h } = useResponsiveScreen();
@@ -36,11 +37,13 @@ export function Screen({
       >
         {SideBarIcons && <SideBarIcons />}
         <ScrollView
+          showsVerticalScrollIndicator={false}
           style={{
             backgroundColor: "transparent",
             flex: 1,
             marginTop: 50,
             marginBottom: 50,
+            ...sidebarStyle,
           }}
         >
           {sideBarItems?.map((item, index) => {

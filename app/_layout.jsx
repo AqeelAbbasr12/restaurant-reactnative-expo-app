@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+import { SplashScreen as CustomSplashScreen } from "@/components/SplashScreen";
 import { Stack } from "expo-router";
 import { store } from "@/store";
 import { Provider } from "react-redux";
@@ -5,17 +7,9 @@ import { PaperProvider } from "react-native-paper";
 import { customTheme } from "@/utils/theme";
 import { useSelector } from "react-redux";
 import { router } from "expo-router";
-import { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-
-SplashScreen.preventAutoHideAsync();
-
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from "expo-router";
 
 // Route auth
 const RouteAuth = ({ children }) => {
@@ -35,19 +29,27 @@ const RootLayout = () => {
     "Montserrat-Thin": require("@/assets/fonts/Montserrat-Thin.ttf"),
     "Montserrat-SemiBold": require("@/assets/fonts/Montserrat-SemiBold.ttf"),
   });
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     if (error) throw error;
   }, [error]);
 
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
+    const delay = 3000;
+    const hideSplashScreen = async () => {
+      setTimeout(async () => {
+        if (loaded) {
+          await SplashScreen.hideAsync();
+          setShowSplash(false);
+        }
+      }, delay);
+    };
+    hideSplashScreen();
   }, [loaded]);
 
-  if (!loaded) {
-    return null;
+  if (!loaded || showSplash) {
+    return <CustomSplashScreen />;
   }
 
   return (
