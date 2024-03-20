@@ -1,17 +1,30 @@
-import  React, { useState} from 'react';
-import { View  } from 'react-native';
-import { TextInput, HelperText } from 'react-native-paper';
-import Icon from "react-native-vector-icons/MaterialIcons";
+import React, { useState } from "react";
+import { View } from "react-native";
+import { TextInput, HelperText } from "react-native-paper";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 
-export const InputComponent = ({ mode, label, value, placeholder, onChangeText, error, helperText, secureTextEntry, style, iconStyle, placeholderTextColor, keyboardType, outlineStyle, type }) => {
+export const InputComponent = ({
+  mode,
+  label,
+  value,
+  placeholder,
+  onChangeText,
+  error,
+  helperText,
+  secureTextEntry,
+  style,
+  iconStyle,
+  placeholderTextColor,
+  keyboardType,
+  outlineStyle,
+  type
+}) => {
   const { w, h } = useResponsiveScreen();
   const [secureText, setSecureText] = useState(secureTextEntry);
-  
+
   const toggleSecureEntry = () => {
     setSecureText(!secureText);
   };
-  
   return (
     <View style={{ marginTop: h(2), borderRadius: '20' }}>
       <TextInput
@@ -28,16 +41,11 @@ export const InputComponent = ({ mode, label, value, placeholder, onChangeText, 
         outlineColor='gray'
         outlineStyle={outlineStyle}
         right={
-          secureTextEntry ? 
-          (<TextInput.Icon 
-            icon={secureText ? "eye" : "eye-off"} 
-            color="#f7901e"
-            onPress={toggleSecureEntry} 
-            style={iconStyle} 
-          />) : keyboardType === 'numeric' ? (
+          secureTextEntry ? (
             <TextInput.Icon
-              icon="keyboard"
-              color="#d8d8d8"
+              icon={secureText ? "eye" : "eye-off"}
+              color="#f7901e"
+              onPress={toggleSecureEntry}
               style={iconStyle}
             />
           ): type === 'search' ? (
@@ -46,7 +54,9 @@ export const InputComponent = ({ mode, label, value, placeholder, onChangeText, 
               color="#9b9b9b"
               style={iconStyle}
             />
-          ): null
+          ) : keyboardType === "numeric" ? (
+            <TextInput.Icon icon="keyboard" color="#d8d8d8" style={iconStyle} />
+          ) : null
         }
       />
       {error && <HelperText type="error">{helperText}</HelperText>}
