@@ -62,7 +62,7 @@ export default function Page() {
             </Link>
           )}
 
-          <View style={{ paddingRight: w(7), marginTop: 50 }}>
+          <View style={{ paddingRight: w(7), marginTop: 100 }}>
             <Heading text="Login" alignStyle={{ textAlign: "center" }} />
             <InputComponent
               mode="outlined"

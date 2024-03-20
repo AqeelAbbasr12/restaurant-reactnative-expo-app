@@ -66,7 +66,7 @@ export default function RegisterPage() {
               <Icon name="close" size={f(3)} fontWeight="700" />
             </Link>
           )}
-          <View style={{ paddingRight: w(7), marginTop: 50 }}>
+          <View style={{ paddingRight: w(7), marginTop: 100 }}>
             <Heading text="Signup" alignStyle={{ textAlign: "center" }} />
             <InputComponent
               mode="outlined"
