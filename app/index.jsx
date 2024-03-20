@@ -4,7 +4,6 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  TextInput,
 } from "react-native";
 import { Screen } from "@/components/Screen";
 import { Heading } from "@/components/Heading";
@@ -17,12 +16,8 @@ import { CardComponent } from "../components/CardComponent";
 import { useDispatch } from "react-redux";
 import { setDrawer } from "@/store/drawer/drawerSlice";
 
-const SideItems = () => {
-  const { h, f } = useResponsiveScreen();
+const SideBarIcons = () => {
   const dispatch = useDispatch();
-
-  const sideitems = ["Home"];
-
   return (
     <View>
       <View
@@ -46,30 +41,6 @@ const SideItems = () => {
           </Text>
         </TouchableOpacity>
       </View>
-
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        decelerationRate={"normal"}
-        style={{
-          ...style.SideBarTextContainer,
-          marginTop: h(5),
-          marginBottom: h(4),
-        }}
-      >
-        {sideitems.map((sideitem, index) => (
-          <Text
-            key={index}
-            style={{
-              ...style.SideBarText,
-              fontSize: f(2.8),
-              // marginVertical: h(6),
-              marginBottom: -4,
-            }}
-          >
-            {sideitem.toLocaleUpperCase()}
-          </Text>
-        ))}
-      </ScrollView>
     </View>
   );
 };
@@ -92,8 +63,19 @@ export default function HomePage() {
     },
   ];
 
+  const sideBarItems = ["HOME", "MENU", "CART"];
+  const selecteSideBarItem = (item) => {
+    console.log(item);
+  };
+
   return (
-    <Screen SideItems={SideItems}>
+    <Screen
+      SideBarIcons={SideBarIcons}
+      sideBarItems={sideBarItems}
+      sidebarItemsMargin={30}
+      sideBarItemActive={"home"}
+      selecteSideBarItem={selecteSideBarItem}
+    >
       <Header>
         <Heading text="Welcome Back!" />
 
@@ -156,15 +138,3 @@ export default function HomePage() {
     </Screen>
   );
 }
-
-const style = StyleSheet.create({
-  SideBarText: {
-    transform: [{ rotate: "-90deg" }],
-    color: "white",
-    fontFamily: "Montserrat-SemiBold",
-  },
-  SideBarTextContainer: {
-    display: "flex",
-    flex: 1,
-  },
-});

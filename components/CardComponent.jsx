@@ -36,7 +36,7 @@ export const CardComponent = ({ imageSource, title, buttonText, onPress }) => {
           </Button>
         </View>
         <Card.Content>
-          <Text style={[styles.title, { fontSize: f(1.5) }]}>{title}</Text>
+          <Text style={[styles.title, { fontSize: f(2.4) }]}>{title}</Text>
         </Card.Content>
       </View>
 
@@ -93,7 +93,6 @@ const styles = StyleSheet.create({
   },
   buttonLabel: {
     fontSize: 12,
-    fontFamily: "Montserrat-Bold",
   },
   backgroundImage: {
     position: "absolute",
