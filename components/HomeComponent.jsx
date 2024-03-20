@@ -1,5 +1,4 @@
 import { View } from "react-native";
-import { Link } from "expo-router";
 import { Text } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { customTheme } from "@/utils/theme";
@@ -30,36 +29,34 @@ export const HomeComponent = ({ mainLabel, subLabel }) => {
           elevation: 5,
         }}
       >
-        <Link href={"/menu"} style={{display: 'flex'}}>
-          <View style={{ display: "block", paddingLeft: 20 }}>
+        <View style={{ display: "block", paddingLeft: 20 }}>
+          <Text
+            style={{
+              color: "#f29434",
+              textTransform: "uppercase",
+              fontSize: f(3),
+              fontWeight: 800,
+            }}
+          >
+            {mainLabel}
             <Text
               style={{
-                color: "#f29434",
+                color: customTheme.colors.textWhite,
                 textTransform: "uppercase",
                 fontSize: f(3),
                 fontWeight: 800,
               }}
             >
-              {mainLabel}
-              <Text
-                style={{
-                  color: customTheme.colors.textWhite,
-                  textTransform: "uppercase",
-                  fontSize: f(3),
-                  fontWeight: 800,
-                }}
-              >
-                {" "}
-                {subLabel}
-              </Text>
+              {" "}
+              {subLabel}
             </Text>
-          </View>
-          <Icon
-            name="chevron-right"
-            size={f(3)}
-            color={customTheme.colors.iconColorWhite}
-          ></Icon>
-        </Link>
+          </Text>
+        </View>
+        <Icon
+          name="chevron-right"
+          size={f(3)}
+          color={customTheme.colors.iconColorWhite}
+        ></Icon>
       </LinearGradient>
     </View>
   );

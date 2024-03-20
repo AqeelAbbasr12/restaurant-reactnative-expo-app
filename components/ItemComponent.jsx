@@ -8,51 +8,32 @@ export const ItemComponent = ({ imageSource, name, price }) => {
   const { w, h, f } = useResponsiveScreen();
   console.log(imageSource);
   return (
-    <Card style={{marginBottom: 20, marginRight: 20, backgroundColor: 'white', justifyContent: 'center', display: 'flex', width: '42%', alignItems: 'center', elevation: 0}}>
-      <View style={styles.imageContainer}>
-        <Image source={imageSource} style={styles.image} />
-      </View>
-      <Card.Content>
-        <Text style={{color: '#000', fontWeight: 700, fontSize: f(1.5)}}>{name}</Text>
-        <Text style={{color: customTheme.colors.primary, fontWeight: 700,  fontSize: f(1.3)}}>Price: {price}</Text>
-      </Card.Content>
-    </Card>
+    <View style={{justifyContent: 'center'}}>
+      <Card style={{
+        marginBottom: 20, 
+        marginHorizontal: 25, 
+        backgroundColor: 'white', 
+        justifyContent: 'center', 
+        display: 'flex', alignItems: 'center', elevation: 0}}>
+        <View style={{alignItems: 'center'}}>
+          <View style={styles.imageContainer}>
+            <Image source={imageSource} style={styles.image} />
+          </View>
+          <Card.Content style={{alignItems: 'center'}}>
+            <Text style={{color: '#000', fontWeight: 700, fontSize: f(1.5)}}>{name}</Text>
+            <Text style={{color: customTheme.colors.primary, fontWeight: 700,  fontSize: f(1.2), marginTop: 10}}>PKR {price}</Text>
+          </Card.Content>
+        </View>
+      </Card>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    borderRadius: 25,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.32,
-    shadowRadius: 5.46,
-    elevation: 9,
-    backgroundColor: 'white',
-  },
-  title: {
-    fontWeight: "bold",
-    color: "white",
-    textAlign: "center",
-    paddingBottom: 30,
-  },
-  buttonContainer: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  button: {
-    alignContent: "center",
-    backgroundColor: "white",
-    borderRadius: 20,
-    textTransform: "uppercase",
-  },
   imageContainer: {
     width: 100,
     height: 100,
+    marginBottom: 20,
     position: "relative",
   },
   image: {
@@ -61,9 +42,5 @@ const styles = StyleSheet.create({
     alignContent: "center",
     resizeMode: "contain",
     marginHorizontal: "auto",
-  },
-  buttonLabel: {
-    fontSize: 12,
-    fontFamily: "Montserrat-Bold",
   },
 });

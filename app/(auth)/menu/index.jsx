@@ -86,66 +86,66 @@ const [error, setError] = useState();
       id: 1,
       image: require("../../../assets/images/menu/chicken_fry.png"),
       name: "Fried Chicken",
-      price: "PKR 170",
+      price: "170",
     },
     {
       id: 2,
       image: require("../../../assets/images/menu/fingers.jpg"),
       name: "Fried Fingers",
-      price: "PKR 500",
+      price: "500",
     },
     {
       id: 3,
-      image: require("../../../assets/images/menu/fingers.jpg"),
+      image: require("../../../assets/images/menu/chicken_fry.png"),
       name: "Fried Fingers",
-      price: "PKR 500",
+      price: "500",
     },
     
     {
       id: 4,
       image: require("../../../assets/images/menu/fingers.jpg"),
       name: "Fried Fingers",
-      price: "PKR 500",
+      price: "500",
     },
     {
       id: 5,
-      image: require("../../../assets/images/menu/fingers.jpg"),
+      image: require("../../../assets/images/menu/chicken_fry.png"),
       name: "Fried Fingers",
-      price: "PKR 500",
+      price: "500",
     },
     
     {
       id: 6,
       image: require("../../../assets/images/menu/fingers.jpg"),
       name: "Fried Fingers",
-      price: "PKR 500",
+      price: "500",
     },
     
     {
       id: 7,
-      image: require("../../../assets/images/menu/fingers.jpg"),
+      image: require("../../../assets/images/menu/chicken_fry.png"),
       name: "Fried Fingers",
-      price: "PKR 500",
+      price: "500",
     },
     
     {
       id: 8,
       image: require("../../../assets/images/menu/fingers.jpg"),
       name: "Fried Fingers",
-      price: "PKR 500",
+      price: "500",
     },
     {
       id: 9,
-      image: require("../../../assets/images/menu/fingers.jpg"),
+      image: require("../../../assets/images/menu/chicken_fry.png"),
       name: "Fried Fingers",
-      price: "PKR 500",
+      price: "500",
     },
     
     {
       id: 10,
       image: require("../../../assets/images/menu/fingers.jpg"),
       name: "Fried Fingers",
-      price: "PKR 500",
+      price: "500",
     },
   ];
 
@@ -184,19 +184,23 @@ const [error, setError] = useState();
           value={search}
           onChangeText={setSearch}
           error={error && !search}
-          keyboardType="search"
-          style={{ backgroundColor: 'transparent', borderRadius: 4, fontWeight: '300' }}
+          keyboardType=""
+          type="search"
+          placeholderTextColor="lightgray"
+          outlineStyle={{borderRadius: 12}}
+          style={{ backgroundColor: 'transparent', borderRadius: '14px', fontWeight: '300' }}
           iconStyle={{ backgroundColor: 'white' }}
         />
       </View>
       <View style={style.container}>
-      <FlatList style={{marginBottom: 10 }}
-        data={menuItems}
-        renderItem={renderMenuItem}
-        keyExtractor={item => item.id.toString()}
-        numColumns={2}
-      />
-    </View>
+        <FlatList
+          data={menuItems}
+          renderItem={renderMenuItem}
+          keyExtractor={item => item.id.toString()}
+          numColumns={2}
+          containerStyle={{ marginBottom: '20px'}}
+        />
+      </View>
     </Screen>
   );
 }
