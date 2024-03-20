@@ -1,6 +1,7 @@
 import  React, { useState} from 'react';
 import { View  } from 'react-native';
 import { TextInput, HelperText } from 'react-native-paper';
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 
 export const InputComponent = ({ mode, label, value, placeholder, onChangeText, error, helperText, secureTextEntry, style, iconStyle, placeholderTextColor, keyboardType }) => {
@@ -35,6 +36,12 @@ export const InputComponent = ({ mode, label, value, placeholder, onChangeText, 
           />) : keyboardType === 'numeric' ? (
             <TextInput.Icon
               icon="keyboard"
+              color="#d8d8d8"
+              style={iconStyle}
+            />
+          ): keyboardType === 'search' ? (
+            <TextInput.Icon
+              icon="search-web"
               color="#d8d8d8"
               style={iconStyle}
             />

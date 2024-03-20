@@ -30,34 +30,36 @@ export const HomeComponent = ({ mainLabel, subLabel }) => {
           elevation: 5,
         }}
       >
-        <View style={{ display: "block", paddingLeft: 20 }}>
-          <Text
-            style={{
-              color: "#f29434",
-              textTransform: "uppercase",
-              fontSize: f(3),
-              fontWeight: 800,
-            }}
-          >
-            {mainLabel}
+        <Link href={"/menu"} style={{display: 'flex'}}>
+          <View style={{ display: "block", paddingLeft: 20 }}>
             <Text
               style={{
-                color: customTheme.colors.textWhite,
+                color: "#f29434",
                 textTransform: "uppercase",
                 fontSize: f(3),
                 fontWeight: 800,
               }}
             >
-              {" "}
-              {subLabel}
+              {mainLabel}
+              <Text
+                style={{
+                  color: customTheme.colors.textWhite,
+                  textTransform: "uppercase",
+                  fontSize: f(3),
+                  fontWeight: 800,
+                }}
+              >
+                {" "}
+                {subLabel}
+              </Text>
             </Text>
-          </Text>
-        </View>
-        <Icon
-          name="chevron-right"
-          size={f(3)}
-          color={customTheme.colors.iconColorWhite}
-        ></Icon>
+          </View>
+          <Icon
+            name="chevron-right"
+            size={f(3)}
+            color={customTheme.colors.iconColorWhite}
+          ></Icon>
+        </Link>
       </LinearGradient>
     </View>
   );
