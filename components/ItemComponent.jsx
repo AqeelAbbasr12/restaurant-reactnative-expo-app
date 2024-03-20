@@ -6,22 +6,21 @@ import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 
 export const ItemComponent = ({ imageSource, name, price }) => {
   const { w, h, f } = useResponsiveScreen();
-  console.log(imageSource);
+
   return (
-    <View style={{justifyContent: 'center'}}>
+    <View style={{justifyContent: 'center', width: '50%', alignItems: 'center'}}>
       <Card style={{
         marginBottom: 20, 
-        marginHorizontal: 25, 
         backgroundColor: 'white', 
-        justifyContent: 'center', 
+        justifyContent: 'center',
         display: 'flex', alignItems: 'center', elevation: 0}}>
         <View style={{alignItems: 'center'}}>
           <View style={styles.imageContainer}>
             <Image source={imageSource} style={styles.image} />
           </View>
           <Card.Content style={{alignItems: 'center'}}>
-            <Text style={{color: '#000', fontWeight: 700, fontSize: f(1.5)}}>{name}</Text>
-            <Text style={{color: customTheme.colors.primary, fontWeight: 700,  fontSize: f(1.2), marginTop: 10}}>PKR {price}</Text>
+            <Text style={{color: '#000', fontWeight: 900, fontSize: f(1.9)}}>{name}</Text>
+            <Text style={{color: customTheme.colors.primary, fontWeight: 900,  fontSize: f(1.9), marginTop: 5}}>PKR {price}</Text>
           </Card.Content>
         </View>
       </Card>

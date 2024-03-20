@@ -37,7 +37,7 @@ export const InputComponent = ({
         placeholderTextColor={placeholderTextColor ? placeholderTextColor : 'black'}
         textColor='black'
         style={style}
-        keyboardType={keyboardType}
+        keyboardType={keyboardType === 'numeric' ? 'numeric' : 'default'}
         outlineColor='gray'
         outlineStyle={outlineStyle}
         right={
