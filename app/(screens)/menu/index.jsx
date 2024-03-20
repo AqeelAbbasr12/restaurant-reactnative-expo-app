@@ -196,13 +196,14 @@ export default function MenuPage() {
           iconStyle={{ backgroundColor: "white" }}
         />
       </View>
-      <View style={style.container}>
+      <View style={[style.container, {marginRight: w(7)}]}>
         <FlatList
           data={menuItems}
           renderItem={renderMenuItem}
           keyExtractor={(item) => item.id.toString()}
           numColumns={2}
           containerStyle={{ marginBottom: "20px" }}
+          showsVerticalScrollIndicator={false}
         />
       </View>
     </Screen>
