@@ -4,7 +4,7 @@ const userSlice = createSlice({
     name: 'user',
     initialState: {
         value: true,
-        location: "HAVE THE LOCATION!",
+        location: null,
     },
     reducers: {
         setUserLocation: (state, action) => {
