@@ -14,7 +14,6 @@ import { Link } from "expo-router";
 
 export default function MenuPage() {
   const { w,h,f } = useResponsiveScreen();
-  console.log(h);
 
   return (
     <View>
