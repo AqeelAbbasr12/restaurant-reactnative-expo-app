@@ -8,6 +8,7 @@ import { Header } from "@/components/Header";
 import { InputComponent } from "@/components/InputComponent";
 import { ItemComponent } from "@/components/ItemComponent";
 import { useState } from "react";
+import { Link } from "expo-router";
 
 export default function MenuPage() {
   const { w } = useResponsiveScreen();
@@ -138,6 +139,7 @@ export default function MenuPage() {
           containerStyle={{ marginBottom: "20px" }}
           showsVerticalScrollIndicator={false}
         />
+        <Link href={"/chooseItem"}>Choose Item</Link>
       </View>
     </Screen>
   );
