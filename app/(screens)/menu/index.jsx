@@ -1,12 +1,4 @@
-import {
-  Text,
-  View,
-  StyleSheet,
-  ScrollView,
-  FlatList,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 import { Screen } from "@/components/Screen";
 import { Heading } from "@/components/Heading";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -15,69 +7,10 @@ import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 import { Header } from "@/components/Header";
 import { InputComponent } from "@/components/InputComponent";
 import { ItemComponent } from "@/components/ItemComponent";
-import { useDispatch } from "react-redux";
-import { setDrawer } from "@/store/drawer/drawerSlice";
 import { useState } from "react";
 
-const SideItems = () => {
-  const { h, f } = useResponsiveScreen();
-  const dispatch = useDispatch();
-
-  const sideitems = ["Home"];
-
-  return (
-    <View>
-      <View
-        style={{
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => {
-            dispatch(setDrawer(true));
-          }}
-        >
-          <Text>
-            <Icon
-              name="menu"
-              size={30}
-              color={customTheme.colors.iconColorWhite}
-            />
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        decelerationRate={"normal"}
-        style={{
-          ...style.SideBarTextContainer,
-          marginTop: h(5),
-          marginBottom: h(4),
-        }}
-      >
-        {sideitems.map((sideitem, index) => (
-          <Text
-            key={index}
-            style={{
-              ...style.SideBarText,
-              fontSize: f(2.8),
-              // marginVertical: h(6),
-              marginBottom: -4,
-            }}
-          >
-            {sideitem.toLocaleUpperCase()}
-          </Text>
-        ))}
-      </ScrollView>
-    </View>
-  );
-};
-
 export default function MenuPage() {
-  const { w, h, f } = useResponsiveScreen();
+  const { w } = useResponsiveScreen();
   const [search, setSearch] = useState();
   const [error, setError] = useState();
 
@@ -159,7 +92,7 @@ export default function MenuPage() {
   );
 
   return (
-    <Screen SideItems={SideItems}>
+    <Screen>
       <Header>
         <Heading text="Our Menu" />
         <View
@@ -196,7 +129,7 @@ export default function MenuPage() {
           iconStyle={{ backgroundColor: "white" }}
         />
       </View>
-      <View style={[style.container, {marginRight: w(7)}]}>
+      <View style={[style.container, { marginRight: w(7) }]}>
         <FlatList
           data={menuItems}
           renderItem={renderMenuItem}

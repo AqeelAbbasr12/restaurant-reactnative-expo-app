@@ -17,16 +17,16 @@ export const InputComponent = ({
   placeholderTextColor,
   keyboardType,
   outlineStyle,
-  type
+  type,
 }) => {
-  const { w, h } = useResponsiveScreen();
+  const { h } = useResponsiveScreen();
   const [secureText, setSecureText] = useState(secureTextEntry);
 
   const toggleSecureEntry = () => {
     setSecureText(!secureText);
   };
   return (
-    <View style={{ marginTop: h(2), borderRadius: '20' }}>
+    <View style={{ marginTop: h(2), borderRadius: "20" }}>
       <TextInput
         mode={mode}
         label={label}
@@ -34,11 +34,13 @@ export const InputComponent = ({
         placeholder={placeholder}
         onChangeText={onChangeText}
         secureTextEntry={secureText}
-        placeholderTextColor={placeholderTextColor ? placeholderTextColor : 'black'}
-        textColor='black'
+        placeholderTextColor={
+          placeholderTextColor ? placeholderTextColor : "black"
+        }
+        textColor="black"
         style={style}
-        keyboardType={keyboardType === 'numeric' ? 'numeric' : 'default'}
-        outlineColor='gray'
+        keyboardType={keyboardType === "numeric" ? "numeric" : "default"}
+        outlineColor="gray"
         outlineStyle={outlineStyle}
         right={
           secureTextEntry ? (
@@ -48,12 +50,8 @@ export const InputComponent = ({
               onPress={toggleSecureEntry}
               style={iconStyle}
             />
-          ): type === 'search' ? (
-            <TextInput.Icon
-              icon="magnify"
-              color="#9b9b9b"
-              style={iconStyle}
-            />
+          ) : type === "search" ? (
+            <TextInput.Icon icon="magnify" color="#232323" style={iconStyle} />
           ) : keyboardType === "numeric" ? (
             <TextInput.Icon icon="keyboard" color="#d8d8d8" style={iconStyle} />
           ) : null

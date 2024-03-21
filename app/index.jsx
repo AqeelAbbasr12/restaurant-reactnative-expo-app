@@ -65,7 +65,7 @@ export default function HomePage() {
   const sideBarItems = ["HOME", "MENU", "CART"];
   const selecteSideBarItem = (item) => {
     console.log(item);
-    if (item === "MENU") {
+    if (item === "menu") {
       router.replace("/menu");
     }
   };
