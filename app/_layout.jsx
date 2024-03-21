@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import { PaperProvider } from "react-native-paper";
 import { customTheme } from "@/utils/theme";
 import { useSelector } from "react-redux";
-import { router } from "expo-router";
+import { router, usePathname } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";

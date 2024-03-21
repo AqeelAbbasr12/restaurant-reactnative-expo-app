@@ -37,7 +37,7 @@ export default function RegisterPage() {
   const sideBarItems = ["LOGIN", "SIGNUP"];
   const selecteSideBarItem = (item) => {
     if (item === "login") {
-      router.replace("/login");
+      router.navigate("/login");
     }
   };
   return (

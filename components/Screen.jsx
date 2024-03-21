@@ -12,7 +12,9 @@ export function Screen({
   sidebarItemsMargin = 20,
   sideBarItemActive = "",
   sidebarStyle = {},
+  sidebarTopMargin = 50,
   selecteSideBarItem = () => {},
+  calculateTextWidth = () => {},
 }) {
   const { w, h } = useResponsiveScreen();
 
@@ -41,44 +43,13 @@ export function Screen({
           style={{
             backgroundColor: "transparent",
             flex: 1,
-            marginTop: 50,
+            marginTop: sidebarTopMargin,
             marginBottom: 50,
             ...sidebarStyle,
           }}
         >
           {sideBarItems?.map((item, index) => {
-            const textWidth =
-              item.length === 1
-                ? item.length * 35
-                : item.length > 1 && item.length <= 2
-                ? item.length * 25
-                : item.length === 3
-                ? item.length * 22
-                : item.length === 4
-                ? item.length * 21
-                : item.length === 5
-                ? item.length * 20.5
-                : item.length === 6
-                ? item.length * 20
-                : item.length === 7
-                ? item.length * 19.5
-                : item.length === 8
-                ? item.length * 19
-                : item.length === 9
-                ? item.length * 18.8
-                : item.length === 10
-                ? item.length * 18.6
-                : item.length === 11
-                ? item.length * 18.4
-                : item.length === 12
-                ? item.length * 18.3
-                : item.length >= 13 && item.length <= 17
-                ? item.length * 18
-                : item.length >= 18 && item.length <= 21
-                ? item.length * 17.7
-                : item.length >= 22 && item.length <= 25
-                ? item.length * 17.6
-                : item.length * 17;
+            const textWidth = calculateTextWidth(item.length);
 
             const containerHeight = textWidth;
 
@@ -101,12 +72,9 @@ export function Screen({
                   fontWeight={
                     sideBarItemActive.toLocaleLowerCase() ===
                     item.toLocaleLowerCase()
-                      ? 800
-                      : 300
+                      ? 700
+                      : 200
                   }
-                  style={{
-                    backgroundColor: "pink",
-                  }}
                 >
                   {item}
                 </Text>
