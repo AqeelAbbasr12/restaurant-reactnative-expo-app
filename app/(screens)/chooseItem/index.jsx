@@ -1,5 +1,5 @@
 import { View, StyleSheet, Image, ScrollView } from "react-native";
-import { Text } from "react-native-paper";
+import { Text, Snackbar } from "react-native-paper";
 import { Screen } from "@/components/Screen";
 import { Heading } from "@/components/Heading";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -14,9 +14,11 @@ import { Link } from "expo-router";
 
 export default function MenuPage() {
   const { w,h,f } = useResponsiveScreen();
+  console.log(h);
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={{position: 'relative'}}>
+    <View>
+      <ScrollView showsVerticalScrollIndicator={false} style={{height: '100%'}}>
         <View 
           style={{ 
             backgroundColor: customTheme.colors.primary,
@@ -25,7 +27,7 @@ export default function MenuPage() {
             paddingTop: h(5), 
             position: 'relative',
             zIndex: 1,
-            paddingHorizontal: h(3),
+            paddingLeft: w(3.5),
           }}>
           <Header>
             <View 
@@ -38,7 +40,7 @@ export default function MenuPage() {
               <Link href={"/menu"}>
                 <Icon 
                   name="chevron-left"
-                  size={f(3)}
+                  size={f(4)}
                   color={customTheme.colors.iconColorWhite}
                 ></Icon>
               </Link>
@@ -53,7 +55,7 @@ export default function MenuPage() {
             >
               <Icon
                 name="cart-outline"
-                size={30}
+                size={35}
                 color={customTheme.colors.iconColorWhite}
               />
             </View>
@@ -107,7 +109,8 @@ export default function MenuPage() {
             </View>
           </View>
         </View>
-        <View 
+      </ScrollView>
+      <View 
         style={{
           backgroundColor: customTheme.colors.primary, 
           paddingVertical: h(3), 
@@ -119,10 +122,9 @@ export default function MenuPage() {
           bottom: 0,
           width: '100%'
         }}>
-        <Text>Cart is currently not available!</Text>
-      </View>
-      
-    </ScrollView>
+          <Text>Cart is currently not available!</Text>
+        </View>
+    </View>
   );
 }
 
