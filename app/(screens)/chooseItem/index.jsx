@@ -27,7 +27,7 @@ export default function MenuPage() {
             paddingTop: h(5), 
             position: 'relative',
             zIndex: 1,
-            paddingLeft: w(3.5),
+            paddingLeft: w(3),
           }}>
           <Header>
             <View 
