@@ -3,6 +3,7 @@ import { customTheme } from "@/utils/theme";
 import { StyleSheet, Image, View } from "react-native";
 import { Card, Text } from "react-native-paper";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
+import { Link } from "expo-router";
 
 export const ItemComponent = ({ imageSource, name, price }) => {
   const { f } = useResponsiveScreen();
@@ -23,7 +24,9 @@ export const ItemComponent = ({ imageSource, name, price }) => {
       >
         <View style={{ alignItems: "center" }}>
           <View style={styles.imageContainer}>
-            <Image source={imageSource} style={styles.image} />
+            <Link href={"/chooseItem"}>
+              <Image source={imageSource} style={styles.image} />
+            </Link>
           </View>
           <Card.Content style={{ alignItems: "center" }}>
             <Text

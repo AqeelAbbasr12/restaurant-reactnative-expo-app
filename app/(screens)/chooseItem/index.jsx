@@ -10,88 +10,10 @@ import { InputComponent } from "@/components/InputComponent";
 import { ItemComponent } from "@/components/ItemComponent";
 import { useState } from "react";
 import { OptionComponent } from "@/components";
+import { Link } from "expo-router";
 
 export default function MenuPage() {
   const { w,h,f } = useResponsiveScreen();
-  const [search, setSearch] = useState();
-  const [error, setError] = useState();
-
-  const menuItems = [
-    {
-      id: 1,
-      image: require("../../../assets/images/menu/chicken_fry.png"),
-      name: "Fried Chicken",
-      price: "170",
-    },
-    {
-      id: 2,
-      image: require("../../../assets/images/menu/fingers.jpg"),
-      name: "Fried Fingers",
-      price: "500",
-    },
-    {
-      id: 3,
-      image: require("../../../assets/images/menu/chicken_fry.png"),
-      name: "Fried Fingers",
-      price: "500",
-    },
-
-    {
-      id: 4,
-      image: require("../../../assets/images/menu/fingers.jpg"),
-      name: "Fried Fingers",
-      price: "500",
-    },
-    {
-      id: 5,
-      image: require("../../../assets/images/menu/chicken_fry.png"),
-      name: "Fried Fingers",
-      price: "500",
-    },
-
-    {
-      id: 6,
-      image: require("../../../assets/images/menu/fingers.jpg"),
-      name: "Fried Fingers",
-      price: "500",
-    },
-
-    {
-      id: 7,
-      image: require("../../../assets/images/menu/chicken_fry.png"),
-      name: "Fried Fingers",
-      price: "500",
-    },
-
-    {
-      id: 8,
-      image: require("../../../assets/images/menu/fingers.jpg"),
-      name: "Fried Fingers",
-      price: "500",
-    },
-    {
-      id: 9,
-      image: require("../../../assets/images/menu/chicken_fry.png"),
-      name: "Fried Fingers",
-      price: "500",
-    },
-
-    {
-      id: 10,
-      image: require("../../../assets/images/menu/fingers.jpg"),
-      name: "Fried Fingers",
-      price: "500",
-    },
-  ];
-
-  const renderMenuItem = ({ item }) => (
-    <ItemComponent
-      key={item.id}
-      name={item.name}
-      price={item.price}
-      imageSource={item.image}
-    />
-  );
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{position: 'relative'}}>
@@ -113,11 +35,13 @@ export default function MenuPage() {
                 alignItems: "center",
                 gap: w(3),
               }}>
-              <Icon 
-                name="chevron-left"
-                size={f(3)}
-                color={customTheme.colors.iconColorWhite}
-              ></Icon>
+              <Link href={"/menu"}>
+                <Icon 
+                  name="chevron-left"
+                  size={f(3)}
+                  color={customTheme.colors.iconColorWhite}
+                ></Icon>
+              </Link>
               <Heading text="Swiss Mushroom" alignStyle={{color: customTheme.colors.textWhite, fontSize: f(2.5)}} />
             </View>
             <View
