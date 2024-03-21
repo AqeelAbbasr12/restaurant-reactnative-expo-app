@@ -31,7 +31,7 @@ export default function Page() {
   const sideBarItems = ["LOGIN", "SIGNUP"];
   const selecteSideBarItem = (item) => {
     if (item === "signup") {
-      router.replace("/register");
+      router.navigate("/register");
     }
   };
 

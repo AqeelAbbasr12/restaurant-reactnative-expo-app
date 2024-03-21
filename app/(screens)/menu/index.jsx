@@ -1,6 +1,13 @@
-import { View, StyleSheet, FlatList } from "react-native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  Text,
+} from "react-native";
 import { Screen } from "@/components/Screen";
 import { Heading } from "@/components/Heading";
+import AntIcon from "react-native-vector-icons/AntDesign";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { customTheme } from "@/utils/theme";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
@@ -8,7 +15,8 @@ import { Header } from "@/components/Header";
 import { InputComponent } from "@/components/InputComponent";
 import { ItemComponent } from "@/components/ItemComponent";
 import { useState } from "react";
-import { Link } from "expo-router";
+import { calculateTextWidth_MENU } from "@/utils/utils";
+import { router } from "expo-router";
 
 export default function MenuPage() {
   const { w } = useResponsiveScreen();
@@ -31,55 +39,50 @@ export default function MenuPage() {
     {
       id: 3,
       image: require("../../../assets/images/menu/chicken_fry.png"),
-      name: "Fried Fingers",
-      price: "500",
+      name: "Crispy Chicken",
+      price: "350",
     },
-
     {
       id: 4,
       image: require("../../../assets/images/menu/fingers.jpg"),
-      name: "Fried Fingers",
-      price: "500",
+      name: "Spicy Fries",
+      price: "200",
     },
     {
       id: 5,
       image: require("../../../assets/images/menu/chicken_fry.png"),
-      name: "Fried Fingers",
-      price: "500",
+      name: "Garlic Chicken",
+      price: "450",
     },
-
     {
       id: 6,
       image: require("../../../assets/images/menu/fingers.jpg"),
-      name: "Fried Fingers",
-      price: "500",
+      name: "BBQ Fingers",
+      price: "380",
     },
-
     {
       id: 7,
       image: require("../../../assets/images/menu/chicken_fry.png"),
-      name: "Fried Fingers",
-      price: "500",
+      name: "Honey Glazed Chicken",
+      price: "420",
     },
-
     {
       id: 8,
       image: require("../../../assets/images/menu/fingers.jpg"),
-      name: "Fried Fingers",
-      price: "500",
+      name: "Cheesy Fingers",
+      price: "300",
     },
     {
       id: 9,
       image: require("../../../assets/images/menu/chicken_fry.png"),
-      name: "Fried Fingers",
-      price: "500",
+      name: "Spicy Chicken",
+      price: "320",
     },
-
     {
       id: 10,
       image: require("../../../assets/images/menu/fingers.jpg"),
-      name: "Fried Fingers",
-      price: "500",
+      name: "Crunchy Fingers",
+      price: "280",
     },
   ];
 
@@ -92,8 +95,39 @@ export default function MenuPage() {
     />
   );
 
+  const SideBarIcons = () => {
+    return (
+      <View>
+        <View
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {
+              router.back();
+            }}
+          >
+            <Text>
+              <AntIcon name="arrowleft" size={30} color={"white"} />
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  };
+
   return (
-    <Screen>
+    <Screen
+      SideBarIcons={SideBarIcons}
+      sideBarItems={["All", ...menuItems.map((items) => items.name)]}
+      sidebarItemsMargin={5}
+      calculateTextWidth={calculateTextWidth_MENU}
+      sidebarTopMargin={10}
+      sideBarItemActive={"All"}
+    >
       <Header>
         <Heading text="Our Menu" />
         <View
@@ -139,7 +173,6 @@ export default function MenuPage() {
           containerStyle={{ marginBottom: "20px" }}
           showsVerticalScrollIndicator={false}
         />
-        <Link href={"/chooseItem"}>Choose Item</Link>
       </View>
     </Screen>
   );

@@ -1,15 +1,16 @@
-import { View } from "react-native";
+import { View, TouchableOpacity } from "react-native";
+import { router } from "expo-router";
 import { Text } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { customTheme } from "@/utils/theme";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 import { LinearGradient } from "expo-linear-gradient";
 
-export const HomeComponent = ({ mainLabel, subLabel }) => {
+export const HomeComponent = ({ mainLabel, subLabel, href = "/" }) => {
   const { w, f, h } = useResponsiveScreen();
 
   return (
-    <View>
+    <TouchableOpacity activeOpacity={1} onPress={() => router.navigate(href)}>
       <LinearGradient
         colors={["rgba(74,74,74,1)", "rgba(0,0,0,1)"]}
         style={{
@@ -58,6 +59,6 @@ export const HomeComponent = ({ mainLabel, subLabel }) => {
           color={customTheme.colors.iconColorWhite}
         ></Icon>
       </LinearGradient>
-    </View>
+    </TouchableOpacity>
   );
 };

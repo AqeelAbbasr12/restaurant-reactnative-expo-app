@@ -13,6 +13,7 @@ import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 import { useSelector, useDispatch } from "react-redux";
 import { setDrawer } from "@/store/drawer/drawerSlice";
 import { router } from "expo-router";
+import { calculateTextWidth_HOME } from "@/utils/utils";
 
 const SideBarIcons = () => {
   const dispatch = useDispatch();
@@ -64,9 +65,8 @@ export default function HomePage() {
 
   const sideBarItems = ["HOME", "MENU", "CART"];
   const selecteSideBarItem = (item) => {
-    console.log(item);
     if (item === "menu") {
-      router.replace("/menu");
+      router.navigate("/menu");
     }
   };
 
@@ -81,6 +81,7 @@ export default function HomePage() {
       sidebarItemsMargin={30}
       sideBarItemActive={"home"}
       selecteSideBarItem={selecteSideBarItem}
+      calculateTextWidth={calculateTextWidth_HOME}
     >
       <Header>
         <Heading text="Welcome Back!" />
@@ -137,9 +138,21 @@ export default function HomePage() {
         </ScrollView>
       </View>
       <View style={{ marginTop: 10 }}>
-        <HomeComponent mainLabel="Our" subLabel="Menu"></HomeComponent>
-        <HomeComponent mainLabel="Appy" subLabel="Deal"></HomeComponent>
-        <HomeComponent mainLabel="What's" subLabel="New"></HomeComponent>
+        <HomeComponent
+          mainLabel="Our"
+          subLabel="Menu"
+          href="/menu"
+        ></HomeComponent>
+        <HomeComponent
+          mainLabel="Appy"
+          subLabel="Deal"
+          href="/menu"
+        ></HomeComponent>
+        <HomeComponent
+          mainLabel="What's"
+          subLabel="New"
+          href="/menu"
+        ></HomeComponent>
       </View>
     </Screen>
   );
