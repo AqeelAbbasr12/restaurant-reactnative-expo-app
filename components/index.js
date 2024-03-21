@@ -9,5 +9,6 @@ import { Location } from './Location';
 import { Screen } from './Screen';
 import { SplashScreen } from './SplashScreen';
 import { OptionComponent } from './OptionsScreen';
+import { AddToCartButton } from './AddToCartButton';
 
-export { ButtonComponent, CardComponent, Drawer, Header, Heading, HomeComponent, InputComponent, Location, Screen, SplashScreen, OptionComponent }
+export { ButtonComponent, CardComponent, Drawer, Header, Heading, HomeComponent, InputComponent, Location, Screen, SplashScreen, OptionComponent, AddToCartButton }

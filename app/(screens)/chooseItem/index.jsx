@@ -10,6 +10,7 @@ import { InputComponent } from "@/components/InputComponent";
 import { ItemComponent } from "@/components/ItemComponent";
 import { useState } from "react";
 import { OptionComponent } from "@/components";
+import { AddToCartButton } from "@/components";
 import { Link } from "expo-router";
 
 export default function MenuPage() {
@@ -106,8 +107,41 @@ export default function MenuPage() {
               <OptionComponent  text="Triple Patty Beef" price="1170"></OptionComponent>
             </View>
           </View>
+          <View style={{ marginVertical: h(1)}}>
+            <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Heading text="Choose your Dip" alignStyle={{fontSize: f(1.8)}}></Heading>
+              <Text style={{ fontSize: f(1.3), color: 'black'}}>Choose only 1 (Optional)</Text>
+            </View>
+            <View style={{marginTop: h(1)}}>
+              <OptionComponent text="Single Patty Beef" price="650"></OptionComponent>
+              <OptionComponent  text="Double Patty Beef" price="910"></OptionComponent>
+              <OptionComponent  text="Triple Patty Beef" price="1170"></OptionComponent>
+            </View>
+          </View>
+          <View style={{ marginVertical: h(1)}}>
+            <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Heading text="Choose your Dip" alignStyle={{fontSize: f(1.8)}}></Heading>
+              <Text style={{ fontSize: f(1.3), color: 'black'}}>Choose only 1 (Optional)</Text>
+            </View>
+            <View style={{marginTop: h(1)}}>
+              <OptionComponent text="Single Patty Beef" price="650"></OptionComponent>
+              <OptionComponent  text="Double Patty Beef" price="910"></OptionComponent>
+              <OptionComponent  text="Triple Patty Beef" price="1170"></OptionComponent>
+            </View>
+          </View>
+          <View style={{ marginVertical: h(1)}}>
+            <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Heading text="Choose your Dip" alignStyle={{fontSize: f(1.8)}}></Heading>
+              <Text style={{ fontSize: f(1.3), color: 'black'}}>Choose only 1 (Optional)</Text>
+            </View>
+            <View style={{marginTop: h(1)}}>
+              <OptionComponent text="Single Patty Beef" price="650"></OptionComponent>
+              <OptionComponent  text="Double Patty Beef" price="910"></OptionComponent>
+              <OptionComponent  text="Triple Patty Beef" price="1170"></OptionComponent>
+            </View>
+          </View>
         </View>
-        <View 
+        {/* <View 
         style={{
           backgroundColor: customTheme.colors.primary, 
           paddingVertical: h(3), 
@@ -120,6 +154,17 @@ export default function MenuPage() {
           width: '100%'
         }}>
         <Text>Cart is currently not available!</Text>
+      </View> */}
+      <View 
+        style={{
+          display: 'flex', 
+          marginBottom: 10,
+          position: 'absolute',
+          zIndex: 1000,
+          bottom: 0,
+          width: '100%'
+        }}>
+        <AddToCartButton></AddToCartButton>
       </View>
       
     </ScrollView>
