@@ -1,0 +1,207 @@
+import { View, StyleSheet, Image, ScrollView } from "react-native";
+import { Text } from "react-native-paper";
+import { Screen } from "@/components/Screen";
+import { Heading } from "@/components/Heading";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { customTheme } from "@/utils/theme";
+import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
+import { Header } from "@/components/Header";
+import { InputComponent } from "@/components/InputComponent";
+import { ItemComponent } from "@/components/ItemComponent";
+import { useState } from "react";
+import { OptionComponent } from "@/components";
+
+export default function MenuPage() {
+  const { w,h,f } = useResponsiveScreen();
+  const [search, setSearch] = useState();
+  const [error, setError] = useState();
+
+  const menuItems = [
+    {
+      id: 1,
+      image: require("../../../assets/images/menu/chicken_fry.png"),
+      name: "Fried Chicken",
+      price: "170",
+    },
+    {
+      id: 2,
+      image: require("../../../assets/images/menu/fingers.jpg"),
+      name: "Fried Fingers",
+      price: "500",
+    },
+    {
+      id: 3,
+      image: require("../../../assets/images/menu/chicken_fry.png"),
+      name: "Fried Fingers",
+      price: "500",
+    },
+
+    {
+      id: 4,
+      image: require("../../../assets/images/menu/fingers.jpg"),
+      name: "Fried Fingers",
+      price: "500",
+    },
+    {
+      id: 5,
+      image: require("../../../assets/images/menu/chicken_fry.png"),
+      name: "Fried Fingers",
+      price: "500",
+    },
+
+    {
+      id: 6,
+      image: require("../../../assets/images/menu/fingers.jpg"),
+      name: "Fried Fingers",
+      price: "500",
+    },
+
+    {
+      id: 7,
+      image: require("../../../assets/images/menu/chicken_fry.png"),
+      name: "Fried Fingers",
+      price: "500",
+    },
+
+    {
+      id: 8,
+      image: require("../../../assets/images/menu/fingers.jpg"),
+      name: "Fried Fingers",
+      price: "500",
+    },
+    {
+      id: 9,
+      image: require("../../../assets/images/menu/chicken_fry.png"),
+      name: "Fried Fingers",
+      price: "500",
+    },
+
+    {
+      id: 10,
+      image: require("../../../assets/images/menu/fingers.jpg"),
+      name: "Fried Fingers",
+      price: "500",
+    },
+  ];
+
+  const renderMenuItem = ({ item }) => (
+    <ItemComponent
+      key={item.id}
+      name={item.name}
+      price={item.price}
+      imageSource={item.image}
+    />
+  );
+
+  return (
+    <ScrollView showsVerticalScrollIndicator={false} style={{position: 'relative'}}>
+        <View 
+          style={{ 
+            backgroundColor: customTheme.colors.primary,
+            borderBottomLeftRadius: 50,
+            borderBottomRightRadius: 50,
+            paddingTop: h(5), 
+            position: 'relative',
+            zIndex: 1,
+            paddingHorizontal: h(3),
+          }}>
+          <Header>
+            <View 
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                gap: w(3),
+              }}>
+              <Icon 
+                name="chevron-left"
+                size={f(3)}
+                color={customTheme.colors.iconColorWhite}
+              ></Icon>
+              <Heading text="Swiss Mushroom" alignStyle={{color: customTheme.colors.textWhite, fontSize: f(2.5)}} />
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: w(3),
+              }}
+            >
+              <Icon
+                name="cart-outline"
+                size={30}
+                color={customTheme.colors.iconColorWhite}
+              />
+            </View>
+          </Header>
+          <View 
+            style={{
+              width: '100%',
+              height: 200,
+              display: 'block', 
+              position: 'relative',
+            }}
+          >
+              <Image source={require("../../../assets/images/burger1.png")} style={{ width: '100%', height: '100%', bottom: -40, marginHorizontal: "auto", resizeMode:"contain"}}></Image>
+            </View>
+        </View>
+        
+        <View 
+          style={{ 
+            paddingHorizontal: w(5), 
+            paddingVertical: h(3), 
+            backgroundColor: 'white',
+            borderBottomLeftRadius: 70,
+            borderBottomRightRadius: 70,
+            marginTop: -40,
+            paddingTop: 100,
+            paddingBottom: 50,
+            marginBottom: h(10)
+          }}>
+          <Heading text="Swiss Mushroom" alignStyle={{fontSize: f(2.5), marginBottom: 20}}></Heading>
+          <Text style={{color: 'black', fontWeight: 300, color: 'gray', fontSize: f(1.6), marginBottom: h(2)}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est officia nam eum eligendi ea molestiae ipsam laborum cumque? Tenetur facere reiciendis debitis illo nostrum dignissimos sed accusamus magni necessitatibus quod?</Text>
+          <View style={{ marginVertical: h(1)}}>
+            <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Heading text="Choose your Dip" alignStyle={{fontSize: f(1.8)}}></Heading>
+              <Text style={{ fontSize: f(1.3), color: 'black'}}>Choose only 1 (Required)</Text>
+            </View>
+            <View style={{marginTop: h(1)}}>
+              <OptionComponent text="Single Patty Beef" price="650"></OptionComponent>
+              <OptionComponent  text="Double Patty Beef" price="910"></OptionComponent>
+              <OptionComponent  text="Triple Patty Beef" price="1170"></OptionComponent>
+            </View>
+          </View>
+          <View style={{ marginVertical: h(1)}}>
+            <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Heading text="Choose your Dip" alignStyle={{fontSize: f(1.8)}}></Heading>
+              <Text style={{ fontSize: f(1.3), color: 'black'}}>Choose only 1 (Optional)</Text>
+            </View>
+            <View style={{marginTop: h(1)}}>
+              <OptionComponent text="Single Patty Beef" price="650"></OptionComponent>
+              <OptionComponent  text="Double Patty Beef" price="910"></OptionComponent>
+              <OptionComponent  text="Triple Patty Beef" price="1170"></OptionComponent>
+            </View>
+          </View>
+        </View>
+        <View 
+        style={{
+          backgroundColor: customTheme.colors.primary, 
+          paddingVertical: h(3), 
+          display: 'flex', 
+          flexDirection: 'row', 
+          justifyContent: 'center',
+          position: 'absolute',
+          zIndex: 1000,
+          bottom: 0,
+          width: '100%'
+        }}>
+        <Text>Cart is currently not available!</Text>
+      </View>
+      
+    </ScrollView>
+  );
+}
+
+const style = StyleSheet.create({
+  
+});
