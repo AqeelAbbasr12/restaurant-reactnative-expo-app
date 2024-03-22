@@ -98,6 +98,9 @@ export const Drawer = () => {
           <Link href="/menu" onPress={() => dispatch(setDrawer(false))}>
             Go to Menu
           </Link>
+          <Link href="/changePassword" onPress={() => dispatch(setDrawer(false))}>
+            Change Password
+          </Link>
         </View>
       </Animated.View>
     </View>
