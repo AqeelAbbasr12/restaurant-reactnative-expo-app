@@ -132,7 +132,7 @@ export const Drawer = () => {
           </View>
             {sideBarItems.map((item, key) => (
               <View style={{borderBottomWidth: 1, borderBottomColor: 'lightgrey', paddingVertical: h(2), paddingHorizontal: w(2.5)}} key={key}>
-                <Link href="" onPress={() => dispatch(setDrawer(false))}>
+                <Link href={item.link} onPress={() => dispatch(setDrawer(false))}>
                   <View  style={{width: 35}}>
                     <Icon
                       name={item.icon}

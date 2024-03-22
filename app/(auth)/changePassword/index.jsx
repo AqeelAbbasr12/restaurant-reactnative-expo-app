@@ -35,7 +35,7 @@ export default function MenuPage() {
             backgroundColor: customTheme.colors.primary,
             borderBottomLeftRadius: 50,
             borderBottomRightRadius: 50,
-            paddingVertical: h(3), 
+            paddingVertical: h(3.2), 
             position: 'relative',
             zIndex: 1,
             paddingLeft: w(3),
@@ -55,13 +55,13 @@ export default function MenuPage() {
                   color={customTheme.colors.iconColorWhite}
                 ></Icon>
               </Link>
-              <Heading text="Change Password" alignStyle={{color: customTheme.colors.textWhite, fontSize: f(2.5)}} />
+              <Heading text="Change Password" alignStyle={{color: customTheme.colors.textWhite, fontSize: f(2.8)}} />
             </View>
           </Header>
         </View>
         
-        <View style={{paddingVertical: h(7), paddingHorizontal: w(4)}}>
-          <Heading text="Enter your password" alignStyle={{fontWeight: 300, fontSize: f(2), paddingBottom: h(4)}} />
+        <View style={{paddingVertical: h(6), paddingHorizontal: w(4)}}>
+          <Heading text="Enter your password" alignStyle={{fontWeight: 300, fontSize: f(2), paddingBottom: h(3)}} />
           <InputComponent
             mode="outlined"
             label=""
@@ -70,12 +70,12 @@ export default function MenuPage() {
             onChangeText={setOldPassword}
             error={error && !oldPassword}
             helperText="Old password is required"
+            placeholderTextColor="lightgray"
             style={{ 
               backgroundColor: 'transparent', 
-              borderRadius: 4, 
               fontWeight: '300',
             }}
-            outlineStyle={{ outlineColor: 'black'}}
+            outlineStyle={{ outlineColor: 'black', borderWidth: 1.5, borderRadius: 6}}
             secureTextEntry
             iconStyle={{ backgroundColor: "white" }}
           />
@@ -87,12 +87,12 @@ export default function MenuPage() {
             onChangeText={setNewPassword}
             error={error && !newPassword}
             helperText="New password is required"
+            placeholderTextColor="lightgray"
             style={{ 
               backgroundColor: 'transparent', 
-              borderRadius: 4, 
               fontWeight: '300' 
             }}
-            outlineStyle={{ outlineColor: 'black'}}
+            outlineStyle={{ outlineColor: 'black', borderWidth: 1.5, borderRadius: 6 }}
             secureTextEntry
             iconStyle={{ backgroundColor: "white" }}
           />
@@ -101,8 +101,8 @@ export default function MenuPage() {
             label="Change Password"
             textColor="white"
             textTransform="capitalize"
-            labelStyle={{ textTransform: 'capitalize', fontWeight: 300 }}
-            style={{ color: 'white', borderRadius: 4, paddingVertical: 14, paddingHorizontal: 10, marginVertical: h(6)}}
+            labelStyle={{ textTransform: 'capitalize', fontWeight: '300', fontSize: f(2) }}
+            style={{ color: 'white', borderRadius: 8, paddingVertical: 14, paddingHorizontal: 10, marginVertical: h(3)}}
             backgroundColor={customTheme.colors.primary}
             onPress={handleReset}
           />
