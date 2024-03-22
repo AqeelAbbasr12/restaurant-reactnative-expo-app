@@ -5,12 +5,14 @@ import DaiyDeliLogo from "../assets/images/daily-deli.png";
 import { useSelector, useDispatch } from "react-redux";
 import { setDrawer } from "@/store/drawer/drawerSlice";
 import React, { useState, useEffect } from "react";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Link } from "expo-router";
+import { Text } from "react-native-paper";
 
 export const Drawer = () => {
   const drawerPosition = useState(new Animated.Value(0))[0];
   const overlayOpacity = useState(new Animated.Value(0))[0];
-  const { w, h } = useResponsiveScreen();
+  const { w, h, f } = useResponsiveScreen();
   const drawer = useSelector((state) => state.drawer.value);
   const dispatch = useDispatch();
 
@@ -37,6 +39,44 @@ export const Drawer = () => {
     inputRange: [0, 1],
     outputRange: [-w(85), 0],
   });
+
+  const sideBarItems = [
+    {
+      name: 'Profile',
+      icon: 'account-outline',
+      link: '/profile',
+    },
+    {
+      name: 'Order History',
+      icon: 'history',
+      link: '/order-history',
+    },
+    {
+      name: 'Change Password',
+      icon: 'lock-open-outline',
+      link: '/changePassword',
+    },
+    {
+      name: 'Privacy Policy',
+      icon: 'file-document-outline',
+      link: '/privacy-policy',
+    },
+    {
+      name: 'Account Deletion',
+      icon: 'account-remove-outline',
+      link: '/account-deletion',
+    },
+    {
+      name: 'FAQ',
+      icon: 'chat-question-outline',
+      link: '/faq',
+    },
+    {
+      name: 'LOGOUT',
+      icon: 'logout',
+      link: '/logout',
+    },
+  ];
 
   return (
     <View style={{ flex: 1, zIndex: 999 }}>
@@ -82,25 +122,30 @@ export const Drawer = () => {
               backgroundColor: customTheme.colors.primary,
               borderBottomRightRadius: 50,
               display: "flex",
-              alignItems: "center",
+              alignItems: "start",
               justifyContent: "center",
+              paddingHorizontal: w(3)
             }}
           >
-            <Image style={{ width: 150, height: 130 }} source={DaiyDeliLogo} />
+            <Text style={{fontSize: f(2.8)}}>ABC</Text>
+            <Text style={{fontSize: f(2), fontWeight: '300'}}>abc@gmail.com</Text>
           </View>
-
-          <Link href="/login" onPress={() => dispatch(setDrawer(false))}>
-            Go to Login
-          </Link>
-          <Link href="/register" onPress={() => dispatch(setDrawer(false))}>
-            Go to Signup
-          </Link>
-          <Link href="/menu" onPress={() => dispatch(setDrawer(false))}>
-            Go to Menu
-          </Link>
-          <Link href="/changePassword" onPress={() => dispatch(setDrawer(false))}>
-            Change Password
-          </Link>
+            {sideBarItems.map((item, key) => (
+              <View style={{borderBottomWidth: 1, borderBottomColor: 'lightgrey', paddingVertical: h(2), paddingHorizontal: w(2.5)}} key={key}>
+                <Link href="" onPress={() => dispatch(setDrawer(false))}>
+                  <View  style={{width: 35}}>
+                    <Icon
+                      name={item.icon}
+                      color={customTheme.colors.primary}
+                      size={30}
+                    />
+                  </View>
+                  <View>
+                    <Text style={{color: 'grey', fontSize: 20, textTransform: 'uppercase', paddingLeft: 17}}>{item.name}</Text>
+                  </View>
+                </Link>
+              </View>
+            ))}
         </View>
       </Animated.View>
     </View>
