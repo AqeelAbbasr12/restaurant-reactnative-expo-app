@@ -49,7 +49,7 @@ export const Drawer = () => {
     {
       name: 'Order History',
       icon: 'history',
-      link: '/order-history',
+      link: '/orderHistory',
     },
     {
       name: 'Change Password',
