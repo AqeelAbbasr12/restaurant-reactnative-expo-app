@@ -23,11 +23,11 @@ export const ItemComponent = ({ imageSource, name, price }) => {
         }}
       >
         <View style={{ alignItems: "center" }}>
-          <View style={styles.imageContainer}>
             <Link href={"/chooseItem"}>
-              <Image source={imageSource} style={styles.image} />
+              <View style={styles.imageContainer}>
+                  <Image source={imageSource} style={styles.image} />
+              </View>
             </Link>
-          </View>
           <Card.Content style={{ alignItems: "center" }}>
             <Text
               style={{
