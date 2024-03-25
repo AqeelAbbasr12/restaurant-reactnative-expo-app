@@ -55,7 +55,7 @@ const products = [
     price: '220', 
   },
 ];
-const imageSource = require("../../../assets/images/burger1.png");
+
 export default function OrderHistory() {
   const { w,h,f } = useResponsiveScreen();
   

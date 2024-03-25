@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 
-export const Header = ({ children }) => {
+export const Header = ({ children, type }) => {
   const { w } = useResponsiveScreen();
 
   return (
@@ -11,7 +11,7 @@ export const Header = ({ children }) => {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingRight: w(7),
+        paddingRight: type === 'innerHeader' ? w(0) : w(7),
       }}
     >
       {children}
