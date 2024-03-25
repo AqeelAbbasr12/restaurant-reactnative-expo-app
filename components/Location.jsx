@@ -4,7 +4,7 @@ import { customTheme } from "@/utils/theme";
 import DaiyDeliLogo from "@/assets/images/daily-deli.png";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useDispatch } from "react-redux";
-import { setUserLocation } from "@/store/user/userSlice";
+import { setUserLocation } from "@/store/auth/authSlice";
 
 export const Location = () => {
   const dispatch = useDispatch();

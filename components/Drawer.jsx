@@ -74,7 +74,7 @@ export const Drawer = () => {
     {
       name: 'LOGOUT',
       icon: 'logout',
-      link: '/logout',
+      link: '/login',
     },
   ];
 

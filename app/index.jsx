@@ -46,7 +46,7 @@ const SideBarIcons = () => {
 
 export default function HomePage() {
   const { w, h, f } = useResponsiveScreen();
-  const userLocation = useSelector((state) => state.user.location);
+  const userLocation = useSelector((state) => state.auth.userLocation);
 
   const cardData = [
     {

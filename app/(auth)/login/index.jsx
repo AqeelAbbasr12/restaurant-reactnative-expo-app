@@ -10,11 +10,14 @@ import { Heading } from "@/components/Heading";
 import { InputComponent } from "@/components/InputComponent";
 import { ButtonComponent } from "@/components/ButtonComponent";
 import { router } from "expo-router";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { calculateTextWidth_MENU } from "@/utils/utils";
+import { loginUser } from "@/store/auth/authSlice";
 
 export default function Page() {
   const { w, h, f } = useResponsiveScreen();
-  const auth = useSelector((state) => state.auth.value);
+  const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,6 +28,8 @@ export default function Page() {
       setError(true);
       return;
     }
+    const logindata = dispatch(loginUser({ email, password }));
+    console.log("logindata => ", logindata);
     setError(false);
   };
 
@@ -45,10 +50,11 @@ export default function Page() {
       }}
       sidebarItemsMargin={30}
       sideBarItemActive={"login"}
+      calculateTextWidth={calculateTextWidth_MENU}
     >
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ marginBottom: 50 }}>
-          {auth && (
+          {auth.accessToken && (
             <Link
               href={"/"}
               style={{
@@ -118,6 +124,7 @@ export default function Page() {
               }}
               backgroundColor={customTheme.colors.primary}
               onPress={handleLogin}
+              loading={auth.loading}
             />
             <View style={[styles.lineContainer, { marginVertical: h(2) }]}>
               <Divider style={[styles.divider, { marginTop: h(0.5) }]} />

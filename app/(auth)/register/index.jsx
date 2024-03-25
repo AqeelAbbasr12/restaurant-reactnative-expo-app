@@ -10,11 +10,14 @@ import { Heading } from "@/components/Heading";
 import { InputComponent } from "@/components/InputComponent";
 import { ButtonComponent } from "@/components/ButtonComponent";
 import { router } from "expo-router";
-import { useSelector } from "react-redux";
+import { calculateTextWidth_MENU } from "@/utils/utils";
+import { useSelector, useDispatch } from "react-redux";
+import { registerUser } from "@/store/auth/authSlice";
 
 export default function RegisterPage() {
   const { w, h, f } = useResponsiveScreen();
-  const auth = useSelector((state) => state.auth.value);
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
 
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
@@ -23,12 +26,14 @@ export default function RegisterPage() {
   const [error, setError] = useState(false);
 
   const handleLogin = () => {
-    if (!email || !password || !username || !phoneNumber) {
+    if (!password || !email) {
       setError(true);
       return;
     }
+    dispatch(registerUser({ email, password }));
     setError(false);
   };
+
   const handleInputChange = (text) => {
     const numericInput = text.replace(/[^0-9]/g, "");
     setPhoneNumber(numericInput);
@@ -50,10 +55,11 @@ export default function RegisterPage() {
       }}
       sidebarItemsMargin={30}
       sideBarItemActive={"signup"}
+      calculateTextWidth={calculateTextWidth_MENU}
     >
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ marginBottom: 50 }}>
-          {auth && (
+          {auth.accessToken && (
             <Link
               href={"/"}
               style={{
@@ -68,7 +74,7 @@ export default function RegisterPage() {
           )}
           <View style={{ paddingRight: w(7), marginTop: 100 }}>
             <Heading text="Signup" alignStyle={{ textAlign: "center" }} />
-            <InputComponent
+            {/* <InputComponent
               mode="outlined"
               label=""
               placeholder="Username"
@@ -81,7 +87,7 @@ export default function RegisterPage() {
                 borderRadius: 4,
                 fontWeight: "300",
               }}
-            />
+            /> */}
             <InputComponent
               mode="outlined"
               label=""
@@ -113,7 +119,7 @@ export default function RegisterPage() {
               }}
               iconStyle={{ backgroundColor: "white" }}
             />
-            <InputComponent
+            {/* <InputComponent
               mode="outlined"
               label=""
               placeholder="Phone"
@@ -128,7 +134,7 @@ export default function RegisterPage() {
               }}
               keyboardType="numeric"
               iconStyle={{ backgroundColor: "white", color: "black" }}
-            />
+            /> */}
             <ButtonComponent
               mode="contained"
               label="Sign up"
@@ -144,6 +150,7 @@ export default function RegisterPage() {
               }}
               backgroundColor={customTheme.colors.primary}
               onPress={handleLogin}
+              loading={auth.loading}
             />
             <View style={[styles.lineContainer, { marginVertical: h(2) }]}>
               <Divider style={[styles.divider, { marginTop: h(0.5) }]} />

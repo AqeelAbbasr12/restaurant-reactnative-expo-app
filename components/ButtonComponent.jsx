@@ -2,7 +2,6 @@ import * as React from "react";
 import { Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-
 export const ButtonComponent = ({
   mode,
   label,
@@ -11,8 +10,9 @@ export const ButtonComponent = ({
   labelStyle,
   style,
   onPress,
-  disabled,
-  icon
+  icon,
+  loading = false,
+  disabled = false,
 }) => (
   <Button
     mode={mode}
@@ -22,8 +22,8 @@ export const ButtonComponent = ({
     textColor={textColor}
     labelStyle={labelStyle}
     disabled={disabled}
+    loading={loading}
   >
-   <Icon name={icon} size={15}></Icon> {label}
+    <Icon name={icon} size={15}></Icon> {label}
   </Button>
 );
-

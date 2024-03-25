@@ -67,3 +67,8 @@ export function calculateTextWidth_MENU(itemLength) {
 
     return itemLength * width;
 }
+
+
+export const Api = {
+    route: "http://cosmo-team1.ap-south-1.elasticbeanstalk.com"
+}
