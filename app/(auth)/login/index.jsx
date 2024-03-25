@@ -10,6 +10,7 @@ import { Heading } from "@/components/Heading";
 import { InputComponent } from "@/components/InputComponent";
 import { ButtonComponent } from "@/components/ButtonComponent";
 import { router } from "expo-router";
+import { calculateTextWidth_MENU } from "@/utils/utils";
 import { useSelector } from "react-redux";
 
 export default function Page() {
@@ -21,11 +22,12 @@ export default function Page() {
   const [error, setError] = useState(false);
 
   const handleLogin = () => {
-    if (!email || !password) {
-      setError(true);
-      return;
-    }
-    setError(false);
+    router.navigate("/");
+    // if (!email || !password) {
+    //   setError(true);
+    //   return;
+    // }
+    // setError(false);
   };
 
   const sideBarItems = ["LOGIN", "SIGNUP"];
@@ -45,6 +47,7 @@ export default function Page() {
       }}
       sidebarItemsMargin={30}
       sideBarItemActive={"login"}
+      calculateTextWidth={calculateTextWidth_MENU}
     >
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ marginBottom: 50 }}>
