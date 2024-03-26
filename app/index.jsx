@@ -68,6 +68,9 @@ export default function HomePage() {
     if (item === "menu") {
       router.navigate("/menu");
     }
+    if(item === "cart"){
+      router.navigate("/cart");
+    }
   };
 
   if (!userLocation) {
