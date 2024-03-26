@@ -120,7 +120,7 @@ export default function CartPage() {
                 }}
               >
                 <Icon
-                  name="delete"
+                  name="delete-outline"
                   size={30}
                   color={customTheme.colors.iconColorWhite}
                 />
@@ -156,7 +156,7 @@ export default function CartPage() {
                   <Text style={{color: customTheme.colors.primary, fontWeight: '700',fontSize: f(1.8)}}>PKR {product.price}</Text>
                   <View style={{flexDirection: 'row'}}>
                     <Heading text="Remove Item"  alignStyle={{fontSize: f(1.8), paddingBottom: h(1.5), color: 'black', marginRight: 10}} />
-                    <Icon name="information" size={30} color="lightgray" />
+                    <Icon name="information" size={22} color="lightgray" />
                   </View>
                 </View>
                 <View  style={{width: '25%',  alignItems: 'center'}}>
@@ -165,16 +165,16 @@ export default function CartPage() {
                       icon="minus"
                       onPress={() => decrementQuantity(product.id)}
                       
-                      containerColor="lightgray"
+                      containerColor="#f2f2f2"
                       iconColor="black"
-                      size={30}
+                      size={24}
                     />
-                    <Text style={{color: 'black',fontSize: 25}}>{quantities[product.id] || 0}</Text>
+                    <Text style={{color: 'black',fontSize: 16}}>{quantities[product.id] || 0}</Text>
                     <IconButton 
                       icon="plus"
-                      containerColor="lightgray"
+                      containerColor="#f2f2f2"
                       iconColor="black"
-                      size={30}
+                      size={24}
                       onPress={() => incrementQuantity(product.id)} 
                     />
                   </View>
@@ -197,6 +197,7 @@ export default function CartPage() {
             backgroundColor: '#f2f2f2',
             paddingTop: h(3),
             paddingBottom: h(2),
+            right: 0
           }}>
           <View style={{paddingHorizontal: w(5), marginBottom: 20}}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15}}>
@@ -213,8 +214,9 @@ export default function CartPage() {
           <AddToCartButton
             buttonLabel="Proceed to Checkout"
             leftContentType="price"
-            buttonStyle={{paddingVertical: h(2)}}
+            buttonStyle={{paddingVertical: h(1.2)}}
             labelStyle={{fontSize: f(2), textTransform: 'uppercase'}}
+            buttonType="link"
 
           ></AddToCartButton>
         </View>
