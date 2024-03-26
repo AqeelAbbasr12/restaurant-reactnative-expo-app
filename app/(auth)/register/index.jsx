@@ -10,6 +10,7 @@ import { Heading } from "@/components/Heading";
 import { InputComponent } from "@/components/InputComponent";
 import { ButtonComponent } from "@/components/ButtonComponent";
 import { router } from "expo-router";
+import { calculateTextWidth_MENU } from "@/utils/utils";
 import { useSelector } from "react-redux";
 
 export default function RegisterPage() {
@@ -50,6 +51,7 @@ export default function RegisterPage() {
       }}
       sidebarItemsMargin={30}
       sideBarItemActive={"signup"}
+      calculateTextWidth={calculateTextWidth_MENU}
     >
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ marginBottom: 50 }}>
