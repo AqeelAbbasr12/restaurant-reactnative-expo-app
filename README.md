@@ -84,7 +84,8 @@ Citations:
 [9] https://oblador.github.io/react-native-vector-icons/
 [10] http://projanco.com/Library/React%20Native%20Cookbook.pdf
 
-Project Images:
+## Project Images:
+
 ![restaurant-app (3)](https://github.com/AqeelAbbasr12/restaurant-reactnative-expo-app/assets/128492655/1c45beab-13a2-4ba9-b2f2-1daff33466a7)
 ![restaurant-app (5)](https://github.com/AqeelAbbasr12/restaurant-reactnative-expo-app/assets/128492655/3493d858-e315-43b6-a9f8-6a6c50554eea)
 ![restaurant-app (4)](https://github.com/AqeelAbbasr12/restaurant-reactnative-expo-app/assets/128492655/dcdfcd10-c834-456f-ab33-38d11ab6bd89)
