@@ -41,7 +41,7 @@ To get a local copy up and running, follow these simple steps.
 To start the app, run:
 
 ```
-expo start -c
+npx expo start -c
 ```
 You can open the app on expo android application
 
