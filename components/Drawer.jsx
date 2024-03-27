@@ -14,8 +14,8 @@ export const Drawer = () => {
   const overlayOpacity = useState(new Animated.Value(0))[0];
   const { w, h, f } = useResponsiveScreen();
   const drawer = useSelector((state) => state.drawer.value);
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
   useEffect(() => {
     animateDrawer(drawer);
   }, [drawer]);
@@ -128,7 +128,7 @@ export const Drawer = () => {
             }}
           >
             <Text style={{fontSize: f(2.8)}}>ABC</Text>
-            <Text style={{fontSize: f(2), fontWeight: '300'}}>abc@gmail.com</Text>
+            <Text style={{fontSize: f(2), fontWeight: '300'}}>{auth?.user?.email}</Text>
           </View>
             {sideBarItems.map((item, key) => (
               <View style={{borderBottomWidth: 1, borderBottomColor: 'lightgrey', paddingVertical: h(2), paddingHorizontal: w(2.5)}} key={key}>
