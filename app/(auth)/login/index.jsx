@@ -22,7 +22,7 @@ export default function Page() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
-  console.log('auth', auth);
+ 
   useEffect(() => {
     if(auth.accessToken){
       router.navigate('/');
@@ -35,10 +35,7 @@ export default function Page() {
     }
     try {
       const logindata = dispatch(loginUser({ email, password }));
-      console.log('logindata', logindata);
-      
     } catch (e) {
-      console.log("Login failed:", e);
       setError(false);
     }
   };
