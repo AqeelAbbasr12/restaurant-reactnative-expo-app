@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Divider } from "react-native-paper";
 import { Link } from "expo-router";
@@ -24,6 +24,12 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if(auth.accessToken) {
+      router.navigate('/');
+    }
+  },[auth])
 
   const handleLogin = () => {
     if (!password || !email) {

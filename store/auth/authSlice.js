@@ -12,6 +12,17 @@ const login = async (data) => {
     return res
 }
 
+const refreshToken = async (data) => {
+    const res = await fetch(`${Api.route}/refresh`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
+    return res
+}
+
 const createSliceWithThunks = buildCreateSlice({
     creators: { asyncThunk: asyncThunkCreator },
 });

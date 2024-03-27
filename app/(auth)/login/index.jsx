@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Divider } from "react-native-paper";
 import { Link } from "expo-router";
@@ -22,15 +22,25 @@ export default function Page() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
-
+  console.log('auth', auth);
+  useEffect(() => {
+    if(auth.accessToken){
+      router.navigate('/');
+    }
+  }, [ auth])
   const handleLogin = () => {
     if (!email || !password) {
       setError(true);
       return;
     }
-    const logindata = dispatch(loginUser({ email, password }));
-    console.log("logindata => ", logindata);
-    setError(false);
+    try {
+      const logindata = dispatch(loginUser({ email, password }));
+      console.log('logindata', logindata);
+      
+    } catch (e) {
+      console.log("Login failed:", e);
+      setError(false);
+    }
   };
 
   const sideBarItems = ["LOGIN", "SIGNUP"];
