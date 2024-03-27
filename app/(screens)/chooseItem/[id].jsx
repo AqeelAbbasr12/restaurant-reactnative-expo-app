@@ -1,19 +1,25 @@
 import { View, StyleSheet, Image, ScrollView } from "react-native";
-import { Text, Snackbar } from "react-native-paper";
-import { Screen } from "@/components/Screen";
+import { Text } from "react-native-paper";
 import { Heading } from "@/components/Heading";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { customTheme } from "@/utils/theme";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 import { Header } from "@/components/Header";
-import { InputComponent } from "@/components/InputComponent";
-import { ItemComponent } from "@/components/ItemComponent";
-import { useState } from "react";
+import { useEffect } from "react";
 import { OptionComponent } from "@/components";
-import { AddToCartButton } from "@/components";
-import { Link } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMenuDetail } from "@/store/menu/menuSlice";
+
 
 export default function MenuPage() {
+  const { id } = useLocalSearchParams();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchMenuDetail(id));
+  });
+  const itemDetail = useSelector((state) => state.menu.menuDetail);
+  
   const { w,h,f } = useResponsiveScreen();
 
   return (
@@ -44,7 +50,7 @@ export default function MenuPage() {
                   color={customTheme.colors.iconColorWhite}
                 ></Icon>
               </Link>
-              <Heading text="Swiss Mushroom" alignStyle={{color: customTheme.colors.textWhite, fontSize: f(2.5)}} />
+              <Heading text={itemDetail.name} alignStyle={{color: customTheme.colors.textWhite, fontSize: f(2.5)}} />
             </View>
             <View
               style={{
@@ -84,31 +90,26 @@ export default function MenuPage() {
             paddingBottom: 50,
             marginBottom: h(10)
           }}>
-          <Heading text="Swiss Mushroom" alignStyle={{fontSize: f(2.5), marginBottom: 20}}></Heading>
-          <Text style={{color: 'black', fontWeight: 300, color: 'gray', fontSize: f(1.6), marginBottom: h(2)}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est officia nam eum eligendi ea molestiae ipsam laborum cumque? Tenetur facere reiciendis debitis illo nostrum dignissimos sed accusamus magni necessitatibus quod?</Text>
-          <View style={{ marginVertical: h(1)}}>
-            <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Heading text="Choose your Dip" alignStyle={{fontSize: f(1.8)}}></Heading>
-              <Text style={{ fontSize: f(1.3), color: 'black'}}>Choose only 1 (Required)</Text>
+          <Heading text={itemDetail.name} alignStyle={{fontSize: f(2.5), marginBottom: 20}}></Heading>
+          <Text style={{color: 'black', fontWeight: 300, color: 'gray', fontSize: f(1.6), marginBottom: h(2)}}>
+            {itemDetail.description}
+          </Text>
+          {/* {itemDetail} */}
+          { itemDetail.customizations?.map((item) => (
+            <View style={{ marginVertical: h(1)}} key={item.id}>
+              <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Heading text={item.name} alignStyle={{fontSize: f(1.8)}}></Heading>
+                <Text style={{ fontSize: f(1.3), color: 'black'}}>Choose only 1 (Required)</Text>
+              </View>
+              {item.options.map((option) => (
+                <View style={{marginTop: h(1)}}>
+                  <OptionComponent text={option.name} price={option.price} id={option.id}></OptionComponent>
+                </View>
+              ))}
             </View>
-            <View style={{marginTop: h(1)}}>
-              <OptionComponent text="Single Patty Beef" price="650"></OptionComponent>
-              <OptionComponent  text="Double Patty Beef" price="910"></OptionComponent>
-              <OptionComponent  text="Triple Patty Beef" price="1170"></OptionComponent>
-            </View>
-          </View>
-          <View style={{ marginVertical: h(1)}}>
-            <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Heading text="Choose your Dip" alignStyle={{fontSize: f(1.8)}}></Heading>
-              <Text style={{ fontSize: f(1.3), color: 'black'}}>Choose only 1 (Optional)</Text>
-            </View>
-            <View style={{marginTop: h(1)}}>
-              <OptionComponent text="Single Patty Beef" price="650"></OptionComponent>
-              <OptionComponent  text="Double Patty Beef" price="910"></OptionComponent>
-              <OptionComponent  text="Triple Patty Beef" price="1170"></OptionComponent>
-            </View>
-          </View>
-          <View style={{ marginVertical: h(1)}}>
+          ))}
+          
+          {/* <View style={{ marginVertical: h(1)}}>
             <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
               <Heading text="Choose your Dip" alignStyle={{fontSize: f(1.8)}}></Heading>
               <Text style={{ fontSize: f(1.3), color: 'black'}}>Choose only 1 (Optional)</Text>
@@ -141,6 +142,17 @@ export default function MenuPage() {
               <OptionComponent  text="Triple Patty Beef" price="1170"></OptionComponent>
             </View>
           </View>
+          <View style={{ marginVertical: h(1)}}>
+            <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Heading text="Choose your Dip" alignStyle={{fontSize: f(1.8)}}></Heading>
+              <Text style={{ fontSize: f(1.3), color: 'black'}}>Choose only 1 (Optional)</Text>
+            </View>
+            <View style={{marginTop: h(1)}}>
+              <OptionComponent text="Single Patty Beef" price="650"></OptionComponent>
+              <OptionComponent  text="Double Patty Beef" price="910"></OptionComponent>
+              <OptionComponent  text="Triple Patty Beef" price="1170"></OptionComponent>
+            </View>
+          </View> */}
         </View>
       </ScrollView>
       <View 

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -16,23 +17,26 @@ import { InputComponent } from "@/components/InputComponent";
 import { ItemComponent } from "@/components/ItemComponent";
 import { useState } from "react";
 import { calculateTextWidth_MENU } from "@/utils/utils";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useSelector, useDispatch } from "react-redux";
 
 
 export default function MenuPage() {
   const { w } = useResponsiveScreen();
+  const { id } = useLocalSearchParams();
   const dispatch = useDispatch();
-  const [searchQuery, setSearchQuery] = useState();
+  const [search, setSearch] = useState();
   const [error, setError] = useState();
+  const [filteredMenuItems, setFilteredMenuItems] = useState([]);
 
-  var menuItems = useSelector((state) => state.menu.menuData);
-  const handleSearch = (query) =>{
-    setSearchQuery(query);
-    menuItems = menuItems.filter(item =>
-      item.name.toLowerCase().includes(query.toLowerCase())
-    );
-  }
+  const menuItems = useSelector((state) => state.menu.menuData);
+  
+  useEffect(() => {
+    const filteredItems  = menuItems.filter(item => item.categoryId === id);
+    setFilteredMenuItems(filteredItems);
+
+  }, [id, menuItems]);
+  
   const img = require("../../../assets/images/menu/chicken_fry.png");
   const renderMenuItem = ({ item }) => (
     <ItemComponent
@@ -98,8 +102,8 @@ export default function MenuPage() {
           mode="outlined"
           label=""
           placeholder="Search Item here"
-          value={searchQuery}
-          onChangeText={handleSearch}
+          value={search}
+          onChangeText={setSearch}
           error={error && !search}
           keyboardType="default"
           type="search"
@@ -115,7 +119,7 @@ export default function MenuPage() {
       </View>
       <View style={[style.container, { marginRight: w(7) }]}>
         <FlatList
-          data={menuItems}
+          data={filteredMenuItems}
           renderItem={renderMenuItem}
           keyExtractor={(item) => item.id.toString()}
           numColumns={2}

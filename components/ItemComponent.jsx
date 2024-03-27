@@ -5,8 +5,9 @@ import { Card, Text } from "react-native-paper";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 import { Link } from "expo-router";
 
-export const ItemComponent = ({ imageSource, name, price }) => {
+export const ItemComponent = ({ id, imageSource, name, price }) => {
   const { f } = useResponsiveScreen();
+
 
   return (
     <View
@@ -21,9 +22,10 @@ export const ItemComponent = ({ imageSource, name, price }) => {
           alignItems: "center",
           elevation: 0,
         }}
+        key={id}
       >
         <View style={{ alignItems: "center" }}>
-            <Link href={"/chooseItem"}>
+            <Link href={`/chooseItem/${id}`}>
               <View style={styles.imageContainer}>
                   <Image source={imageSource} style={styles.image} />
               </View>
