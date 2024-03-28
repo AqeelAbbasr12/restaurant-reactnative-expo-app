@@ -6,10 +6,9 @@ import { customTheme } from "../utils/theme";
 
 export const OptionComponent = ({
   text,
-  price
+  price,
+  id
 }) => {
-
-
 
   const { w, h } = useResponsiveScreen();
   const [value, setValue] = useState('');
@@ -20,7 +19,7 @@ export const OptionComponent = ({
       <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value}>
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
           <View  style={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-            <RadioButton value="first" color={customTheme.colors.primary} uncheckedColor={customTheme.colors.primary} />
+            <RadioButton value={text} color={customTheme.colors.primary} uncheckedColor={customTheme.colors.primary} />
             <Text style={{color: 'black'}}>{text}</Text>
           </View>
           <View>

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Text, View, ScrollView, TouchableOpacity } from "react-native";
 import {
   Screen,
@@ -14,6 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setDrawer } from "@/store/drawer/drawerSlice";
 import { router } from "expo-router";
 import { calculateTextWidth_HOME } from "@/utils/utils";
+import { fetchMenus, fetchCategories } from "@/store/menu/menuSlice";
 
 const SideBarIcons = () => {
   const dispatch = useDispatch();
@@ -46,23 +48,14 @@ const SideBarIcons = () => {
 
 export default function HomePage() {
   const { w, h, f } = useResponsiveScreen();
+  const dispatch = useDispatch();
   const userLocation = useSelector((state) => state.auth.userLocation);
-
-  const cardData = [
-    {
-      id: 1,
-      imageSource: require("../assets/images/burger1.png"),
-      title: "Swiss Mushroom",
-      buttonText: "Top Seller",
-    },
-    {
-      id: 2,
-      imageSource: require("../assets/images/burger1.png"),
-      title: "Sunny Rocket",
-      buttonText: "Top Seller",
-    },
-  ];
-
+  const categories = useSelector((state) => state.menu.catgeoryData);
+  useEffect(() => {
+    dispatch(fetchCategories());
+    dispatch(fetchMenus());
+  });
+  const imageSource =  require("../assets/images/burger1.png");
   const sideBarItems = ["HOME", "MENU", "CART"];
   const selecteSideBarItem = (item) => {
     if (item === "menu") {
@@ -77,6 +70,9 @@ export default function HomePage() {
     return <Location />;
   }
 
+  const handleRedirect = (item) => {
+    router.navigate(`menu/${item.id}`);
+  };
   return (
     <Screen
       SideBarIcons={SideBarIcons}
@@ -119,7 +115,7 @@ export default function HomePage() {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
         >
-          {cardData.map((item, key) => (
+          {categories.map((item, key) => (
             <View
               style={{
                 marginRight: w(10),
@@ -128,10 +124,10 @@ export default function HomePage() {
               key={key}
             >
               <CardComponent
-                imageSource={item.imageSource}
-                title={item.title}
-                buttonText={item.buttonText}
-                onPress={() => console.log("Button pressed")}
+                imageSource={imageSource}
+                title={item.name}
+                buttonText="Top Seller"
+                onPress={() => handleRedirect(item)}
                 style={{
                   marginHorizontal: "10px",
                 }}
