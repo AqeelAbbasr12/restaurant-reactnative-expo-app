@@ -8,8 +8,10 @@ import {
   Heading,
 
 } from "@/components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "expo-router";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchOrders } from "@/store/order/orderSlice";
 
 const products = [
   { 
@@ -58,7 +60,13 @@ const products = [
 
 export default function OrderHistory() {
   const { w,h,f } = useResponsiveScreen();
-  
+  const dispatch = useDispatch();
+  const productsList = useSelector((state) => state.order.orderData);
+  useEffect(() => {
+    dispatch(fetchOrders());
+  });
+
+  console.log('product', productsList);
   const [expanded, setExpanded] = useState(-1);
 
   const handlePress = (index) => {
