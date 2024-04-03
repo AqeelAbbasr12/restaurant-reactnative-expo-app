@@ -1,12 +1,24 @@
 import { buildCreateSlice, asyncThunkCreator } from '@reduxjs/toolkit';
-import { Api } from "@/utils/utils"
+import { Api } from "@/utils/utils";
 
-const fetchOrderData = async () => {
+const fetchOrderData = async (token) => {
   const res = await fetch(`${Api.route}/api/orders`, {
       method: 'GET',
       headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
       },
+  });
+  return res
+}
+
+const orderDetailData = async (token, id) => {
+  const res = await fetch(`${Api.route}/api/order/${id}`, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    },
   });
   return res
 }
@@ -22,14 +34,13 @@ const orderSlice = createSliceWithThunks({
         error: null,
         orderData: [],
         menuData: [],
-        menuDetail: [],
+        orderDetail: [],
     },
     reducers: (create) => ({
       fetchOrders: create.asyncThunk(
-        async () => {
-          const res = await fetchOrderData();
+        async (data) => {
+          const res = await fetchOrderData(data);
           
-          console.log('res', res);
           if (res.status === 200) {
             const jsonData = await res.json(); 
             return jsonData; 
@@ -53,12 +64,13 @@ const orderSlice = createSliceWithThunks({
           }
         }
       ),
-      fetchMenuDetail: create.asyncThunk(
+      fetchOrdersDetail: create.asyncThunk(
         async (data) => {
-          const res = await fetch(`${Api.route}/api/menu/${data}`, {
+          const res = await fetch(`${Api.route}/api/orders/${data.id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${data.token}`
             },
           });
           if (res.status === 200) {
@@ -75,7 +87,7 @@ const orderSlice = createSliceWithThunks({
               state.error = action.payload ?? action.error
           },
           fulfilled: (state, action) => {
-            state.menuDetail = action.payload;
+            state.orderDetail = action.payload;
           },
           settled: (state, action) => {
               state.loading = false
@@ -86,5 +98,5 @@ const orderSlice = createSliceWithThunks({
     }),
 });
 
-export const { fetchOrders, fetchMenuDetail } = orderSlice.actions;
+export const { fetchOrders, fetchOrdersDetail } = orderSlice.actions;
 export default orderSlice.reducer;

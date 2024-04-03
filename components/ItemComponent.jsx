@@ -11,7 +11,7 @@ export const ItemComponent = ({ id, imageSource, name, price }) => {
 
   return (
     <View
-      style={{ justifyContent: "center", width: "50%", alignItems: "center" }}
+      style={{ justifyContent: "center", width: "50%", alignItems: "center", height: 190, marginBottom: 10 }}
     >
       <Card
         style={{
@@ -27,7 +27,7 @@ export const ItemComponent = ({ id, imageSource, name, price }) => {
         <View style={{ alignItems: "center" }}>
             <Link href={`/chooseItem/${id}`}>
               <View style={styles.imageContainer}>
-                  <Image source={imageSource} style={styles.image} />
+                  <Image source={{uri: imageSource}} style={styles.image} />
               </View>
             </Link>
           <Card.Content style={{ alignItems: "center" }}>
@@ -63,7 +63,8 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: 100,
     height: 100,
-    marginBottom: 20,
+    marginBottom: 10,
+    overflow: 'hidden',
     position: "relative",
   },
   image: {
