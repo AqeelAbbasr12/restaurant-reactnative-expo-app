@@ -17,7 +17,7 @@ export default function MenuPage() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchMenuDetail(id));
-  });
+  },[dispatch]);
   const itemDetail = useSelector((state) => state.menu.menuDetail);
   
   const { w,h,f } = useResponsiveScreen();
@@ -74,7 +74,7 @@ export default function MenuPage() {
               position: 'relative',
             }}
           >
-              <Image source={require("../../../assets/images/burger1.png")} style={{ width: '100%', height: '100%', bottom: -40, marginHorizontal: "auto", resizeMode:"contain"}}></Image>
+              <Image source={itemDetail.imageUrl ? {uri: itemDetail.imageUrl} : require("../../../assets/images/burger1.png")} style={{ width: '100%', height: '100%', bottom: -40, marginHorizontal: "auto", resizeMode:"contain"}}></Image>
             </View>
         </View>
         

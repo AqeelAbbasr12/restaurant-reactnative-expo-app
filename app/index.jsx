@@ -54,7 +54,8 @@ export default function HomePage() {
   useEffect(() => {
     dispatch(fetchCategories());
     dispatch(fetchMenus());
-  });
+  }, [dispatch]);
+  
   const imageSource =  require("../assets/images/burger1.png");
   const sideBarItems = ["HOME", "MENU", "CART"];
   const selecteSideBarItem = (item) => {
