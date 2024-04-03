@@ -27,7 +27,7 @@ export const ItemComponent = ({ id, imageSource, name, price }) => {
         <View style={{ alignItems: "center" }}>
             <Link href={`/chooseItem/${id}`}>
               <View style={styles.imageContainer}>
-                  <Image source={{uri: imageSource}} style={styles.image} />
+                  <Image source={imageSource ? {uri: imageSource} : require("../assets/images/menu/chicken_fry.png")} style={styles.image} />
               </View>
             </Link>
           <Card.Content style={{ alignItems: "center" }}>

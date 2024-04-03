@@ -44,7 +44,7 @@ export default function MenuPage() {
       key={item.id}
       name={item.name}
       price={item.price}
-      imageSource={item.imageUrl ? item.imageUrl : img}
+      imageSource={item.imageUrl}
     />
   );
 
