@@ -1,26 +1,25 @@
 import { View, Image, TouchableOpacity, Text, StyleSheet } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { customTheme } from "@/utils/theme";
 import DaiyDeliLogo from "@/assets/images/daily-deli.png";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserLocation } from "@/store/auth/authSlice";
+import { fetchBranches } from "@/store/menu/menuSlice";
 
 export const Location = () => {
   const dispatch = useDispatch();
+  useEffect(() => {
+   dispatch(fetchBranches());
+  }, [dispatch]);
   const [selectedLocation, setSelectedLocation] = useState(
     "Choose Your Nearest Branch"
   );
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const locations = [
-    "Cantt Lahore",
-    "Beverly Center Islamabad",
-    "Johar Town Lahore",
-    "DHA Lahore",
-    "Model Town Lahore",
-  ];
+  const locations = useSelector((state) => state.menu.branches);
+  
   const setLocation = (location) => {
-    setSelectedLocation(location);
+    setSelectedLocation(location.name);
     setDropdownVisible(false);
   };
 
@@ -74,14 +73,14 @@ export const Location = () => {
                 zIndex: 1000,
               }}
             >
-              {locations.map((item) => {
+              {locations?.map((item) => {
                 return (
                   <Text
-                    key={item}
+                    key={item.id}
                     onPress={() => setLocation(item)}
                     style={{ fontSize: 16, padding: 10, color: "gray" }}
                   >
-                    {item}
+                    {item.name}
                   </Text>
                 );
               })}

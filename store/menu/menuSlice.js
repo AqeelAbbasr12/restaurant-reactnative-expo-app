@@ -32,6 +32,7 @@ const authSlice = createSliceWithThunks({
         catgeoryData: [],
         menuData: [],
         menuDetail: [],
+        branches: [],
     },
     reducers: (create) => ({
       fetchCategories: create.asyncThunk(
@@ -117,9 +118,39 @@ const authSlice = createSliceWithThunks({
           }
         }
       ),
+
+      fetchBranches: create.asyncThunk(
+        async (data) => {
+          const res = await fetch(`${Api.route}/api/branches`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+          });
+          if (res.status === 200) {
+            const jsonData = await res.json(); 
+            return jsonData; 
+          } 
+          return null;
+        },
+        {
+          pending: (state) => {
+              state.loading = true
+          },
+          rejected: (state, action) => {
+              state.error = action.payload ?? action.error
+          },
+          fulfilled: (state, action) => {
+            state.branches = action.payload;
+          },
+          settled: (state, action) => {
+              state.loading = false
+          }
+        }
+      ),
       
     }),
 });
 
-export const { fetchMenus, fetchCategories, fetchMenuDetail } = authSlice.actions;
+export const { fetchMenus, fetchCategories, fetchMenuDetail, fetchBranches } = authSlice.actions;
 export default authSlice.reducer;

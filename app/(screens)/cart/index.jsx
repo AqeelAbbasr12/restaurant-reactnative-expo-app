@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image, ScrollView } from "react-native";
+import { View, StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
 import { Text, IconButton } from "react-native-paper";
 import { 
   Heading,
@@ -8,62 +8,32 @@ import {
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { customTheme } from "@/utils/theme";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "expo-router";
+import { useDispatch, useSelector } from "react-redux";
+import { removeCartItem, emptyCartItems, updateCartItemQuantity } from "@/store/order/orderSlice";
 
-const products = [
-  { 
-    id: 1, 
-    resturantName: 'Beta Life resturant', 
-    dateTime: 'June 3 at 3:00 pm', 
-    image: require("../../../assets/images/dish.jpg"),
-    price: '200', 
-  },
-  { 
-    id: 2,
-    resturantName: 'New Flava', 
-    dateTime: 'June 1 at 1:30 pm', 
-    image: require("../../../assets/images/dish2.jpg"),
-    price: '250', 
-  },
-  { 
-    id: 3,
-    resturantName: 'Beta Life resturant', 
-    dateTime: 'May 30 at 12:00 pm', 
-    image: require("../../../assets/images/dish3.jpg"),
-    price: '220', 
-  },
-  { 
-    id: 4, 
-    resturantName: 'Beta Life resturant', 
-    dateTime: 'June 3 at 3:00 pm', 
-    image: require("../../../assets/images/dish.jpg"),
-    price: '200', 
-  },
-  { 
-    id: 5,
-    resturantName: 'New Flava', 
-    dateTime: 'June 1 at 1:30 pm', 
-    image: require("../../../assets/images/dish2.jpg"),
-    price: '250', 
-  },
-  { 
-    id: 6,
-    resturantName: 'Beta Life resturant', 
-    dateTime: 'May 30 at 12:00 pm', 
-    image: require("../../../assets/images/dish3.jpg"),
-    price: '220', 
-  },
-];
 export default function CartPage() {
   const { w,h,f } = useResponsiveScreen();
-  const [quantities, setQuantities] = useState(1); 
+  const [quantities, setQuantities] = useState({}); 
+
+  const cartItems = useSelector((state) => state.order.cartData);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const initialQuantities = {};
+    cartItems.forEach(item => {
+      initialQuantities[item.itemDetail.id] = item.quantity;
+    });
+    setQuantities(initialQuantities);
+  }, []);
 
   const incrementQuantity = (productId) => {
     setQuantities(prevQuantities => ({
       ...prevQuantities,
       [productId]: (prevQuantities[productId] || 0) + 1
     }));
+    dispatch(updateCartItemQuantity({ productId, quantity: quantities[productId] + 1 }));
   };
 
   const decrementQuantity = (productId) => {
@@ -74,7 +44,27 @@ export default function CartPage() {
         [productId]: newQuantity >= 0 ? newQuantity : 0
       };
     });
+    dispatch(updateCartItemQuantity({ productId, quantity: quantities[productId] - 1 }));
   };
+  const removeCart = (productId) => {
+    dispatch(removeCartItem(productId));
+  }
+
+  const emptyCart = () => {
+    dispatch(emptyCartItems());
+  }
+
+  let subtotal = 0;
+  cartItems.forEach(item => {
+    subtotal += item.quantity * item.itemDetail.price; 
+    for (const key in item.selectedOptions) {
+      if (item.selectedOptions.hasOwnProperty(key)) {
+        const option = item.selectedOptions[key];
+        subtotal += item.quantity * option.price;
+      }
+    }
+  });
+  const GST = subtotal * 0.15;
 
   return (
     <View>
@@ -120,6 +110,7 @@ export default function CartPage() {
                 }}
               >
                 <Icon
+                  onPress={emptyCart}
                   name="delete-outline"
                   size={30}
                   color={customTheme.colors.iconColorWhite}
@@ -144,18 +135,22 @@ export default function CartPage() {
             flex: 1,
           }}>
             <View>
-            {products.map((product, index) => (
-            <View 
-                style={styles.container} key={product.id}
+            {cartItems?.map((product, index) => (
+              <View 
+              style={styles.container} key={product.itemDetail.id}
               >
                 <View style={{width: '25%', borderRadius: 12}}>
-                  <Image source={product.image} resizeMode="cover" style={{width:'100%', height: 80, borderRadius: 10}}></Image>
+                  <Image source={product.itemDetail.imageUrl ? {uri: product.itemDetail.imageUrl} : require("../../../assets/images/dish3.jpg") } resizeMode="cover" style={{width:'100%', height: 80, borderRadius: 10}}></Image>
                 </View>
                 <View style={{width: '50%', paddingLeft: 10}}>
-                  <Heading text={product.resturantName} alignStyle={{fontSize: f(1.8), fontWeight: '700'}} />
-                  <Text style={{color: customTheme.colors.primary, fontWeight: '700',fontSize: f(1.8)}}>PKR {product.price}</Text>
+                  <Heading text={product.itemDetail.name} alignStyle={{fontSize: f(1.8), fontWeight: '700'}} />
+                  <Text style={{color: customTheme.colors.primary, fontWeight: '700',fontSize: f(1.8)}}>PKR {product.itemDetail.price !== 0 ? product.itemDetail.price : 0 }</Text>
                   <View style={{flexDirection: 'row'}}>
+                  <TouchableOpacity 
+                    onPress={() => removeCart(product.itemDetail.id)}
+                  >
                     <Heading text="Remove Item"  alignStyle={{fontSize: f(1.8), paddingBottom: h(1.5), color: 'black', marginRight: 10}} />
+                  </TouchableOpacity>
                     <Icon name="information" size={22} color="lightgray" />
                   </View>
                 </View>
@@ -163,26 +158,26 @@ export default function CartPage() {
                   <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                     <IconButton
                       icon="minus"
-                      onPress={() => decrementQuantity(product.id)}
+                      onPress={() => decrementQuantity(product.itemDetail.id)}
                       
                       containerColor="#f2f2f2"
                       iconColor="black"
                       size={24}
                     />
-                    <Text style={{color: 'black',fontSize: 16}}>{quantities[product.id] || 0}</Text>
+                    <Text style={{color: 'black',fontSize: 16}}>{quantities[product.itemDetail.id] || 0}</Text>
                     <IconButton 
                       icon="plus"
                       containerColor="#f2f2f2"
                       iconColor="black"
                       size={24}
-                      onPress={() => incrementQuantity(product.id)} 
+                      onPress={() => incrementQuantity(product.itemDetail.id)} 
                     />
                   </View>
                 </View>
               </View>
             ))}
             <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: h(3)}}>
-              <Text style={{color: customTheme.colors.primary, fontWeight: '800', fontSize: f(1.8)}}>+ Add More Items</Text>
+              <Text style={{color: customTheme.colors.primary, fontWeight: '800', fontSize: f(1.8)}}><Link href={"/menu"}>+ Add More Items</Link></Text>
             </View>
             </View>
         </View>
@@ -202,18 +197,19 @@ export default function CartPage() {
           <View style={{paddingHorizontal: w(5), marginBottom: 20}}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15}}>
               <Text style={{color: '#767676', fontSize: f(1.6)}}>SubTitle</Text>
-              <Text style={{color: '#767676', fontWeight: '300', fontSize: f(1.6)}}>PKR 1500</Text>
+              <Text style={{color: '#767676', fontWeight: '300', fontSize: f(1.6)}}>PKR {subtotal}</Text>
             </View>
             
             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <Text style={{color: '#767676', fontSize: f(1.6)}}>GST 15%</Text>
-              <Text style={{color: '#767676', fontWeight: '300', fontSize: f(1.6)}}>PKR 150</Text>
+              <Text style={{color: '#767676', fontWeight: '300', fontSize: f(1.6)}}>PKR {GST}</Text>
             </View>
           </View>
 
           <AddToCartButton
             buttonLabel="Proceed to Checkout"
             leftContentType="price"
+            totalPrice= { GST + subtotal }
             buttonStyle={{paddingVertical: h(1.2)}}
             labelStyle={{fontSize: f(2), textTransform: 'uppercase'}}
             buttonType="link"

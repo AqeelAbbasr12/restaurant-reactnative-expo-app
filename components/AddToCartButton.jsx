@@ -3,28 +3,18 @@ import { View, StyleSheet } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
 import { customTheme } from "@/utils/theme";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
-import { Link } from "expo-router";
+import { router } from "expo-router";
 
-export const AddToCartButton = ({buttonLabel, leftContentType, buttonStyle, labelStyle, buttonType}) => {
+export const AddToCartButton = ({buttonLabel, leftContentType, buttonStyle, labelStyle, buttonType, onButtonPress, decrementQuantity, incrementQuantity, quantity, totalPrice}) => {
   const { w,h,f } = useResponsiveScreen();
-  const [quantity, setQuantity] = useState(1); 
-
-  const incrementQuantity = () => {
-    setQuantity(quantity + 1);
-  };
-
-  const decrementQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
-  };
+  
 
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
       { leftContentType === 'price' ?
       <View style={{width: '25%', paddingLeft: h(2.4)}}>
         <Text style={{color: '#767676', fontSize: f(1.6), marginBottom: 6}}>Total</Text>
-        <Text style={{color: customTheme.colors.primary, fontWeight: '700', fontSize: f(1.7)}}>PKR 1650</Text>
+        <Text style={{color: customTheme.colors.primary, fontWeight: '700', fontSize: f(1.7)}}>PKR {totalPrice}</Text>
       </View>
       :   
       <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '25%'}}>
@@ -47,13 +37,16 @@ export const AddToCartButton = ({buttonLabel, leftContentType, buttonStyle, labe
       }
       <View style={{width: '65%'}}>
         { buttonType === 'link' ? 
-          <Button mode="contained" style={[buttonStyle, {borderTopLeftRadius: 50, borderBottomLeftRadius: 50, width: '100%'}]} labelStyle={[labelStyle, {color: '#fff'}]}>
-            <Link href={"/checkout"}>
+          <Button mode="contained" style={[buttonStyle, {borderTopLeftRadius: 50, borderBottomLeftRadius: 50, width: '100%'}]} labelStyle={[labelStyle, {color: '#fff'}]} 
+            onPress={() => router.navigate('/checkout')}
+            >
               {buttonLabel}
-            </Link>
           </Button>
         : 
-        <Button mode="contained" style={[buttonStyle, {borderTopLeftRadius: 50, borderBottomLeftRadius: 50, width: '100%'}]} labelStyle={[labelStyle, {color: '#fff'}]}>
+        <Button mode="contained" 
+          style={[buttonStyle, {borderTopLeftRadius: 50, borderBottomLeftRadius: 50, width: '100%'}]} 
+          labelStyle={[labelStyle, {color: '#fff'}]}
+          onPress={onButtonPress}>
           {buttonLabel}
         </Button>
         }

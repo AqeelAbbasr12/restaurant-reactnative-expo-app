@@ -10,5 +10,6 @@ import { Screen } from './Screen';
 import { SplashScreen } from './SplashScreen';
 import { OptionComponent } from './OptionsScreen';
 import { AddToCartButton } from './AddToCartButton';
+import { Customization } from './Customization';
 
-export { ButtonComponent, CardComponent, Drawer, Header, Heading, HomeComponent, InputComponent, Location, Screen, SplashScreen, OptionComponent, AddToCartButton }
+export { ButtonComponent, CardComponent, Drawer, Header, Heading, HomeComponent, InputComponent, Location, Screen, SplashScreen, OptionComponent, AddToCartButton, Customization }

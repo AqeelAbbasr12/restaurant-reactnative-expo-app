@@ -5,6 +5,7 @@ import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 import { customTheme } from "../utils/theme";
 
 export const OptionComponent = ({
+  onChange,
   text,
   price,
   id
@@ -15,11 +16,11 @@ export const OptionComponent = ({
   const [error, setError] = useState(false);
 
   return (
-    <View style={{ marginBottom: h(1) }}>
+    // <View style={{ marginBottom: h(1) }}>
       <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value}>
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
           <View  style={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-            <RadioButton value={text} color={customTheme.colors.primary} uncheckedColor={customTheme.colors.primary} />
+            <RadioButton value={id} color={customTheme.colors.primary} uncheckedColor={customTheme.colors.primary} />
             <Text style={{color: 'black'}}>{text}</Text>
           </View>
           <View>
@@ -27,7 +28,7 @@ export const OptionComponent = ({
           </View>
         </View>
       </RadioButton.Group>
-      {error && <HelperText type="error">{helperText}</HelperText>}
-    </View>
+      // {error && <HelperText type="error">{helperText}</HelperText>}
+    // </View>
   );
 };

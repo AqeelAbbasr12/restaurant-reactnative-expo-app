@@ -8,6 +8,7 @@ import {
   CardComponent,
   Location,
 } from "@/components";
+import { Badge } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { customTheme } from "@/utils/theme";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
@@ -90,14 +91,20 @@ export default function HomePage() {
           style={{
             display: "flex",
             flexDirection: "row",
+            alignContent: "center",
             gap: w(3),
           }}
         >
-          <Icon
-            name="cart-outline"
-            size={30}
-            color={customTheme.colors.iconColorDark}
-          />
+          <TouchableOpacity 
+            onPress={() => router.navigate('/cart')}
+          >
+
+            <Icon
+              name="cart-outline"
+              size={30}
+              color={customTheme.colors.iconColorDark}
+              ></Icon>
+          </TouchableOpacity>
           <Icon
             name="bell-outline"
             size={30}

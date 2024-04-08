@@ -1,18 +1,42 @@
 import { View, StyleSheet, Image, ScrollView } from "react-native";
-import { Text } from "react-native-paper";
+import { Text, RadioButton } from "react-native-paper";
 import { Heading } from "@/components/Heading";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { customTheme } from "@/utils/theme";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 import { Header } from "@/components/Header";
-import { useEffect } from "react";
-import { OptionComponent } from "@/components";
+import { useEffect, useState } from "react";
+import { 
+  OptionComponent,
+  AddToCartButton,
+  Customization
+} from "@/components";
 import { Link, useLocalSearchParams } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMenuDetail } from "@/store/menu/menuSlice";
+import { addTocart } from "@/store/order/orderSlice";
 
 
 export default function MenuPage() {
+  const [quantity, setQuantity] = useState(1); 
+  const [selectedOptions, setSelectedOptions] = useState({});
+
+  const handleOptionSelect = (customizationId, option) => {
+    setSelectedOptions(prevSelectedOptions => ({
+      ...prevSelectedOptions,
+      [customizationId]: option,
+    }));
+  };
+  const incrementQuantity = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const decrementQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
   const { id } = useLocalSearchParams();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -21,6 +45,16 @@ export default function MenuPage() {
   const itemDetail = useSelector((state) => state.menu.menuDetail);
   
   const { w,h,f } = useResponsiveScreen();
+  
+  const addToCartAction = () => {
+    const data = {
+      quantity,
+      itemDetail,
+      selectedOptions,
+    }
+    dispatch(addTocart(data));
+  }
+
 
   return (
     <View>
@@ -59,11 +93,13 @@ export default function MenuPage() {
                 gap: w(3),
               }}
             >
-              <Icon
-                name="cart-outline"
-                size={35}
-                color={customTheme.colors.iconColorWhite}
-              />
+              <Link href={'/cart'}>
+                <Icon
+                  name="cart-outline"
+                  size={35}
+                  color={customTheme.colors.iconColorWhite}
+                  />
+              </Link>
             </View>
           </Header>
           <View 
@@ -95,67 +131,16 @@ export default function MenuPage() {
             {itemDetail.description}
           </Text>
           {/* {itemDetail} */}
-          { itemDetail.customizations?.map((item) => (
-            <View style={{ marginVertical: h(1)}} key={item.id}>
-              <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                <Heading text={item.name} alignStyle={{fontSize: f(1.8)}}></Heading>
-                <Text style={{ fontSize: f(1.3), color: 'black'}}>Choose only 1 (Required)</Text>
-              </View>
-              {item.options.map((option) => (
-                <View style={{marginTop: h(1)}}>
-                  <OptionComponent text={option.name} price={option.price} id={option.id}></OptionComponent>
-                </View>
-              ))}
-            </View>
+          {itemDetail?.customizations?.map(customization => (
+            <Customization key={customization.id} customization={customization} 
+            onOptionSelect={handleOptionSelect} 
+            selectedOption={selectedOptions[customization.id]}
+            />
           ))}
           
-          {/* <View style={{ marginVertical: h(1)}}>
-            <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Heading text="Choose your Dip" alignStyle={{fontSize: f(1.8)}}></Heading>
-              <Text style={{ fontSize: f(1.3), color: 'black'}}>Choose only 1 (Optional)</Text>
-            </View>
-            <View style={{marginTop: h(1)}}>
-              <OptionComponent text="Single Patty Beef" price="650"></OptionComponent>
-              <OptionComponent  text="Double Patty Beef" price="910"></OptionComponent>
-              <OptionComponent  text="Triple Patty Beef" price="1170"></OptionComponent>
-            </View>
-          </View>
-          <View style={{ marginVertical: h(1)}}>
-            <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Heading text="Choose your Dip" alignStyle={{fontSize: f(1.8)}}></Heading>
-              <Text style={{ fontSize: f(1.3), color: 'black'}}>Choose only 1 (Optional)</Text>
-            </View>
-            <View style={{marginTop: h(1)}}>
-              <OptionComponent text="Single Patty Beef" price="650"></OptionComponent>
-              <OptionComponent  text="Double Patty Beef" price="910"></OptionComponent>
-              <OptionComponent  text="Triple Patty Beef" price="1170"></OptionComponent>
-            </View>
-          </View>
-          <View style={{ marginVertical: h(1)}}>
-            <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Heading text="Choose your Dip" alignStyle={{fontSize: f(1.8)}}></Heading>
-              <Text style={{ fontSize: f(1.3), color: 'black'}}>Choose only 1 (Optional)</Text>
-            </View>
-            <View style={{marginTop: h(1)}}>
-              <OptionComponent text="Single Patty Beef" price="650"></OptionComponent>
-              <OptionComponent  text="Double Patty Beef" price="910"></OptionComponent>
-              <OptionComponent  text="Triple Patty Beef" price="1170"></OptionComponent>
-            </View>
-          </View>
-          <View style={{ marginVertical: h(1)}}>
-            <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Heading text="Choose your Dip" alignStyle={{fontSize: f(1.8)}}></Heading>
-              <Text style={{ fontSize: f(1.3), color: 'black'}}>Choose only 1 (Optional)</Text>
-            </View>
-            <View style={{marginTop: h(1)}}>
-              <OptionComponent text="Single Patty Beef" price="650"></OptionComponent>
-              <OptionComponent  text="Double Patty Beef" price="910"></OptionComponent>
-              <OptionComponent  text="Triple Patty Beef" price="1170"></OptionComponent>
-            </View>
-          </View> */}
         </View>
       </ScrollView>
-      <View 
+      {/* <View 
         style={{
           backgroundColor: customTheme.colors.primary, 
           paddingVertical: h(3), 
@@ -168,7 +153,32 @@ export default function MenuPage() {
           width: '100%'
         }}>
           <Text>Cart is currently not available!</Text>
+      </View> */}
+      <View 
+        style={{
+          display: 'flex', 
+          flexDirection: 'row', 
+          justifyContent: 'space-between',
+          position: 'absolute',
+          zIndex: 1000,
+          bottom: 10,
+          width: '100%'
+        }}>
+          <View style={{width: '100%', paddingLeft: 15}}>
+            <AddToCartButton
+              buttonLabel="Add To Cart"
+              leftContentType="quantity"
+              buttonStyle={{paddingVertical: h(1.2)}}
+              labelStyle={{fontSize: f(2), textTransform: 'uppercase'}}
+              buttonType="cart"
+              onButtonPress={addToCartAction}
+              incrementQuantity={incrementQuantity}
+              decrementQuantity={decrementQuantity}
+              quantity={quantity}
+              ></AddToCartButton>
+          </View>
         </View>
+      
     </View>
   );
 }
