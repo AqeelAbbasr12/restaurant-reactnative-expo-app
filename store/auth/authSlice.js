@@ -1,8 +1,10 @@
 import { buildCreateSlice, asyncThunkCreator } from '@reduxjs/toolkit';
 import { Api } from "@/utils/utils"
 
+const Api_route = process.env.EXPO_PUBLIC_API_URL ?? Api.route;
+
 const login = async (data) => {
-    const res = await fetch(`${Api.route}/login`, {
+    const res = await fetch(`${Api_route}/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -13,7 +15,7 @@ const login = async (data) => {
 }
 
 const refreshToken = async (data) => {
-    const res = await fetch(`${Api.route}/refresh`, {
+    const res = await fetch(`${Api_route}/refresh`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -42,7 +44,7 @@ const authSlice = createSliceWithThunks({
         }),
         registerUser: create.asyncThunk(
             async (data) => {
-                const res = await fetch(`${Api.route}/register`, {
+                const res = await fetch(`${Api_route}/register`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

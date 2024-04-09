@@ -16,7 +16,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.aqeel.restaurantreactnativeexpoapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -41,6 +42,14 @@
             "./assets/fonts/Montserrat-SemiBold.ttf",
             "./assets/fonts/Montserrat-Thin.ttf"
           ]
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
         }
       ]
     ],
