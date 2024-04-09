@@ -4,7 +4,7 @@ import { Api } from "@/utils/utils"
 const Api_route = process.env.EXPO_PUBLIC_API_URL ?? Api.route;
 
 const fetchMenuData = async () => {
-  const res = await fetch(`$Api_route}/api/menu`, {
+  const res = await fetch(`${Api_route}/api/menu`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -13,7 +13,7 @@ const fetchMenuData = async () => {
   return res
 }
 const fetchCategoryData = async () => {
-  const res = await fetch(`$Api_route}/api/category`, {
+  const res = await fetch(`${Api_route}/api/category`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ const authSlice = createSliceWithThunks({
     ),
     fetchMenuDetail: create.asyncThunk(
       async (data) => {
-        const res = await fetch(`$Api_route}/api/menu/${data}`, {
+        const res = await fetch(`${Api_route}/api/menu/${data}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
