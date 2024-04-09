@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { Text } from "react-native";
 import { SplashScreen as CustomSplashScreen } from "@/components/SplashScreen";
 import { Stack } from "expo-router";
-import { store } from "@/store";
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from "@/store";
 import { Provider } from "react-redux";
 import { PaperProvider } from "react-native-paper";
 import { customTheme } from "@/utils/theme";
@@ -54,12 +56,14 @@ const RootLayout = () => {
 
   return (
     <Provider store={store}>
-      <PaperProvider theme={customTheme}>
-        <RouteAuth>
-          <StatusBar translucent hidden />
-          <Stack screenOptions={{ headerShown: false }} />
-        </RouteAuth>
-      </PaperProvider>
+      <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>
+        <PaperProvider theme={customTheme}>
+          <RouteAuth>
+            <StatusBar translucent hidden />
+            <Stack screenOptions={{ headerShown: false }} />
+          </RouteAuth>
+        </PaperProvider>
+      </PersistGate>
     </Provider>
   );
 };

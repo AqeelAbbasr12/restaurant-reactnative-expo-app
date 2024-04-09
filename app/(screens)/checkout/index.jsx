@@ -12,14 +12,16 @@ import {
 
 } from "@/components";
 import SelectDropdown from 'react-native-select-dropdown'
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
+import { useDispatch, useSelector } from "react-redux";
+import { placeOrder } from "@/store/order/orderSlice";
 
 export default function CheckoutPage() {
   const { w,h,f } = useResponsiveScreen();
   const [cityName, setCityName] = useState('');
   const [area , setArea] = useState('');
   const [completeAddress , setCompleteAddress] = useState('');
-  const [specialNote , setSpecialNote] = useState('');
+  const [zipCode , setZipCode] = useState('');
   const [name , setName] = useState('');
   const [email , setEmail] = useState('');
   const [phoneNumber , setPhoneNumber] = useState('');
@@ -28,15 +30,58 @@ export default function CheckoutPage() {
   const [checkoutType, setCheckoutType] = useState('delivery');
   const [isSummaryVisible, setIsSummaryVisible] = useState(false);
   const [paymentType, setPaymentType] = useState('cod');
+  const token = useSelector((state) => state.auth.accessToken);
+  
+  const cartItems = useSelector((state) => state.order.cartData);
+  const dispatch = useDispatch();
+  let subtotal = 0;
+  cartItems.forEach(item => {
+    subtotal += item.quantity * item.itemDetail.price; 
+    for (const key in item.selectedOptions) {
+      if (item.selectedOptions.hasOwnProperty(key)) {
+        const option = item.selectedOptions[key];
+        subtotal += item.quantity * option.price;
+      }
+    }
+  });
+  const GST = subtotal * 0.15;
 
-  const handlePlaceOrder = () => {
-    alert('Place ORder Pressed')
+  const handlePlaceOrder = async () => {
+    const orderData = {
+
+      items: cartItems.map(cartItem => ({
+        menuItemId: cartItem.itemDetail.id,
+        quantity: cartItem.quantity,
+        selectedOptions: Object.keys(cartItem.selectedOptions).map(customizationId => ({
+          menuItemCustomizationId: Number(customizationId), 
+          selectedMenuOptionId: cartItem.selectedOptions[customizationId].id,
+          selectedMenuSubOptionId: null,
+        }))
+      })),
+      orderTime: new Date().toISOString(),
+      shipping: 0,
+      address: {
+        streetAddress: completeAddress,
+        zipCode: zipCode,
+        city: cityName
+      },
+      type: "Delivery"
+    };
+
+    const data = {
+      orderData,
+      token
+    }
+    await dispatch(placeOrder(data));
+    router.navigate('/');
   };
   const toggleSummaryVisibility = () => {
     setIsSummaryVisible(!isSummaryVisible);
   };
   const cities = ["Islamabad", "Lahore"]
   const areaData = ["DHA Lahore", "Johar Town", "Model Town", "Cantt Lahore"]
+
+
   return (
     <View style={{backgroundColor: 'white'}}>
       <ScrollView showsVerticalScrollIndicator={false} style={{height: '100%'}}>
@@ -128,7 +173,7 @@ export default function CheckoutPage() {
                 rowStyle={styles.dropdown1RowStyle}
                 rowTextStyle={styles.dropdown1RowTxtStyle}
               />
-              <SelectDropdown
+              {/* <SelectDropdown
                 data={areaData}
                 onSelect={(selectedItem, index) => {
                   setArea(selectedItem)
@@ -150,7 +195,7 @@ export default function CheckoutPage() {
                 rowStyle={styles.dropdown1RowStyle}
                 rowTextStyle={styles.dropdown1RowTxtStyle}
                 searchPlaceHolderColor={{color: 'red'}}
-              />
+              /> */}
               <InputComponent
                 mode="outlined"
                 label=""
@@ -169,11 +214,11 @@ export default function CheckoutPage() {
               <InputComponent
                 mode="outlined"
                 label=""
-                placeholder="Write special note"
-                value={specialNote}
-                onChangeText={setSpecialNote}
-                error={error && !specialNote}
-                helperText="Special note is required"
+                placeholder="Write your zipcode"
+                value={zipCode}
+                onChangeText={setZipCode}
+                error={error && !zipCode}
+                helperText="zipcode is required"
                 placeholderTextColor="lightgray"
                 style={{
                   backgroundColor: "transparent",
@@ -316,19 +361,29 @@ export default function CheckoutPage() {
                   <Icon name={isSummaryVisible ? "chevron-up" : "chevron-down"} size={30} color="#44a0df" />
                 </TouchableOpacity>
               </View>
-              <Heading text="PKR 999" alignStyle={{fontSize: f(1.8), fontWeight: 800}}></Heading>
+              <View>
+                <Text style={{color: customTheme.colors.textDark, fontSize: f(1.8), fontWeight: 800}}>
+                  PKR {GST + subtotal}
+                </Text>
+              </View>
             </View>
             { isSummaryVisible  &&
             <View 
-              style={{
-                flexDirection: 'row', 
+              style={{ 
                 justifyContent: 'space-between', 
                 paddingHorizontal: w(3), 
                 backgroundColor: '#ddd', 
                 paddingVertical: h(2)
               }}
             >
-              <Text style={{color: '#000'}}>Cart Summary will show here</Text>
+              <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingBottom: 7}}>
+                <Text style={{color: 'black'}}>Subtotal</Text>
+                <Text style={{color: 'black'}}>{subtotal}</Text>
+              </View>
+              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={{color: 'black'}}>GST 15%</Text>
+                <Text style={{color: 'black'}}>{GST}</Text>
+              </View>
             </View>
             }
           <View style={{paddingHorizontal: w(3), marginBottom: 20, marginTop: 20, backgroundColor: 'white'}}>
@@ -360,6 +415,5 @@ const styles = StyleSheet.create({
   },
   dropdown1BtnTxtStyle: {color: '#444', textAlign: 'left'},
   dropdown1DropdownStyle: {backgroundColor: '#EFEFEF'},
-  // dropdown1RowStyle: {backgroundColor: '#EFEFEF', borderBottomColor: '#C5C5C5'},
   dropdown1RowTxtStyle: {color: '#444', textAlign: 'left'},
 });

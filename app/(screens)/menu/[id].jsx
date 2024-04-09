@@ -90,11 +90,15 @@ export default function MenuPage() {
             gap: w(3),
           }}
         >
-          <Icon
+          <TouchableOpacity 
+            onPress={() => router.navigate('/cart')}
+          >
+            <Icon
             name="cart-outline"
             size={30}
             color={customTheme.colors.iconColorDark}
-          />
+            />
+            </TouchableOpacity>
         </View>
       </Header>
       <View style={{ paddingRight: w(7) }}>

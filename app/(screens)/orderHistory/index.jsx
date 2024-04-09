@@ -74,7 +74,7 @@ export default function OrderHistory() {
           </Header>
         </View>
         <View style={{paddingVertical: h(6), paddingHorizontal: w(4), flexDirection: 'column'}}>
-          {productsList.map((product, index) => (
+          {productsList?.map((product, index) => (
             <>
               { expanded !== index && (
                 <View 

@@ -27,6 +27,7 @@ export default function MenuPage() {
   const [error, setError] = useState();
 
   var menuItems = useSelector((state) => state.menu.menuData);
+  var categoryMenu = useSelector((state) => state.menu.catgeoryData);
   const handleSearch = (query) =>{
     setSearchQuery(query);
     menuItems = menuItems.filter(item =>
@@ -71,7 +72,7 @@ export default function MenuPage() {
   return (
     <Screen
       SideBarIcons={SideBarIcons}
-      sideBarItems={["All", ...menuItems.map((items) => items.name)]}
+      sideBarItems={["All", ...categoryMenu.map((items) => items.name)]}
       sidebarItemsMargin={5}
       calculateTextWidth={calculateTextWidth_MENU}
       sidebarTopMargin={10}
@@ -86,11 +87,15 @@ export default function MenuPage() {
             gap: w(3),
           }}
         >
+          <TouchableOpacity 
+            onPress={() => router.navigate('/cart')}
+          >
           <Icon
             name="cart-outline"
             size={30}
             color={customTheme.colors.iconColorDark}
-          />
+            />
+          </TouchableOpacity>
         </View>
       </Header>
       <View style={{ paddingRight: w(7) }}>

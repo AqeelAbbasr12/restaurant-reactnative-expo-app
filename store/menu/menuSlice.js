@@ -1,10 +1,8 @@
 import { buildCreateSlice, asyncThunkCreator } from '@reduxjs/toolkit';
 import { Api } from "@/utils/utils"
 
-const Api_route = process.env.EXPO_PUBLIC_API_URL ?? Api.route;
-
 const fetchMenuData = async () => {
-  const res = await fetch(`${Api_route}/api/menu`, {
+  const res = await fetch(`${Api.route}/api/menu`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -13,7 +11,7 @@ const fetchMenuData = async () => {
   return res
 }
 const fetchCategoryData = async () => {
-  const res = await fetch(`${Api_route}/api/category`, {
+  const res = await fetch(`${Api.route}/api/category`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -34,6 +32,7 @@ const authSlice = createSliceWithThunks({
     catgeoryData: [],
     menuData: [],
     menuDetail: [],
+    branches: [],
   },
   reducers: (create) => ({
     fetchCategories: create.asyncThunk(
@@ -92,7 +91,7 @@ const authSlice = createSliceWithThunks({
     ),
     fetchMenuDetail: create.asyncThunk(
       async (data) => {
-        const res = await fetch(`${Api_route}/api/menu/${data}`, {
+        const res = await fetch(`${Api.route}/api/menu/${data}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -120,8 +119,38 @@ const authSlice = createSliceWithThunks({
       }
     ),
 
+    fetchBranches: create.asyncThunk(
+      async (data) => {
+        const res = await fetch(`${Api.route}/api/branches`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if (res.status === 200) {
+          const jsonData = await res.json();
+          return jsonData;
+        }
+        return null;
+      },
+      {
+        pending: (state) => {
+          state.loading = true
+        },
+        rejected: (state, action) => {
+          state.error = action.payload ?? action.error
+        },
+        fulfilled: (state, action) => {
+          state.branches = action.payload;
+        },
+        settled: (state, action) => {
+          state.loading = false
+        }
+      }
+    ),
+
   }),
 });
 
-export const { fetchMenus, fetchCategories, fetchMenuDetail } = authSlice.actions;
+export const { fetchMenus, fetchCategories, fetchMenuDetail, fetchBranches } = authSlice.actions;
 export default authSlice.reducer;
