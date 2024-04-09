@@ -1,101 +1,103 @@
 import { buildCreateSlice, asyncThunkCreator } from '@reduxjs/toolkit';
 import { Api } from "@/utils/utils";
 
+const Api_route = process.env.EXPO_PUBLIC_API_URL ?? Api.route;
+
 const fetchOrderData = async (token) => {
-  const res = await fetch(`${Api.route}/api/orders`, {
-      method: 'GET',
-      headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-      },
+  const res = await fetch(`${Api_route}/api/orders`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
   });
   return res
 }
 
 const orderDetailData = async (token, id) => {
-  const res = await fetch(`${Api.route}/api/order/${id}`, {
+  const res = await fetch(`${Api_route}/api/order/${id}`, {
     method: 'GET',
     headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
     },
   });
   return res
 }
 
 const createSliceWithThunks = buildCreateSlice({
-    creators: { asyncThunk: asyncThunkCreator },
+  creators: { asyncThunk: asyncThunkCreator },
 });
 
 const orderSlice = createSliceWithThunks({
-    name: 'menu',
-    initialState: {
-        loading: false,
-        error: null,
-        orderData: [],
-        menuData: [],
-        orderDetail: [],
-    },
-    reducers: (create) => ({
-      fetchOrders: create.asyncThunk(
-        async (data) => {
-          const res = await fetchOrderData(data);
-          
-          if (res.status === 200) {
-            const jsonData = await res.json(); 
-            return jsonData; 
-          } 
-          
-          return null;
+  name: 'menu',
+  initialState: {
+    loading: false,
+    error: null,
+    orderData: [],
+    menuData: [],
+    orderDetail: [],
+  },
+  reducers: (create) => ({
+    fetchOrders: create.asyncThunk(
+      async (data) => {
+        const res = await fetchOrderData(data);
 
-        },
-        {
-          pending: (state) => {
-              state.loading = true
-          },
-          rejected: (state, action) => {
-              state.error = action.payload ?? action.error
-          },
-          fulfilled: (state, action) => {
-            state.orderData = action.payload;
-          },
-          settled: (state, action) => {
-              state.loading = false
-          }
+        if (res.status === 200) {
+          const jsonData = await res.json();
+          return jsonData;
         }
-      ),
-      fetchOrdersDetail: create.asyncThunk(
-        async (data) => {
-          const res = await fetch(`${Api.route}/api/orders/${data.id}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${data.token}`
-            },
-          });
-          if (res.status === 200) {
-            const jsonData = await res.json(); 
-            return jsonData; 
-          } 
-          return null;
+
+        return null;
+
+      },
+      {
+        pending: (state) => {
+          state.loading = true
         },
-        {
-          pending: (state) => {
-              state.loading = true
-          },
-          rejected: (state, action) => {
-              state.error = action.payload ?? action.error
-          },
-          fulfilled: (state, action) => {
-            state.orderDetail = action.payload;
-          },
-          settled: (state, action) => {
-              state.loading = false
-          }
+        rejected: (state, action) => {
+          state.error = action.payload ?? action.error
+        },
+        fulfilled: (state, action) => {
+          state.orderData = action.payload;
+        },
+        settled: (state, action) => {
+          state.loading = false
         }
-      ),
-      
-    }),
+      }
+    ),
+    fetchOrdersDetail: create.asyncThunk(
+      async (data) => {
+        const res = await fetch(`${Api_route}/api/orders/${data.id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${data.token}`
+          },
+        });
+        if (res.status === 200) {
+          const jsonData = await res.json();
+          return jsonData;
+        }
+        return null;
+      },
+      {
+        pending: (state) => {
+          state.loading = true
+        },
+        rejected: (state, action) => {
+          state.error = action.payload ?? action.error
+        },
+        fulfilled: (state, action) => {
+          state.orderDetail = action.payload;
+        },
+        settled: (state, action) => {
+          state.loading = false
+        }
+      }
+    ),
+
+  }),
 });
 
 export const { fetchOrders, fetchOrdersDetail } = orderSlice.actions;
