@@ -78,7 +78,7 @@ export default function OrderHistory() {
             <>
               { expanded !== index && (
                 <View 
-                  style={[styles.container, { elevation: 6, marginBottom: h(3.5) }]} key={product.id}
+                  style={[styles.container, { elevation: 6, marginBottom: h(3.5) }]} key={index}
                 >
                   <View style={{width: '25%', borderRadius: 12}}>
                     <Image source={image} resizeMode="cover" style={{width:'100%', height: 80, borderRadius: 10}}></Image>
