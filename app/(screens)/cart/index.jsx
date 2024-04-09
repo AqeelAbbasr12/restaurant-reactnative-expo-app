@@ -16,8 +16,8 @@ import { removeCartItem, emptyCartItems, updateCartItemQuantity } from "@/store/
 export default function CartPage() {
   const { w,h,f } = useResponsiveScreen();
   const [quantities, setQuantities] = useState({}); 
-
-  const cartItems = useSelector((state) => state.order.cartData);
+  let cartItems = [];
+  cartItems = useSelector((state) => state.order.cartData);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -137,7 +137,7 @@ export default function CartPage() {
             <View>
             {cartItems?.map((product, index) => (
               <View 
-              style={styles.container} key={product.itemDetail.id}
+              style={styles.container} key={index}
               >
                 <View style={{width: '25%', borderRadius: 12}}>
                   <Image source={product.itemDetail.imageUrl ? {uri: product.itemDetail.imageUrl} : require("../../../assets/images/dish3.jpg") } resizeMode="cover" style={{width:'100%', height: 80, borderRadius: 10}}></Image>
@@ -205,14 +205,13 @@ export default function CartPage() {
               <Text style={{color: '#767676', fontWeight: '300', fontSize: f(1.6)}}>PKR {GST}</Text>
             </View>
           </View>
-
           <AddToCartButton
             buttonLabel="Proceed to Checkout"
             leftContentType="price"
             totalPrice= { GST + subtotal }
             buttonStyle={{paddingVertical: h(1.2)}}
             labelStyle={{fontSize: f(2), textTransform: 'uppercase'}}
-            buttonType="link"
+            buttonType={cartItems?.length > 0 ? 'link' : ''}
 
           ></AddToCartButton>
         </View>

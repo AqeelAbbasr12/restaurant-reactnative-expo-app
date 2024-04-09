@@ -12,7 +12,7 @@ export const Customization = ({ customization, selectedOption, onOptionSelect })
     <View style={styles.container}>
       <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
         <Heading text={customization.name} alignStyle={{fontSize: f(1.8)}}></Heading>
-        <Text style={{ fontSize: f(1.3), color: 'black'}}>Choose only 1 (Required)</Text>
+        {/* <Text style={{ fontSize: f(1.3), color: 'black'}}>Choose only 1 (Required)</Text> */}
       </View>
       {customization.options.map(option => (
         <View key={option.id} style={styles.optionContainer}>
