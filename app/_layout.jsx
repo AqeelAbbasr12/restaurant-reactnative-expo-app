@@ -7,26 +7,10 @@ import { store, persistor } from "@/store";
 import { Provider } from "react-redux";
 import { PaperProvider } from "react-native-paper";
 import { customTheme } from "@/utils/theme";
-import { useSelector } from "react-redux";
-import { router, usePathname } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { ToastProvider } from 'react-native-toast-notifications'
-
-// Route auth
-const RouteAuth = ({ children }) => {
-  const auth = useSelector((state) => state.auth.value);
-  useEffect(() => {
-    if (!auth) {
-      router.replace("/login");
-    } else {
-      router.replace("/");
-    }
-  }, [auth]);
-
-  return children;
-};
 
 const RootLayout = () => {
   const [loaded, error] = useFonts({
@@ -62,10 +46,8 @@ const RootLayout = () => {
       <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>
         <ToastProvider>
           <PaperProvider theme={customTheme}>
-            <RouteAuth>
-              <StatusBar translucent hidden />
-              <Stack screenOptions={{ headerShown: false }} />
-            </RouteAuth>
+            <StatusBar translucent hidden />
+            <Stack screenOptions={{ headerShown: false }} />
           </PaperProvider>
         </ToastProvider>
       </PersistGate>

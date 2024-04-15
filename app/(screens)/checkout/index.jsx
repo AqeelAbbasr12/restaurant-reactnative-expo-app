@@ -4,7 +4,7 @@ import { Text, RadioButton, Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { customTheme } from "@/utils/theme";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
-import { 
+import {
   Header,
   Heading,
   ButtonComponent,
@@ -15,33 +15,29 @@ import SelectDropdown from 'react-native-select-dropdown'
 import { Link, router } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 import { placeOrder } from "@/store/order/orderSlice";
-import { getRefreshToken } from "@/store/auth/authSlice";
 
 export default function CheckoutPage() {
-  const { w,h,f } = useResponsiveScreen();
+  const { w, h, f } = useResponsiveScreen();
   const [cityName, setCityName] = useState('');
-  const [area , setArea] = useState('');
-  const [completeAddress , setCompleteAddress] = useState('');
-  const [zipCode , setZipCode] = useState('');
-  const [name , setName] = useState('');
-  const [email , setEmail] = useState('');
-  const [phoneNumber , setPhoneNumber] = useState('');
-  const [addPhoneNumber , setAddPhoneNumber] = useState('');
-  const [error , setError] = useState(false);
+  const [area, setArea] = useState('');
+  const [completeAddress, setCompleteAddress] = useState('');
+  const [zipCode, setZipCode] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [addPhoneNumber, setAddPhoneNumber] = useState('');
+  const [error, setError] = useState(false);
   const [checkoutType, setCheckoutType] = useState('delivery');
   const [isSummaryVisible, setIsSummaryVisible] = useState(false);
   const [paymentType, setPaymentType] = useState('cod');
   const token = useSelector((state) => state.auth.accessToken);
-  const refreshToken = useSelector((state) => state.auth.refreshToken);
-  
+
   const cartItems = useSelector((state) => state.order.cartData);
   const dispatch = useDispatch();
-  useEffect(() => {
-    // dispatch(getRefreshToken(refreshToken));
-  }, [dispatch]);
+
   let subtotal = 0;
   cartItems.forEach(item => {
-    subtotal += item.quantity * item.itemDetail.price; 
+    subtotal += item.quantity * item.itemDetail.price;
     for (const key in item.selectedOptions) {
       if (item.selectedOptions.hasOwnProperty(key)) {
         const option = item.selectedOptions[key];
@@ -52,7 +48,7 @@ export default function CheckoutPage() {
   const GST = subtotal * 0.15;
 
   const handlePlaceOrder = async () => {
-    if(!completeAddress || !zipCode || !cityName){
+    if (!completeAddress || !zipCode || !cityName) {
       setError(true);
       // return;
     } else {
@@ -62,7 +58,7 @@ export default function CheckoutPage() {
           menuItemId: cartItem.itemDetail.id,
           quantity: cartItem.quantity,
           selectedOptions: Object.keys(cartItem.selectedOptions).map(customizationId => ({
-            menuItemCustomizationId: Number(customizationId), 
+            menuItemCustomizationId: Number(customizationId),
             selectedMenuOptionId: cartItem.selectedOptions[customizationId].id,
             selectedMenuSubOptionId: null,
           }))
@@ -93,25 +89,25 @@ export default function CheckoutPage() {
 
 
   return (
-    <View style={{backgroundColor: 'white'}}>
-      <ScrollView showsVerticalScrollIndicator={false} style={{height: '100%'}}>
-        <View 
-          style={{ 
+    <View style={{ backgroundColor: 'white' }}>
+      <ScrollView showsVerticalScrollIndicator={false} style={{ height: '100%' }}>
+        <View
+          style={{
             backgroundColor: '#fff',
             position: 'relative',
             zIndex: 1,
           }}>
-          <View 
-          style={{
-            backgroundColor: customTheme.colors.primary,
-            marginHorizontal: w(2),
-            borderBottomLeftRadius: 50,
-            borderBottomRightRadius: 50,
-            paddingVertical: h(3.2), 
-            paddingLeft: w(3),
-          }}>
+          <View
+            style={{
+              backgroundColor: customTheme.colors.primary,
+              marginHorizontal: w(2),
+              borderBottomLeftRadius: 50,
+              borderBottomRightRadius: 50,
+              paddingVertical: h(3.2),
+              paddingLeft: w(3),
+            }}>
             <Header>
-              <View 
+              <View
                 style={{
                   display: "flex",
                   flexDirection: "row",
@@ -119,21 +115,21 @@ export default function CheckoutPage() {
                   gap: w(3),
                 }}>
                 <Link href={"/cart"}>
-                  <Icon 
+                  <Icon
                     name="chevron-left"
                     size={f(4)}
                     color={customTheme.colors.iconColorWhite}
                   ></Icon>
                 </Link>
-                <Heading text="Checkout" alignStyle={{color: customTheme.colors.textWhite, fontSize: f(2.8)}} />
+                <Heading text="Checkout" alignStyle={{ color: customTheme.colors.textWhite, fontSize: f(2.8) }} />
               </View>
             </Header>
           </View>
         </View>
-        <View 
-          style={{ 
-            paddingHorizontal: w(5), 
-            paddingVertical: h(3), 
+        <View
+          style={{
+            paddingHorizontal: w(5),
+            paddingVertical: h(3),
             backgroundColor: 'white',
             borderBottomLeftRadius: 70,
             borderBottomRightRadius: 70,
@@ -147,19 +143,19 @@ export default function CheckoutPage() {
         >
           <View>
             <RadioButton.Group onValueChange={newValue => setCheckoutType(newValue)} value={checkoutType}>
-              <View style={{flexDirection: 'row'}}>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+              <View style={{ flexDirection: 'row' }}>
+                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                   <RadioButton value="delivery" color={customTheme.colors.primary} uncheckedColor={customTheme.colors.primary} />
-                  <Text style={{color: 'black', fontSize: f(1.5)}}>Delivery</Text>
+                  <Text style={{ color: 'black', fontSize: f(1.5) }}>Delivery</Text>
                 </View>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                   <RadioButton value="pickup" color={customTheme.colors.primary} uncheckedColor={customTheme.colors.primary} />
-                  <Text style={{color: 'black', fontSize: f(1.5)}}>Pick up</Text>
+                  <Text style={{ color: 'black', fontSize: f(1.5) }}>Pick up</Text>
                 </View>
               </View>
             </RadioButton.Group>
           </View>
-          { checkoutType === 'delivery' ?
+          {checkoutType === 'delivery' ?
             <View>
               <SelectDropdown
                 data={cities}
@@ -237,27 +233,27 @@ export default function CheckoutPage() {
                 outlineStyle={{ outlineColor: 'lightgray', borderColor: 'lightgray', borderWidth: 1.5, borderRadius: 6 }}
               />
             </View> : <View>
-              <Text style={{color: 'black', fontSize: f(3), textAlign: 'center', marginTop: h(4)}}>Pickup</Text>
+              <Text style={{ color: 'black', fontSize: f(3), textAlign: 'center', marginTop: h(4) }}>Pickup</Text>
             </View>
           }
-          <View style={{marginVertical: h(2)}}>
+          <View style={{ marginVertical: h(2) }}>
             <RadioButton.Group onValueChange={newValue => setPaymentType(newValue)} value={paymentType}>
-              <View style={{flexDirection: 'row'}}>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+              <View style={{ flexDirection: 'row' }}>
+                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                   <RadioButton value="cod" color={customTheme.colors.primary} uncheckedColor={customTheme.colors.primary} />
-                  <Text style={{color: 'black', fontSize: f(1.5), fontWeight: 700}}>Cash on Delivery</Text>
+                  <Text style={{ color: 'black', fontSize: f(1.5), fontWeight: 700 }}>Cash on Delivery</Text>
                 </View>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                   <RadioButton value="online" color={customTheme.colors.primary} uncheckedColor={customTheme.colors.primary} />
-                  <Text style={{color: 'black', fontSize: f(1.5), fontWeight: 700}}>Pay online (Credit/Debit)</Text>
+                  <Text style={{ color: 'black', fontSize: f(1.5), fontWeight: 700 }}>Pay online (Credit/Debit)</Text>
                 </View>
               </View>
             </RadioButton.Group>
           </View>
-          <View style={{marginVertical: 15}}>
-            <Heading text="Personal Information" alignStyle={{fontSize: f(2)}} />
+          <View style={{ marginVertical: 15 }}>
+            <Heading text="Personal Information" alignStyle={{ fontSize: f(2) }} />
           </View>
-          { paymentType === 'cod' ?
+          {paymentType === 'cod' ?
             <View>
               <InputComponent
                 mode="outlined"
@@ -324,91 +320,91 @@ export default function CheckoutPage() {
                 iconStyle={{ backgroundColor: "white", color: "black" }}
               />
             </View>
-            : 
+            :
             <View>
-              <Text style={{color: 'black', fontSize: f(2), textAlign: 'center', marginTop: h(4)}}>Card Details will show here</Text>
+              <Text style={{ color: 'black', fontSize: f(2), textAlign: 'center', marginTop: h(4) }}>Card Details will show here</Text>
             </View>
-              }
+          }
         </View>
       </ScrollView>
-      <View 
+      <View
+        style={{
+          display: 'flex',
+          position: 'absolute',
+          zIndex: 1000,
+          bottom: 0,
+          width: '100%',
+          backgroundColor: 'white',
+          borderTopWidth: 1,
+          borderTopColor: 'lightgrey'
+        }}>
+        <View
           style={{
-            display: 'flex', 
-            position: 'absolute',
-            zIndex: 1000,
-            bottom: 0,
-            width: '100%',
-            backgroundColor: 'white',
-            borderTopWidth: 1,
-            borderTopColor: 'lightgrey'
-          }}>
-            <View 
-              style={{
-                flexDirection: 'row', 
-                justifyContent: 'space-between',
-                alignItems: 'center', 
-                paddingHorizontal: w(3), 
-                backgroundColor: '#ebebeb', 
-                paddingVertical: h(1.8)
-              }}
-            >
-              <Heading text="Redeem Loyality Points" alignStyle={{fontSize: f(1.8)}}></Heading>
-              <Icon name="plus" size={30} />
-            </View>
-            <View 
-              style={{
-                flexDirection: 'row', 
-                justifyContent: 'space-between',
-                alignItems: 'center', 
-                paddingHorizontal: w(3), 
-                backgroundColor: '#f2f2f2', 
-                paddingVertical: h(2)
-              }}
-            >
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Heading text="Cart Summary" alignStyle={{fontSize: f(1.8), color: '#44a0df', marginBottom: 0}}></Heading>
-                <TouchableOpacity onPress={toggleSummaryVisibility} style={{paddingTop: 8}}>
-                  <Icon name={isSummaryVisible ? "chevron-up" : "chevron-down"} size={30} color="#44a0df" />
-                </TouchableOpacity>
-              </View>
-              <View>
-                <Text style={{color: customTheme.colors.textDark, fontSize: f(1.8), fontWeight: 800}}>
-                  PKR {GST + subtotal}
-                </Text>
-              </View>
-            </View>
-            { isSummaryVisible  &&
-            <View 
-              style={{ 
-                justifyContent: 'space-between', 
-                paddingHorizontal: w(3), 
-                backgroundColor: '#ddd', 
-                paddingVertical: h(2)
-              }}
-            >
-              <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingBottom: 7}}>
-                <Text style={{color: 'black'}}>Subtotal</Text>
-                <Text style={{color: 'black'}}>{subtotal}</Text>
-              </View>
-              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <Text style={{color: 'black'}}>GST 15%</Text>
-                <Text style={{color: 'black'}}>{GST}</Text>
-              </View>
-            </View>
-            }
-          <View style={{paddingHorizontal: w(3), marginBottom: 20, marginTop: 20, backgroundColor: 'white'}}>
-            <ButtonComponent 
-              mode="contained"
-              label="Place Order"
-              textColor="white"
-              textTransform="uppwercase"
-              labelStyle={{ textTransform: 'uppercase', fontWeight: 300, fontSize: 20 }}
-              style={{ color: 'white', borderRadius: 50, paddingVertical: 10, paddingHorizontal: 10 }}
-              backgroundColor={customTheme.colors.primary}
-              onPress={handlePlaceOrder}
-            />
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingHorizontal: w(3),
+            backgroundColor: '#ebebeb',
+            paddingVertical: h(1.8)
+          }}
+        >
+          <Heading text="Redeem Loyality Points" alignStyle={{ fontSize: f(1.8) }}></Heading>
+          <Icon name="plus" size={30} />
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingHorizontal: w(3),
+            backgroundColor: '#f2f2f2',
+            paddingVertical: h(2)
+          }}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Heading text="Cart Summary" alignStyle={{ fontSize: f(1.8), color: '#44a0df', marginBottom: 0 }}></Heading>
+            <TouchableOpacity onPress={toggleSummaryVisibility} style={{ paddingTop: 8 }}>
+              <Icon name={isSummaryVisible ? "chevron-up" : "chevron-down"} size={30} color="#44a0df" />
+            </TouchableOpacity>
+          </View>
+          <View>
+            <Text style={{ color: customTheme.colors.textDark, fontSize: f(1.8), fontWeight: 800 }}>
+              PKR {GST + subtotal}
+            </Text>
           </View>
         </View>
+        {isSummaryVisible &&
+          <View
+            style={{
+              justifyContent: 'space-between',
+              paddingHorizontal: w(3),
+              backgroundColor: '#ddd',
+              paddingVertical: h(2)
+            }}
+          >
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingBottom: 7 }}>
+              <Text style={{ color: 'black' }}>Subtotal</Text>
+              <Text style={{ color: 'black' }}>{subtotal}</Text>
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Text style={{ color: 'black' }}>GST 15%</Text>
+              <Text style={{ color: 'black' }}>{GST}</Text>
+            </View>
+          </View>
+        }
+        <View style={{ paddingHorizontal: w(3), marginBottom: 20, marginTop: 20, backgroundColor: 'white' }}>
+          <ButtonComponent
+            mode="contained"
+            label="Place Order"
+            textColor="white"
+            textTransform="uppwercase"
+            labelStyle={{ textTransform: 'uppercase', fontWeight: 300, fontSize: 20 }}
+            style={{ color: 'white', borderRadius: 50, paddingVertical: 10, paddingHorizontal: 10 }}
+            backgroundColor={customTheme.colors.primary}
+            onPress={handlePlaceOrder}
+          />
+        </View>
+      </View>
     </View>
   );
 }
@@ -423,7 +419,7 @@ const styles = StyleSheet.create({
     borderColor: 'lightgray',
     marginTop: 15,
   },
-  dropdown1BtnTxtStyle: {color: '#444', textAlign: 'left'},
-  dropdown1DropdownStyle: {backgroundColor: '#EFEFEF'},
-  dropdown1RowTxtStyle: {color: '#444', textAlign: 'left'},
+  dropdown1BtnTxtStyle: { color: '#444', textAlign: 'left' },
+  dropdown1DropdownStyle: { backgroundColor: '#EFEFEF' },
+  dropdown1RowTxtStyle: { color: '#444', textAlign: 'left' },
 });

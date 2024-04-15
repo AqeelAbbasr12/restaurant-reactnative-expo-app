@@ -13,8 +13,10 @@ import { router } from "expo-router";
 import { calculateTextWidth_MENU } from "@/utils/utils";
 import { useSelector, useDispatch } from "react-redux";
 import { registerUser } from "@/store/auth/authSlice";
+import { switchAuthScreen } from "@/store/auth/authSlice";
 
-export const  RegisterComponent = () => {
+
+export const RegisterComponent = () => {
   const { w, h, f } = useResponsiveScreen();
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -24,12 +26,6 @@ export const  RegisterComponent = () => {
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState(false);
-
-  useEffect(() => {
-    if(auth.accessToken) {
-      router.navigate('/');
-    }
-  },[auth])
 
   const handleLogin = () => {
     if (!password || !email) {
@@ -48,7 +44,7 @@ export const  RegisterComponent = () => {
   const sideBarItems = ["LOGIN", "SIGNUP"];
   const selecteSideBarItem = (item) => {
     if (item === "login") {
-      router.navigate("/login");
+      dispatch(switchAuthScreen("login"));
     }
   };
   return (

@@ -75,13 +75,12 @@ export const Drawer = () => {
     {
       name: 'LOGOUT',
       icon: 'logout',
-      link: '/login',
+      link: '/',
     },
   ];
 
   const menuAction = (item) => {
-    console.log(item);
-    if(item.name === 'LOGOUT') {
+    if (item.name === 'LOGOUT') {
       dispatch(logoutUser());
     }
     dispatch(setDrawer(false))
@@ -136,25 +135,25 @@ export const Drawer = () => {
               paddingHorizontal: w(3)
             }}
           >
-            <Text style={{fontSize: f(2.8)}}>ABC</Text>
-            <Text style={{fontSize: f(2), fontWeight: '300'}}>{auth?.user?.email}</Text>
+            <Text style={{ fontSize: f(2.8) }}>ABC</Text>
+            <Text style={{ fontSize: f(2), fontWeight: '300' }}>{auth?.user?.email}</Text>
           </View>
-            {sideBarItems.map((item, key) => (
-              <View style={{borderBottomWidth: 1, borderBottomColor: 'lightgrey', paddingVertical: h(2), paddingHorizontal: w(2.5)}} key={key}>
-                <Link href={item.link} onPress={() => menuAction(item)}>
-                  <View  style={{width: 35}}>
-                    <Icon
-                      name={item.icon}
-                      color={customTheme.colors.primary}
-                      size={30}
-                    />
-                  </View>
-                  <View>
-                    <Text style={{color: 'grey', fontSize: 20, textTransform: 'uppercase', paddingLeft: 17}}>{item.name}</Text>
-                  </View>
-                </Link>
-              </View>
-            ))}
+          {sideBarItems.map((item, key) => (
+            <View style={{ borderBottomWidth: 1, borderBottomColor: 'lightgrey', paddingVertical: h(2), paddingHorizontal: w(2.5) }} key={key}>
+              <Link href={item.link} onPress={() => menuAction(item)}>
+                <View style={{ width: 35 }}>
+                  <Icon
+                    name={item.icon}
+                    color={customTheme.colors.primary}
+                    size={30}
+                  />
+                </View>
+                <View>
+                  <Text style={{ color: 'grey', fontSize: 20, textTransform: 'uppercase', paddingLeft: 17 }}>{item.name}</Text>
+                </View>
+              </Link>
+            </View>
+          ))}
         </View>
       </Animated.View>
     </View>

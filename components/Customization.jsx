@@ -3,15 +3,15 @@ import { View, Text, StyleSheet } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 import { customTheme } from "@/utils/theme";
-import { Heading } from "@/components";
+import { Heading } from "@/components/Heading";
 
 export const Customization = ({ customization, selectedOption, onOptionSelect }) => {
-  const { w,h,f } = useResponsiveScreen();
+  const { w, h, f } = useResponsiveScreen();
 
   return (
     <View style={styles.container}>
-      <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-        <Heading text={customization.name} alignStyle={{fontSize: f(1.8)}}></Heading>
+      <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Heading text={customization.name} alignStyle={{ fontSize: f(1.8) }}></Heading>
         {/* <Text style={{ fontSize: f(1.3), color: 'black'}}>Choose only 1 (Required)</Text> */}
       </View>
       {customization.options.map(option => (
