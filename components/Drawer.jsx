@@ -6,8 +6,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { setDrawer } from "@/store/drawer/drawerSlice";
 import React, { useState, useEffect } from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { Text } from "react-native-paper";
+import { logoutUser } from "@/store/auth/authSlice";
 
 export const Drawer = () => {
   const drawerPosition = useState(new Animated.Value(0))[0];
@@ -78,6 +79,14 @@ export const Drawer = () => {
     },
   ];
 
+  const menuAction = (item) => {
+    console.log(item);
+    if(item.name === 'LOGOUT') {
+      dispatch(logoutUser());
+    }
+    dispatch(setDrawer(false))
+  }
+
   return (
     <View style={{ flex: 1, zIndex: 999 }}>
       {drawer && (
@@ -132,7 +141,7 @@ export const Drawer = () => {
           </View>
             {sideBarItems.map((item, key) => (
               <View style={{borderBottomWidth: 1, borderBottomColor: 'lightgrey', paddingVertical: h(2), paddingHorizontal: w(2.5)}} key={key}>
-                <Link href={item.link} onPress={() => dispatch(setDrawer(false))}>
+                <Link href={item.link} onPress={() => menuAction(item)}>
                   <View  style={{width: 35}}>
                     <Icon
                       name={item.icon}

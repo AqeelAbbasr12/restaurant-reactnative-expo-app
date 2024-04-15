@@ -139,10 +139,15 @@ const authSlice = createSliceWithThunks({
                     state.loading = false
                 }
             }
-        )
+        ),
+
+        logoutUser(state, action) {
+            state.accessToken = null;
+            state.refreshToken = null;
+        },
 
     }),
 });
 
-export const { registerUser, setUserLocation, loginUser, getRefreshToken } = authSlice.actions;
+export const { registerUser, setUserLocation, loginUser, getRefreshToken, logoutUser } = authSlice.actions;
 export default authSlice.reducer;
