@@ -56,7 +56,7 @@ export const HomePageComponent = () => {
   const accessToken = useSelector((state) => state.auth.accessToken);
   const authScreen = useSelector((state) => state.auth.authScreen);
 
-  const categories = useSelector((state) => state.menu.catgeoryData);
+  const products = useSelector((state) => state.menu.menuData);
   useEffect(() => {
     dispatch(fetchCategories());
     dispatch(fetchMenus());
@@ -82,7 +82,7 @@ export const HomePageComponent = () => {
   }
 
   const handleRedirect = (item) => {
-    router.navigate(`menu/${item.id}`);
+    router.navigate(`chooseItem/${item.id}`);
   };
   return (
     <Screen
@@ -132,7 +132,7 @@ export const HomePageComponent = () => {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
         >
-          {categories.map((item, key) => (
+          {products.slice(0, 2).map((item, key) => (
             <View
               style={{
                 marginRight: w(10),

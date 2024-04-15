@@ -32,9 +32,10 @@ export default function MenuPage() {
   const [filteredMenuItems, setFilteredMenuItems] = useState(menuItems);
   const handleSearch = (query) =>{
     setSearchQuery(query);
-    menuItems = menuItems.filter(item =>
+    const filteredItems = menuItems.filter(item =>
       item.name.toLowerCase().includes(query.toLowerCase())
     );
+    setFilteredMenuItems(filteredItems);
   }
   const img = require("../../../assets/images/menu/chicken_fry.png");
   const selecteSideBarItem = (item) => {

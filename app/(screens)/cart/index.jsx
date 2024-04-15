@@ -23,7 +23,7 @@ export default function CartPage() {
   useEffect(() => {
     const initialQuantities = {};
     cartItems.forEach(item => {
-      initialQuantities[item.itemDetail.id] = item.quantity;
+      initialQuantities[item.id] = item.quantity;
     });
     setQuantities(initialQuantities);
   }, []);
@@ -44,7 +44,11 @@ export default function CartPage() {
         [productId]: newQuantity >= 0 ? newQuantity : 0
       };
     });
-    dispatch(updateCartItemQuantity({ productId, quantity: quantities[productId] - 1 }));
+    if(quantities[productId] - 1 === 0){
+      dispatch(removeCartItem(productId));
+    } else {
+      dispatch(updateCartItemQuantity({ productId, quantity: quantities[productId] - 1 }));
+    }
   };
   const removeCart = (productId) => {
     dispatch(removeCartItem(productId));
@@ -158,19 +162,19 @@ export default function CartPage() {
                   <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                     <IconButton
                       icon="minus"
-                      onPress={() => decrementQuantity(product.itemDetail.id)}
+                      onPress={() => decrementQuantity(product.id)}
                       
                       containerColor="#f2f2f2"
                       iconColor="black"
                       size={24}
                     />
-                    <Text style={{color: 'black',fontSize: 16}}>{quantities[product.itemDetail.id] || 0}</Text>
+                    <Text style={{color: 'black',fontSize: 16}}>{quantities[product.id] || 0}</Text>
                     <IconButton 
                       icon="plus"
                       containerColor="#f2f2f2"
                       iconColor="black"
                       size={24}
-                      onPress={() => incrementQuantity(product.itemDetail.id)} 
+                      onPress={() => incrementQuantity(product.id)} 
                     />
                   </View>
                 </View>

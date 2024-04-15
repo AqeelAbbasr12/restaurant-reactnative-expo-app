@@ -26,7 +26,6 @@ export default function OrderHistory() {
   const refreshToken = useSelector((state) => state.auth.refreshToken);
   const productsList = useSelector((state) => state.order.orderData);
   const orderDetail = useSelector((state) => state.order.orderDetail);
-
   useEffect(() => {
     dispatch(fetchOrders(token));
   }, [dispatch]);
@@ -79,7 +78,7 @@ export default function OrderHistory() {
             <>
               {expanded !== index && (
                 <View
-                  style={[styles.container, { elevation: 6, marginBottom: h(3.5) }]} key={index}
+                  style={[styles.container, { elevation: 6, marginBottom: h(3.5) }]} key={product.id}
                 >
                   <View style={{ width: '25%', borderRadius: 12 }}>
                     <Image source={image} resizeMode="cover" style={{ width: '100%', height: 80, borderRadius: 10 }}></Image>
