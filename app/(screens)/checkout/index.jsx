@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { Text, RadioButton, Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -15,6 +15,7 @@ import SelectDropdown from 'react-native-select-dropdown'
 import { Link, router } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 import { placeOrder } from "@/store/order/orderSlice";
+import { getRefreshToken } from "@/store/auth/authSlice";
 
 export default function CheckoutPage() {
   const { w,h,f } = useResponsiveScreen();
@@ -31,9 +32,13 @@ export default function CheckoutPage() {
   const [isSummaryVisible, setIsSummaryVisible] = useState(false);
   const [paymentType, setPaymentType] = useState('cod');
   const token = useSelector((state) => state.auth.accessToken);
+  const refreshToken = useSelector((state) => state.auth.refreshToken);
   
   const cartItems = useSelector((state) => state.order.cartData);
   const dispatch = useDispatch();
+  useEffect(() => {
+    // dispatch(getRefreshToken(refreshToken));
+  }, [dispatch]);
   let subtotal = 0;
   cartItems.forEach(item => {
     subtotal += item.quantity * item.itemDetail.price; 
@@ -47,33 +52,38 @@ export default function CheckoutPage() {
   const GST = subtotal * 0.15;
 
   const handlePlaceOrder = async () => {
-    const orderData = {
+    if(!completeAddress || !zipCode || !cityName){
+      setError(true);
+      // return;
+    } else {
+      const orderData = {
 
-      items: cartItems.map(cartItem => ({
-        menuItemId: cartItem.itemDetail.id,
-        quantity: cartItem.quantity,
-        selectedOptions: Object.keys(cartItem.selectedOptions).map(customizationId => ({
-          menuItemCustomizationId: Number(customizationId), 
-          selectedMenuOptionId: cartItem.selectedOptions[customizationId].id,
-          selectedMenuSubOptionId: null,
-        }))
-      })),
-      orderTime: new Date().toISOString(),
-      shipping: 0,
-      address: {
-        streetAddress: completeAddress,
-        zipCode: zipCode,
-        city: cityName
-      },
-      type: "Delivery"
-    };
+        items: cartItems.map(cartItem => ({
+          menuItemId: cartItem.itemDetail.id,
+          quantity: cartItem.quantity,
+          selectedOptions: Object.keys(cartItem.selectedOptions).map(customizationId => ({
+            menuItemCustomizationId: Number(customizationId), 
+            selectedMenuOptionId: cartItem.selectedOptions[customizationId].id,
+            selectedMenuSubOptionId: null,
+          }))
+        })),
+        orderTime: new Date().toISOString(),
+        shipping: 0,
+        address: {
+          streetAddress: completeAddress,
+          zipCode: zipCode,
+          city: cityName
+        },
+        type: "Delivery"
+      };
 
-    const data = {
-      orderData,
-      token
+      const data = {
+        orderData,
+        token
+      }
+      await dispatch(placeOrder(data));
+      router.navigate('/');
     }
-    await dispatch(placeOrder(data));
-    router.navigate('/');
   };
   const toggleSummaryVisibility = () => {
     setIsSummaryVisible(!isSummaryVisible);
@@ -355,9 +365,9 @@ export default function CheckoutPage() {
                 paddingVertical: h(2)
               }}
             >
-              <View style={{flexDirection: 'row'}}>
-                <Heading text="Cart Summary" alignStyle={{fontSize: f(1.8), color: '#44a0df'}}></Heading>
-                <TouchableOpacity onPress={toggleSummaryVisibility}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Heading text="Cart Summary" alignStyle={{fontSize: f(1.8), color: '#44a0df', marginBottom: 0}}></Heading>
+                <TouchableOpacity onPress={toggleSummaryVisibility} style={{paddingTop: 8}}>
                   <Icon name={isSummaryVisible ? "chevron-up" : "chevron-down"} size={30} color="#44a0df" />
                 </TouchableOpacity>
               </View>

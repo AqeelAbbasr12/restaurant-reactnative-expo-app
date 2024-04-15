@@ -30,7 +30,8 @@ export default function MenuPage() {
   const [filteredMenuItems, setFilteredMenuItems] = useState([]);
 
   const menuItems = useSelector((state) => state.menu.menuData);
-  
+  var categoryMenu = useSelector((state) => state.menu.catgeoryData);
+
   useEffect(() => {
     const filteredItems  = menuItems.filter(item => item.categoryId === id);
     setFilteredMenuItems(filteredItems);
@@ -38,6 +39,10 @@ export default function MenuPage() {
   }, [id, menuItems]);
   
   const img = require("../../../assets/images/menu/chicken_fry.png");
+  const selecteSideBarItem = (item) => {
+    const category = categoryMenu.find(cat => cat.name.toLocaleLowerCase() === item);
+    router.navigate(`menu/${category.id}`);
+  };
   const renderMenuItem = ({ item }) => (
     <ItemComponent
       id={item.id}
@@ -60,7 +65,7 @@ export default function MenuPage() {
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => {
-              router.back();
+              router.navigate('/');
             }}
           >
             <Text>
@@ -75,10 +80,11 @@ export default function MenuPage() {
   return (
     <Screen
       SideBarIcons={SideBarIcons}
-      sideBarItems={["All", ...menuItems.map((items) => items.name)]}
+      sideBarItems={["All", ...categoryMenu.map((items) => items.name)]}
       sidebarItemsMargin={5}
       calculateTextWidth={calculateTextWidth_MENU}
       sidebarTopMargin={10}
+      selecteSideBarItem={selecteSideBarItem}
       sideBarItemActive={"All"}
     >
       <Header>

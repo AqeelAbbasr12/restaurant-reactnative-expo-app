@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { Link } from "expo-router";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchOrders, fetchOrdersDetail } from "@/store/order/orderSlice";
+import { getRefreshToken } from "@/store/auth/authSlice";
 import moment from 'moment';
 
   const resturantName = 'Beta Life resturant'; 
@@ -23,11 +24,13 @@ export default function OrderHistory() {
   const { w,h,f } = useResponsiveScreen();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.accessToken);
+  const refreshToken = useSelector((state) => state.auth.refreshToken);
   const productsList = useSelector((state) => state.order.orderData);
   const orderDetail = useSelector((state) => state.order.orderDetail);
   
   useEffect(() => {
     dispatch(fetchOrders(token));
+    // dispatch(getRefreshToken(refreshToken));
   }, [dispatch]);
 
   const [expanded, setExpanded] = useState(-1);
@@ -84,7 +87,7 @@ export default function OrderHistory() {
                     <Image source={image} resizeMode="cover" style={{width:'100%', height: 80, borderRadius: 10}}></Image>
                   </View>
                   <View style={{width: '55%', paddingLeft: 10}}>
-                    <Heading text={resturantName} alignStyle={{fontSize: f(1.5), paddingVertical: h(1)}} />
+                    <Heading text={`#${product.orderNumber}`} alignStyle={{fontSize: f(1.5), paddingVertical: h(1)}} />
                     <Heading text={moment(product.orderTime).format('MMMM D [at] h:mm a')}  alignStyle={{fontSize: f(1.3), paddingBottom: h(1.5), color: 'lightgray'}} />
                   </View>
                   <View  style={{width: '20%', borderStartWidth: 1, borderStartColor: 'gray', alignItems: 'center'}}>

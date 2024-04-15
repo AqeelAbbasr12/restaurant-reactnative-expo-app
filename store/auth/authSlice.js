@@ -19,8 +19,9 @@ const refreshToken = async (data) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${data}`
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ "refreshToken": data }),
     });
     return res
 }
@@ -109,10 +110,39 @@ const authSlice = createSliceWithThunks({
                     state.loading = false
                 }
             }
+        ),
+
+        getRefreshToken: create.asyncThunk(
+            async (data) => {
+                const loginRes = await refreshToken(data);
+                return {
+                    loginInfo: await loginRes.json(),
+                    user: data
+                }
+            },
+            {
+                pending: (state) => {
+                    state.loading = true
+                },
+                rejected: (state, action) => {
+                    state.error = action.payload ?? action.error
+                },
+                fulfilled: (state, action) => {
+                    if (action.payload.errors) {
+                        state.error = action.payload.errors;
+                    } else {
+                        state.accessToken = action.payload.loginInfo.accessToken;
+                        state.refreshToken = action.payload.loginInfo.refreshToken;
+                    }
+                },
+                settled: (state, action) => {
+                    state.loading = false
+                }
+            }
         )
 
     }),
 });
 
-export const { registerUser, setUserLocation, loginUser } = authSlice.actions;
+export const { registerUser, setUserLocation, loginUser, getRefreshToken } = authSlice.actions;
 export default authSlice.reducer;

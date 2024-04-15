@@ -12,6 +12,7 @@ import { router, usePathname } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import { ToastProvider } from 'react-native-toast-notifications'
 
 // Route auth
 const RouteAuth = ({ children }) => {
@@ -19,6 +20,8 @@ const RouteAuth = ({ children }) => {
   useEffect(() => {
     if (!auth) {
       router.replace("/login");
+    } else {
+      router.replace("/");
     }
   }, [auth]);
 
@@ -57,12 +60,14 @@ const RootLayout = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>
-        <PaperProvider theme={customTheme}>
-          <RouteAuth>
-            <StatusBar translucent hidden />
-            <Stack screenOptions={{ headerShown: false }} />
-          </RouteAuth>
-        </PaperProvider>
+        <ToastProvider>
+          <PaperProvider theme={customTheme}>
+            <RouteAuth>
+              <StatusBar translucent hidden />
+              <Stack screenOptions={{ headerShown: false }} />
+            </RouteAuth>
+          </PaperProvider>
+        </ToastProvider>
       </PersistGate>
     </Provider>
   );

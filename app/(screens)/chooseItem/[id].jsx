@@ -1,5 +1,5 @@
 import { View, StyleSheet, Image, ScrollView } from "react-native";
-import { Text, RadioButton } from "react-native-paper";
+import { Text, RadioButton, ActivityIndicator, MD2Colors } from "react-native-paper";
 import { Heading } from "@/components/Heading";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { customTheme } from "@/utils/theme";
@@ -15,11 +15,13 @@ import { Link, useLocalSearchParams } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMenuDetail } from "@/store/menu/menuSlice";
 import { addTocart } from "@/store/order/orderSlice";
+import { useToast } from "react-native-toast-notifications";
 
 
 export default function MenuPage() {
   const [quantity, setQuantity] = useState(1); 
-  const [selectedOptions, setSelectedOptions] = useState({});
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const toast = useToast();
 
   const handleOptionSelect = (customizationId, option) => {
     setSelectedOptions(prevSelectedOptions => ({
@@ -38,27 +40,53 @@ export default function MenuPage() {
   };
 
   const { id } = useLocalSearchParams();
+  
+  const itemDetail = useSelector((state) => state.menu.menuDetail);
+  const loading = useSelector((state) => state.menu.loading);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchMenuDetail(id));
   },[dispatch]);
-  const itemDetail = useSelector((state) => state.menu.menuDetail);
   
   const { w,h,f } = useResponsiveScreen();
   
   const addToCartAction = () => {
-    const data = {
-      quantity,
-      itemDetail,
-      selectedOptions,
+    if(itemDetail?.customizations?.length > 0 && selectedOptions.length === 0){
+      toast.show("Please select option for a item to add to cart.", {
+        type: "danger",
+        placement: "top",
+        duration: 4000,
+        offset: 30,
+        animationType: "slide-in",
+      });
+    } else {
+      const data = {
+        quantity,
+        itemDetail,
+        selectedOptions,
+      }
+      dispatch(addTocart(data));
+      toast.show("Item has been added to your cart.", {
+        type: "success",
+        placement: "top",
+        duration: 4000,
+        offset: 30,
+        animationType: "slide-in",
+      });
     }
-    dispatch(addTocart(data));
+    
   }
 
 
   return (
     <View>
-      <ScrollView showsVerticalScrollIndicator={false} style={{height: '100%'}}>
+      { loading === true ? 
+        <View style={{height: '100%', flexDirection: 'column', alignContent: 'center', justifyContent: 'center'}}>
+          <ActivityIndicator animating={true} size="large" color={MD2Colors.orange400} />
+        </View>
+        : 
+        <>
+     <ScrollView showsVerticalScrollIndicator={false} style={{height: '100%'}}>
         <View 
           style={{ 
             backgroundColor: customTheme.colors.primary,
@@ -178,8 +206,10 @@ export default function MenuPage() {
               ></AddToCartButton>
           </View>
         </View>
-      
+        </>
+      } 
     </View>
+    
   );
 }
 
