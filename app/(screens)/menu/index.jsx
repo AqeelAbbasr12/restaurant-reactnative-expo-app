@@ -25,9 +25,11 @@ export default function MenuPage() {
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState();
   const [error, setError] = useState();
+  const [activeMenu, setActiveMenu] = useState("All");
 
   var menuItems = useSelector((state) => state.menu.menuData);
   var categoryMenu = useSelector((state) => state.menu.catgeoryData);
+  const [filteredMenuItems, setFilteredMenuItems] = useState(menuItems);
   const handleSearch = (query) =>{
     setSearchQuery(query);
     menuItems = menuItems.filter(item =>
@@ -36,8 +38,17 @@ export default function MenuPage() {
   }
   const img = require("../../../assets/images/menu/chicken_fry.png");
   const selecteSideBarItem = (item) => {
-    const category = categoryMenu.find(cat => cat.name.toLocaleLowerCase() === item);
-    router.navigate(`menu/${category.id}`);
+    setActiveMenu(item);
+    if(item === 'all'){
+      setFilteredMenuItems(menuItems);
+    } else {
+      const category = categoryMenu.find(cat => cat.name.toLocaleLowerCase() === item);
+      const categoryId = category ? category.id : null;
+      if (categoryId) {
+        const filteredItems = menuItems.filter(menuItem => Number(menuItem.categoryId) === categoryId);
+        setFilteredMenuItems(filteredItems);
+      }
+    }
   };
 
   const renderMenuItem = ({ item }) => (
@@ -82,7 +93,7 @@ export default function MenuPage() {
       calculateTextWidth={calculateTextWidth_MENU}
       sidebarTopMargin={10}
       selecteSideBarItem={selecteSideBarItem}
-      sideBarItemActive={"All"}
+      sideBarItemActive={activeMenu}
     >
       <Header>
         <Heading text="Our Menu" />
@@ -126,7 +137,7 @@ export default function MenuPage() {
       </View>
       <View style={[style.container, { marginRight: w(7) }]}>
         <FlatList
-          data={menuItems}
+          data={filteredMenuItems}
           renderItem={renderMenuItem}
           keyExtractor={(item) => item.id.toString()}
           numColumns={2}

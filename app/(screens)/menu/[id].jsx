@@ -39,10 +39,7 @@ export default function MenuPage() {
   }, [id, menuItems]);
   
   const img = require("../../../assets/images/menu/chicken_fry.png");
-  const selecteSideBarItem = (item) => {
-    const category = categoryMenu.find(cat => cat.name.toLocaleLowerCase() === item);
-    router.navigate(`menu/${category.id}`);
-  };
+  
   const renderMenuItem = ({ item }) => (
     <ItemComponent
       id={item.id}
