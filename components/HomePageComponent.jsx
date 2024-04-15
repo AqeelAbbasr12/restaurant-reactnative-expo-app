@@ -17,6 +17,8 @@ import { setDrawer } from "@/store/drawer/drawerSlice";
 import { router } from "expo-router";
 import { calculateTextWidth_HOME } from "@/utils/utils";
 import { fetchMenus, fetchCategories } from "@/store/menu/menuSlice";
+import { LoginComponent } from "./LoginComponent";
+import { RegisterComponent } from "./RegisterComponent";
 
 const SideBarIcons = () => {
   const dispatch = useDispatch();
@@ -51,23 +53,29 @@ export const HomePageComponent = () => {
   const { w, h, f } = useResponsiveScreen();
   const dispatch = useDispatch();
   const userLocation = useSelector((state) => state.auth.userLocation);
+  const accessToken = useSelector((state) => state.auth.accessToken);
+  const authScreen = useSelector((state) => state.auth.authScreen);
+
   const categories = useSelector((state) => state.menu.catgeoryData);
   useEffect(() => {
     dispatch(fetchCategories());
     dispatch(fetchMenus());
   }, [dispatch]);
-  
-  const imageSource =  require("../assets/images/burger1.png");
+
+  const imageSource = require("../assets/images/burger1.png");
   const sideBarItems = ["HOME", "MENU", "CART"];
   const selecteSideBarItem = (item) => {
-    console.log(item);
     if (item === "menu") {
       router.navigate("/menu");
     }
-    if(item === "cart"){
+    if (item === "cart") {
       router.navigate("/cart");
     }
   };
+
+  if (!accessToken) {
+    return authScreen === "login" ? <LoginComponent /> : <RegisterComponent />
+  }
 
   if (!userLocation) {
     return <Location />;
@@ -96,7 +104,7 @@ export const HomePageComponent = () => {
             gap: w(3),
           }}
         >
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={() => router.navigate('/cart')}
           >
 
@@ -104,7 +112,7 @@ export const HomePageComponent = () => {
               name="cart-outline"
               size={30}
               color={customTheme.colors.iconColorDark}
-              ></Icon>
+            ></Icon>
           </TouchableOpacity>
           <Icon
             name="bell-outline"

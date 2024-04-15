@@ -36,6 +36,7 @@ const authSlice = createSliceWithThunks({
         loading: false,
         error: null,
         accessToken: null,
+        authScreen: "login",
         refreshToken: null,
         userLocation: null,
     },
@@ -144,10 +145,17 @@ const authSlice = createSliceWithThunks({
         logoutUser(state, action) {
             state.accessToken = null;
             state.refreshToken = null;
+            state.userLocation = null;
+            state.authScreen = "login";
+            state.loading = false;
+        },
+
+        switchAuthScreen(state, action) {
+            state.authScreen = action.payload;
         },
 
     }),
 });
 
-export const { registerUser, setUserLocation, loginUser, getRefreshToken, logoutUser } = authSlice.actions;
+export const { registerUser, setUserLocation, loginUser, getRefreshToken, logoutUser, switchAuthScreen } = authSlice.actions;
 export default authSlice.reducer;
