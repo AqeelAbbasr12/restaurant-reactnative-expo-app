@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image, ScrollView } from "react-native";
+import { View, StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
 import { Text, RadioButton, ActivityIndicator, MD2Colors } from "react-native-paper";
 import { Heading } from "@/components/Heading";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchMenuDetail } from "@/store/menu/menuSlice";
 import { addTocart } from "@/store/order/orderSlice";
 import { useToast } from "react-native-toast-notifications";
+import { router } from "expo-router";
 
 
 export default function MenuPage() {
@@ -51,7 +52,15 @@ export default function MenuPage() {
   const { w,h,f } = useResponsiveScreen();
   
   const addToCartAction = () => {
-    if(itemDetail?.customizations?.length > 0 && selectedOptions.length === 0){
+    if(itemDetail?.customizations?.length !== Object.keys(selectedOptions).length){
+      toast.show("Please each option form both choices.", {
+        type: "danger",
+        placement: "top",
+        duration: 4000,
+        offset: 30,
+        animationType: "slide-in",
+      });
+    } else if(itemDetail?.customizations?.length > 0 && Object.keys(selectedOptions).length === 0){
       toast.show("Please select option for a item to add to cart.", {
         type: "danger",
         placement: "top",
@@ -64,6 +73,7 @@ export default function MenuPage() {
         quantity,
         itemDetail,
         selectedOptions,
+        id: Math.round(Math.random() * Date.now()),
       }
       dispatch(addTocart(data));
       toast.show("Item has been added to your cart.", {
@@ -73,6 +83,7 @@ export default function MenuPage() {
         offset: 30,
         animationType: "slide-in",
       });
+      router.navigate('menu');
     }
     
   }
@@ -105,13 +116,13 @@ export default function MenuPage() {
                 alignItems: "center",
                 gap: w(3),
               }}>
-              <Link href={"/menu"}>
+              <TouchableOpacity onPress={() => router.back()}>
                 <Icon 
                   name="chevron-left"
                   size={f(4)}
                   color={customTheme.colors.iconColorWhite}
                 ></Icon>
-              </Link>
+              </TouchableOpacity>
               <Heading text={itemDetail.name} alignStyle={{color: customTheme.colors.textWhite, fontSize: f(2.5)}} />
             </View>
             <View

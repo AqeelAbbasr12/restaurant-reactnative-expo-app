@@ -17,7 +17,6 @@ export function Screen({
   calculateTextWidth = () => {},
 }) {
   const { w, h } = useResponsiveScreen();
-
   return (
     <View
       style={{
@@ -61,7 +60,9 @@ export function Screen({
                 style={{
                   marginBottom: sidebarItemsMargin,
                 }}
-                onPress={() => selecteSideBarItem(item.toLocaleLowerCase())}
+                onPress={() => {
+                  selecteSideBarItem(item.toLocaleLowerCase())
+                }}
               >
                 <Text
                   x="50"
