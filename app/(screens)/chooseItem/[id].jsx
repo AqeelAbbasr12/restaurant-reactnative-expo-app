@@ -53,7 +53,7 @@ export default function MenuPage() {
   
   const addToCartAction = () => {
     if(itemDetail?.customizations?.length !== Object.keys(selectedOptions).length){
-      toast.show("Please each option form both choices.", {
+      toast.show("Please select at least one option form available choice.", {
         type: "danger",
         placement: "top",
         duration: 4000,

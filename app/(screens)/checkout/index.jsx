@@ -14,6 +14,7 @@ import {
 import SelectDropdown from 'react-native-select-dropdown'
 import { Link, router } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
+import { useToast } from "react-native-toast-notifications";
 import { placeOrder } from "@/store/order/orderSlice";
 
 export default function CheckoutPage() {
@@ -34,6 +35,7 @@ export default function CheckoutPage() {
 
   const cartItems = useSelector((state) => state.order.cartData);
   const dispatch = useDispatch();
+  const toast = useToast();
 
   let subtotal = 0;
   cartItems.forEach(item => {
@@ -78,6 +80,13 @@ export default function CheckoutPage() {
         token
       }
       await dispatch(placeOrder(data));
+      toast.show("Order has been placed successfully.", {
+        type: "success",
+        placement: "top",
+        duration: 4000,
+        offset: 30,
+        animationType: "slide-in",
+      });
       router.navigate('/');
     }
   };
