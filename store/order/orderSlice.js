@@ -92,7 +92,7 @@ const orderSlice = createSliceWithThunks({
       state.cartData = [...state.cartData, action.payload];
     },
     removeCartItem(state, action) {
-      state.cartData = state.cartData.filter(item => item.itemDetail.id !== action.payload);
+      state.cartData = state.cartData.filter(item => item.id !== action.payload);
     },
 
     emptyCartItems(state, action) {
@@ -101,7 +101,7 @@ const orderSlice = createSliceWithThunks({
 
     updateCartItemQuantity: (state, action) => {
       const { productId, quantity } = action.payload;
-      const itemIndex = state.cartData.findIndex(item => item.itemDetail.id === productId);
+      const itemIndex = state.cartData.findIndex(item => item.id === productId);
       if (itemIndex !== -1) {
         state.cartData[itemIndex].quantity = quantity;
       }
