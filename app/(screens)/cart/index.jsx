@@ -18,7 +18,7 @@ export default function CartPage() {
   const [quantities, setQuantities] = useState({}); 
   let cartItems = [];
   cartItems = useSelector((state) => state.order.cartData);
-
+  
   const dispatch = useDispatch();
   useEffect(() => {
     const initialQuantities = {};
@@ -26,7 +26,7 @@ export default function CartPage() {
       initialQuantities[item.id] = item.quantity;
     });
     setQuantities(initialQuantities);
-  }, []);
+  }, [cartItems]);
 
   const incrementQuantity = (productId) => {
     setQuantities(prevQuantities => ({
