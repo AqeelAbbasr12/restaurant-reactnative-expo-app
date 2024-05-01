@@ -86,25 +86,35 @@ const authSlice = createSliceWithThunks({
         loginUser: create.asyncThunk(
             async (data) => {
                 const loginRes = await login(data)
-                return {
-                    loginInfo: await loginRes.json(),
-                    user: data
+                console.log(loginRes);
+                if(loginRes.status === 200){
+                    return {
+                        loginInfo: await loginRes.json(),
+                        user: data
+                    }
+                } 
+                else {
+                    return "Inavlid email or password";
                 }
+                console.log(loginRes);
             },
             {
                 pending: (state) => {
                     state.loading = true
                 },
                 rejected: (state, action) => {
+                    console.log(action);
                     state.error = action.payload ?? action.error
                 },
                 fulfilled: (state, action) => {
-                    if (action.payload.errors) {
-                        state.error = action.payload.errors;
+                    console.log('ddd',action);
+                    if (action.payload.loginInfo.status === 401 || action.payload.loginInfo.detail === "Failed") {
+                        state.error = "Invalid Credentials";
                     } else {
                         state.accessToken = action.payload.loginInfo.accessToken;
                         state.refreshToken = action.payload.loginInfo.refreshToken;
                         state.user = action.payload.user;
+                        state.error = null;
                     }
                 },
                 settled: (state, action) => {

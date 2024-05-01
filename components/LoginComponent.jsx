@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
-import { Divider } from "react-native-paper";
+import { Divider, Portal, Snackbar } from "react-native-paper";
 import { Link } from "expo-router";
 import { Screen } from "@/components/Screen";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -14,12 +14,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { calculateTextWidth_MENU } from "@/utils/utils";
 import { loginUser } from "@/store/auth/authSlice";
 import { switchAuthScreen } from "@/store/auth/authSlice";
+import { useToast } from "react-native-toast-notifications";
 
 
 export const LoginComponent = () => {
   const { w, h, f } = useResponsiveScreen();
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,11 +34,12 @@ export const LoginComponent = () => {
     }
     try {
       const logindata = dispatch(loginUser({ email, password }));
+      console.log(logindata);
     } catch (e) {
       setError(false);
     }
   };
-
+  
   const sideBarItems = ["LOGIN", "SIGNUP"];
   const selecteSideBarItem = (item) => {
     if (item === "signup") {
@@ -172,6 +175,25 @@ export const LoginComponent = () => {
             />
           </View>
         </View>
+        {auth.error && (
+          <>
+          
+          <Text>{auth.error}</Text>
+          <Portal>
+          <Snackbar
+            
+            color="white"
+            textAlign="center"
+            wrapperStyle={{top: 0, left: 0, textAlign: 'center', color: "white", textAlign: 'center'}}
+            style={{backgroundColor: "red"}}
+            theme={{ colors: { onSurface: '#ffffff' } }}
+            rippleColor="white"
+            >
+            {auth.error}
+          </Snackbar>
+        </Portal>
+        </>
+        )}
       </ScrollView>
     </Screen>
   );

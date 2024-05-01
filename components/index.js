@@ -11,5 +11,7 @@ import { SplashScreen } from './SplashScreen';
 import { OptionComponent } from './OptionsScreen';
 import { AddToCartButton } from './AddToCartButton';
 import { Customization } from './Customization';
+import { MenuCartIcon } from './MenuCartIcon';
+import { ItemComponent } from './ItemComponent.jsx';
 
-export { ButtonComponent, CardComponent, Drawer, Header, Heading, HomeComponent, InputComponent, Location, Screen, SplashScreen, OptionComponent, AddToCartButton, Customization }
+export { ButtonComponent, CardComponent, Drawer, Header, Heading, HomeComponent, InputComponent, Location, Screen, SplashScreen, OptionComponent, AddToCartButton, Customization, MenuCartIcon, ItemComponent }
