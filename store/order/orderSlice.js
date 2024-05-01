@@ -92,6 +92,7 @@ const orderSlice = createSliceWithThunks({
       state.cartData = [...state.cartData, action.payload];
     },
     removeCartItem(state, action) {
+      console.log(state.cartData);
       state.cartData = state.cartData.filter(item => item.id !== action.payload);
     },
 

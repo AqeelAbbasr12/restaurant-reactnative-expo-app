@@ -1,5 +1,5 @@
 import { View, StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
-import { Text, IconButton } from "react-native-paper";
+import { Text, IconButton,Portal, Modal } from "react-native-paper";
 import { 
   Heading,
   Header,
@@ -16,9 +16,17 @@ import { removeCartItem, emptyCartItems, updateCartItemQuantity } from "@/store/
 export default function CartPage() {
   const { w,h,f } = useResponsiveScreen();
   const [quantities, setQuantities] = useState({}); 
+  const [visibleModal, setVisibleModal] = useState({});
+  const showModal = (id) => {
+    console.log(id);
+    setVisibleModal({ ...visibleModal, [id]: true });
+  };
+  const hideModal = (id) => {
+    setVisibleModal({ ...visibleModal, [id]: false });
+  };
   let cartItems = [];
   cartItems = useSelector((state) => state.order.cartData);
-  
+  console.log(cartItems);
   const dispatch = useDispatch();
   useEffect(() => {
     const initialQuantities = {};
@@ -60,7 +68,9 @@ export default function CartPage() {
 
   let subtotal = 0;
   cartItems.forEach(item => {
-    subtotal += item.quantity * item.itemDetail.price; 
+    if(item.selectedOptions.length === 0) {
+      subtotal += item.quantity * item.itemDetail.price;
+    }
     for (const key in item.selectedOptions) {
       if (item.selectedOptions.hasOwnProperty(key)) {
         const option = item.selectedOptions[key];
@@ -69,6 +79,25 @@ export default function CartPage() {
     }
   });
   const GST = subtotal * 0.15;
+
+  const getSelectedOptions = (item, customId) => {
+      const option = item.selectedOptions[customId];
+      return option.name;
+  };
+
+  const calculateTotalPrice = (item) => {
+    let total = 0;
+      let itemTotal = 0;
+      if(item.selectedOptions.length === 0){
+        itemTotal += item.itemDetail.price;
+      }else {
+        Object.values(item.selectedOptions).forEach(option => {
+          itemTotal += option.price;
+        });
+      }
+      total += itemTotal * item.quantity;
+    return total;
+  };
 
   return (
     <View>
@@ -148,14 +177,19 @@ export default function CartPage() {
                 </View>
                 <View style={{width: '50%', paddingLeft: 10}}>
                   <Heading text={product.itemDetail.name} alignStyle={{fontSize: f(1.8), fontWeight: '700'}} />
-                  <Text style={{color: customTheme.colors.primary, fontWeight: '700',fontSize: f(1.8)}}>PKR {product.itemDetail.price !== 0 ? product.itemDetail.price : 0 }</Text>
+                 
+                    <Text style={{color: customTheme.colors.primary, fontWeight: '700',fontSize: f(1.8)}}>
+                    PKR {calculateTotalPrice(product)}</Text>
+                 
+                  
+                  {/* <Text style={{color: customTheme.colors.primary, fontWeight: '700',fontSize: f(1.8)}}>{calculateTotalPrice(product)}</Text> */}
                   <View style={{flexDirection: 'row'}}>
                   <TouchableOpacity 
-                    onPress={() => removeCart(product.itemDetail.id)}
+                    onPress={() => removeCart(product.id)}
                   >
                     <Heading text="Remove Item"  alignStyle={{fontSize: f(1.8), paddingBottom: h(1.5), color: 'black', marginRight: 10}} />
                   </TouchableOpacity>
-                    <Icon name="information" size={22} color="lightgray" />
+                    <Icon name="information" size={22} color="lightgray" onPress={() => showModal(product.id)} />
                   </View>
                 </View>
                 <View  style={{width: '25%',  alignItems: 'center'}}>
@@ -178,7 +212,30 @@ export default function CartPage() {
                     />
                   </View>
                 </View>
+
+                <Portal>
+                  <Modal 
+                    visible={!!visibleModal[product.id]}
+                    onDismiss={() => hideModal(product.id)} 
+                    contentContainerStyle={{backgroundColor: customTheme.colors.primary, padding: 30, borderRadius: 10, elevation: 6}}
+                    style={{padding: w(9)}}  
+                  >
+                    <View>
+                      <Text style={{fontSize: 22, paddingBottom: 15}}>Order Details</Text>
+                      <Text style={{fontSize: 18}}>{product.itemDetail.name}</Text>
+                      { product.itemDetail.customizations.map((custom, key) => (
+                        <View key={key}>
+                          <Text style={{fontSize: 18}}>{custom.name}</Text>
+                          <Text style={{fontSize: 18}}>{product.quantity}x {getSelectedOptions(product, custom.id)}</Text>
+                        </View>
+                      ))}
+                      
+
+                    </View>
+                  </Modal>
+                </Portal>
               </View>
+              
             ))}
             <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: h(3)}}>
               <Text style={{color: customTheme.colors.primary, fontWeight: '800', fontSize: f(1.8)}}><Link href={"/menu"}>+ Add More Items</Link></Text>
@@ -214,7 +271,7 @@ export default function CartPage() {
             leftContentType="price"
             totalPrice= { GST + subtotal }
             buttonStyle={{paddingVertical: h(1.2)}}
-            labelStyle={{fontSize: f(2), textTransform: 'uppercase'}}
+            labelStyle={{fontSize: f(1.5), textTransform: 'uppercase'}}
             buttonType={cartItems?.length > 0 ? 'link' : ''}
 
           ></AddToCartButton>

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Text, View, ScrollView, TouchableOpacity } from "react-native";
 import {
   Screen,
@@ -8,7 +8,7 @@ import {
   CardComponent,
   Location,
 } from "@/components";
-import { Badge } from "react-native-paper";
+import { Badge, IconButton, Portal } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { customTheme } from "@/utils/theme";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
@@ -19,6 +19,8 @@ import { calculateTextWidth_HOME } from "@/utils/utils";
 import { fetchMenus, fetchCategories } from "@/store/menu/menuSlice";
 import { LoginComponent } from "./LoginComponent";
 import { RegisterComponent } from "./RegisterComponent";
+import { useToast } from "react-native-toast-notifications";
+import SnackBar from 'react-native-snackbar-component';
 
 const SideBarIcons = () => {
   const dispatch = useDispatch();
@@ -57,10 +59,22 @@ export const HomePageComponent = () => {
   const authScreen = useSelector((state) => state.auth.authScreen);
 
   const products = useSelector((state) => state.menu.menuData);
+  const itemCount = useSelector((state) => state.order.cartData);
+  const toast = useToast();
+  const [visible, setVisible] = useState(false);
+
+  const onToggleSnackBar = () => {
+    setVisible(!visible);
+  };
+
+  const onDismissSnackBar = () => setVisible(false);
+
   useEffect(() => {
     dispatch(fetchCategories());
     dispatch(fetchMenus());
   }, [dispatch]);
+
+  
 
   const imageSource = require("../assets/images/burger1.png");
   const sideBarItems = ["HOME", "MENU", "CART"];
@@ -94,7 +108,7 @@ export const HomePageComponent = () => {
       calculateTextWidth={calculateTextWidth_HOME}
     >
       <Header>
-        <Heading text="Welcome Back!" />
+        <Heading text="Welcome Back!" alignStyle={{fontSize: 30}} />
 
         <View
           style={{
@@ -104,20 +118,49 @@ export const HomePageComponent = () => {
             gap: w(3),
           }}
         >
-          <TouchableOpacity
-            onPress={() => router.navigate('/cart')}
-          >
-
-            <Icon
-              name="cart-outline"
-              size={30}
-              color={customTheme.colors.iconColorDark}
-            ></Icon>
-          </TouchableOpacity>
-          <Icon
-            name="bell-outline"
+          {itemCount.length > 0 ? (
+            <TouchableOpacity
+              onPress={() => router.navigate('/cart')}
+            > 
+              <>
+              <IconButton
+                icon="cart-outline"
+                size={30}
+                iconColor={customTheme.colors.iconColorDark}
+                style={{paddingLeft: 5, margin: 0}}
+              />
+                <Badge style={{ position: 'absolute', right: 0, top: 0, backgroundColor: customTheme.colors.primary, color: 'white', fontSize: 12 }}>
+                  {itemCount.length}
+                </Badge>
+                </>
+              </TouchableOpacity>
+              ) : (
+                <>
+                <IconButton
+                  icon="cart-outline"
+                  size={30}
+                  iconColor={customTheme.colors.iconColorDark}
+                  style={{paddingLeft: 5, margin: 0}}
+                  onPress={onToggleSnackBar}
+                />
+                <Portal>
+                  <SnackBar 
+                    visible={visible} 
+                    textMessage="Cart is empty!" 
+                    autoHidingTime={5000}
+                    containerStyle={{position: 'absolute',top: '100px'}}
+                    messageStyle={{fontSize: 20}}
+                    backgroundColor="red"
+                  />
+                </Portal>
+              </>    
+            )}
+          
+          <IconButton
+            icon="bell-outline"
             size={30}
-            color={customTheme.colors.iconColorDark}
+            style={{paddingRight: 15, margin: 0}}
+            iconColor={customTheme.colors.iconColorDark}
           />
         </View>
       </Header>

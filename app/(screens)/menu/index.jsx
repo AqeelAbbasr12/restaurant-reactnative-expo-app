@@ -5,15 +5,19 @@ import {
   TouchableOpacity,
   Text,
 } from "react-native";
-import { Screen } from "@/components/Screen";
-import { Heading } from "@/components/Heading";
+import {
+  Screen,
+  Heading,
+  Header,
+  InputComponent,
+  ItemComponent,
+  MenuCartIcon
+} from "@/components";
+import { Badge, IconButton } from "react-native-paper";
 import AntIcon from "react-native-vector-icons/AntDesign";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { customTheme } from "@/utils/theme";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
-import { Header } from "@/components/Header";
-import { InputComponent } from "@/components/InputComponent";
-import { ItemComponent } from "@/components/ItemComponent";
 import { useState } from "react";
 import { calculateTextWidth_MENU } from "@/utils/utils";
 import { router } from "expo-router";
@@ -29,6 +33,8 @@ export default function MenuPage() {
 
   var menuItems = useSelector((state) => state.menu.menuData);
   var categoryMenu = useSelector((state) => state.menu.catgeoryData);
+  const itemCount = useSelector((state) => state.order.cartData);
+
   const [filteredMenuItems, setFilteredMenuItems] = useState(menuItems);
   const handleSearch = (query) =>{
     setSearchQuery(query);
@@ -98,23 +104,12 @@ export default function MenuPage() {
     >
       <Header>
         <Heading text="Our Menu" />
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            gap: w(3),
-          }}
-        >
-          <TouchableOpacity 
-            onPress={() => router.navigate('/cart')}
-          >
-          <Icon
-            name="cart-outline"
-            size={30}
-            color={customTheme.colors.iconColorDark}
-            />
-          </TouchableOpacity>
-        </View>
+        <MenuCartIcon 
+          count={itemCount.length} 
+          iconColor={customTheme.colors.iconColorDark} 
+          badgeColor={customTheme.colors.primary} 
+          badgeTextColor={customTheme.colors.iconColorWhite}
+        />
       </Header>
       <View style={{ paddingRight: w(7) }}>
         <InputComponent

@@ -9,7 +9,8 @@ import { useEffect, useState } from "react";
 import { 
   OptionComponent,
   AddToCartButton,
-  Customization
+  Customization, 
+  MenuCartIcon
 } from "@/components";
 import { Link, useLocalSearchParams } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -44,6 +45,10 @@ export default function MenuPage() {
   
   const itemDetail = useSelector((state) => state.menu.menuDetail);
   const loading = useSelector((state) => state.menu.loading);
+  const itemCount = useSelector((state) => state.order.cartData);
+  
+  const totalPrice = Object.values(selectedOptions).reduce((acc, item) => acc + item.price, 0);
+  
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchMenuDetail(id));
@@ -125,21 +130,12 @@ export default function MenuPage() {
               </TouchableOpacity>
               <Heading text={itemDetail.name} alignStyle={{color: customTheme.colors.textWhite, fontSize: f(2.5)}} />
             </View>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                gap: w(3),
-              }}
-            >
-              <Link href={'/cart'}>
-                <Icon
-                  name="cart-outline"
-                  size={35}
-                  color={customTheme.colors.iconColorWhite}
-                  />
-              </Link>
-            </View>
+            <MenuCartIcon 
+              count={itemCount.length} 
+              iconColor={customTheme.colors.iconColorWhite} 
+              badgeColor={customTheme.colors.iconColorWhite} 
+              badgeTextColor={customTheme.colors.primary}
+            />
           </Header>
           <View 
             style={{
@@ -165,7 +161,15 @@ export default function MenuPage() {
             paddingBottom: 50,
             marginBottom: h(10)
           }}>
-          <Heading text={itemDetail.name} alignStyle={{fontSize: f(2.5), marginBottom: 20}}></Heading>
+          <View 
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <Heading text={itemDetail.name} alignStyle={{fontSize: f(2.5), marginBottom: 20}}></Heading>
+            <Heading text={totalPrice ? totalPrice : itemDetail.price} alignStyle={{ color: customTheme.colors.primary, fontSize: f(2), marginBottom: 20}} />
+          </View>
           <Text style={{color: 'black', fontWeight: 300, color: 'gray', fontSize: f(1.6), marginBottom: h(2)}}>
             {itemDetail.description}
           </Text>
