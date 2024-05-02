@@ -15,6 +15,7 @@ import { calculateTextWidth_MENU } from "@/utils/utils";
 import { loginUser } from "@/store/auth/authSlice";
 import { switchAuthScreen } from "@/store/auth/authSlice";
 import { useToast } from "react-native-toast-notifications";
+import { unwrapResult } from '@reduxjs/toolkit';
 
 
 export const LoginComponent = () => {
@@ -26,20 +27,43 @@ export const LoginComponent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!email || !password) {
       setError(true);
       return;
     }
     try {
-      const logindata = dispatch(loginUser({ email, password }));
-      console.log(logindata);
+      setLoading(true);
+      const resultAction = await dispatch(loginUser({ email, password }));
+      const result = unwrapResult(resultAction);
+      if (result.status === 401) {
+        toast.show(result.message, {
+          type: "danger",
+          duration: 4000,
+          offset: 30,
+          animationType: "slide-in | zoom-in",
+          placement: "top",
+        });
+      } else if (result.user) {
+        toast.show("Login Successful!", {
+          type: "success",
+          duration: 4000,
+          offset: 30,
+          animationType: "slide-in | zoom-in",
+          placement: "top",
+        });
+      }
+      setLoading(false);
+
     } catch (e) {
       setError(false);
+      setLoading(false);
+
     }
   };
-  
+
   const sideBarItems = ["LOGIN", "SIGNUP"];
   const selecteSideBarItem = (item) => {
     if (item === "signup") {
@@ -131,7 +155,7 @@ export const LoginComponent = () => {
               }}
               backgroundColor={customTheme.colors.primary}
               onPress={handleLogin}
-              loading={auth.loading}
+              loading={loading}
             />
             <View style={[styles.lineContainer, { marginVertical: h(2) }]}>
               <Divider style={[styles.divider, { marginTop: h(0.5) }]} />
@@ -153,7 +177,7 @@ export const LoginComponent = () => {
               }}
               backgroundColor="#395a9d"
               icon="facebook"
-              onPress={handleLogin}
+            // onPress={handleLogin}
             />
             {/* Google Button */}
             <ButtonComponent
@@ -171,29 +195,22 @@ export const LoginComponent = () => {
               }}
               backgroundColor="#D92A0D"
               icon="google"
-              onPress={handleLogin}
+            // onPress={handleLogin}
             />
           </View>
         </View>
-        {auth.error && (
-          <>
-          
-          <Text>{auth.error}</Text>
-          <Portal>
+        <Portal>
           <Snackbar
-            
             color="white"
             textAlign="center"
-            wrapperStyle={{top: 0, left: 0, textAlign: 'center', color: "white", textAlign: 'center'}}
-            style={{backgroundColor: "red"}}
+            wrapperStyle={{ top: 0, left: 0, textAlign: 'center', color: "white", textAlign: 'center' }}
+            style={{ backgroundColor: "red" }}
             theme={{ colors: { onSurface: '#ffffff' } }}
             rippleColor="white"
-            >
+          >
             {auth.error}
           </Snackbar>
         </Portal>
-        </>
-        )}
       </ScrollView>
     </Screen>
   );

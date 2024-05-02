@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
-import { Divider } from "react-native-paper";
 import { Link } from "expo-router";
 import { Screen } from "@/components/Screen";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -11,9 +10,11 @@ import { InputComponent } from "@/components/InputComponent";
 import { ButtonComponent } from "@/components/ButtonComponent";
 import { router } from "expo-router";
 import { calculateTextWidth_MENU } from "@/utils/utils";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, unwrapResult } from "react-redux";
 import { registerUser } from "@/store/auth/authSlice";
 import { switchAuthScreen } from "@/store/auth/authSlice";
+import { Divider, Portal, Snackbar } from "react-native-paper";
+import { useToast } from "react-native-toast-notifications";
 
 
 export const RegisterComponent = () => {
@@ -26,13 +27,42 @@ export const RegisterComponent = () => {
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
 
-  const handleLogin = () => {
+
+  const handleLogin = async () => {
     if (!password || !email) {
       setError(true);
       return;
     }
-    dispatch(registerUser({ email, password }));
+    try {
+      setLoading(true);
+      const resultAction = await dispatch(registerUser({ email, password }));
+      const result = unwrapResult(resultAction);
+      if (result.status === 401) {
+        toast.show(result.message, {
+          type: "danger",
+          duration: 4000,
+          offset: 30,
+          animationType: "slide-in | zoom-in",
+          placement: "top",
+        });
+      } else if (result.user) {
+        toast.show("Login Successful!", {
+          type: "success",
+          duration: 4000,
+          offset: 30,
+          animationType: "slide-in | zoom-in",
+          placement: "top",
+        });
+      }
+      setLoading(false);
+    } catch (e) {
+      setError(false);
+      setLoading(false);
+    }
+
     setError(false);
   };
 
@@ -152,7 +182,7 @@ export const RegisterComponent = () => {
               }}
               backgroundColor={customTheme.colors.primary}
               onPress={handleLogin}
-              loading={auth.loading}
+              loading={loading}
             />
             <View style={[styles.lineContainer, { marginVertical: h(2) }]}>
               <Divider style={[styles.divider, { marginTop: h(0.5) }]} />
@@ -196,6 +226,19 @@ export const RegisterComponent = () => {
             />
           </View>
         </View>
+
+        <Portal>
+          <Snackbar
+            color="white"
+            textAlign="center"
+            wrapperStyle={{ top: 0, left: 0, textAlign: 'center', color: "white", textAlign: 'center' }}
+            style={{ backgroundColor: "red" }}
+            theme={{ colors: { onSurface: '#ffffff' } }}
+            rippleColor="white"
+          >
+            {auth.error}
+          </Snackbar>
+        </Portal>
       </ScrollView>
     </Screen>
   );

@@ -11,7 +11,8 @@ const login = async (data) => {
         },
         body: JSON.stringify(data),
     });
-    return res
+    const responseJson = await res.json();
+    return responseJson
 }
 
 const refreshToken = async (data) => {
@@ -23,7 +24,8 @@ const refreshToken = async (data) => {
         },
         body: JSON.stringify({ "refreshToken": data }),
     });
-    return res
+    const responseJson = await res.json();
+    return responseJson
 }
 
 const createSliceWithThunks = buildCreateSlice({
@@ -53,25 +55,22 @@ const authSlice = createSliceWithThunks({
                     },
                     body: JSON.stringify(data),
                 });
-                if (res.status === 200) {
-                    const loginRes = await login(data)
-                    return {
-                        loginInfo: await loginRes.json(),
-                        user: data
-                    }
-                }
-                return null
+                const responseJson = await res.json();
+                console.log("responseJson ", responseJson);
+                return await res.json();
             },
             {
                 pending: (state) => {
                     state.loading = true
                 },
                 rejected: (state, action) => {
+                    console.log("Rejected")
                     state.error = action.payload ?? action.error
                 },
                 fulfilled: (state, action) => {
-                    if (action.payload.errors) {
-                        state.error = action.payload.errors;
+                    console.log("action.payload ===> ", action.payload)
+                    if (action.payload.status === 401) {
+                        state.error = action.payload.title;
                     } else {
                         state.accessToken = action.payload.loginInfo.accessToken;
                         state.refreshToken = action.payload.loginInfo.refreshToken;
@@ -86,35 +85,36 @@ const authSlice = createSliceWithThunks({
         loginUser: create.asyncThunk(
             async (data) => {
                 const loginRes = await login(data)
-                console.log(loginRes);
-                if(loginRes.status === 200){
+                if (loginRes.accessToken) {
                     return {
-                        loginInfo: await loginRes.json(),
+                        loginInfo: loginRes,
                         user: data
                     }
-                } 
-                else {
-                    return "Inavlid email or password";
                 }
-                console.log(loginRes);
+                else {
+                    return {
+                        message: "Inavlid email or password",
+                        title: loginRes.title,
+                        status: loginRes.status
+                    };
+                }
             },
             {
                 pending: (state) => {
                     state.loading = true
                 },
                 rejected: (state, action) => {
-                    console.log(action);
-                    state.error = action.payload ?? action.error
+                    state.loading = false
+                    state.error = action.payload ?? action.error;
                 },
                 fulfilled: (state, action) => {
-                    console.log('ddd',action);
-                    if (action.payload.loginInfo.status === 401 || action.payload.loginInfo.detail === "Failed") {
-                        state.error = "Invalid Credentials";
+                    state.loading = false
+                    if (action.payload.status === 401) {
+                        state.error = action.payload.title;
                     } else {
                         state.accessToken = action.payload.loginInfo.accessToken;
                         state.refreshToken = action.payload.loginInfo.refreshToken;
                         state.user = action.payload.user;
-                        state.error = null;
                     }
                 },
                 settled: (state, action) => {
@@ -137,10 +137,12 @@ const authSlice = createSliceWithThunks({
                 },
                 rejected: (state, action) => {
                     state.error = action.payload ?? action.error
+                    state.error = null;
                 },
                 fulfilled: (state, action) => {
                     if (action.payload.errors) {
                         state.error = action.payload.errors;
+                        state.error = null;
                     } else {
                         state.accessToken = action.payload.loginInfo.accessToken;
                         state.refreshToken = action.payload.loginInfo.refreshToken;
