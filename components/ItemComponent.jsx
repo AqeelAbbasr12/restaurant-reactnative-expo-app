@@ -50,7 +50,7 @@ export const ItemComponent = ({ id, imageSource, name, price }) => {
                 marginTop: 5,
               }}
             >
-              PKR {price}
+              AED {price}
             </Text>
           </Card.Content>
         </View>

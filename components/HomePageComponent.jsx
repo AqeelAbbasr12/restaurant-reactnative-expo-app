@@ -72,7 +72,14 @@ export const HomePageComponent = () => {
   useEffect(() => {
     dispatch(fetchCategories());
     dispatch(fetchMenus());
-  }, [dispatch]);
+    let timer;
+    if (visible) {
+      timer = setTimeout(() => {
+        setVisible(false);
+      }, 3000);
+    }
+    return () => clearTimeout(timer);
+  }, [dispatch,visible]);
 
   
 
@@ -147,10 +154,11 @@ export const HomePageComponent = () => {
                   <SnackBar 
                     visible={visible} 
                     textMessage="Cart is empty!" 
-                    autoHidingTime={5000}
+                    autoHidingTime={3000}
                     containerStyle={{position: 'absolute',top: '100px'}}
                     messageStyle={{fontSize: 20}}
                     backgroundColor="red"
+                    position="top"
                   />
                 </Portal>
               </>    

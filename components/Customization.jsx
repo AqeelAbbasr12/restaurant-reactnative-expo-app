@@ -22,7 +22,7 @@ export const Customization = ({ customization, selectedOption, onOptionSelect })
             onPress={() => onOptionSelect(customization.id, option)} color={customTheme.colors.primary} uncheckedColor={customTheme.colors.primary}
           />
           <Text style={styles.optionName}>{option.name}</Text>
-          <Text style={styles.optionPrice}>PKR {option.price}</Text>
+          <Text style={styles.optionPrice}>AED {option.price}</Text>
         </View>
       ))}
     </View>

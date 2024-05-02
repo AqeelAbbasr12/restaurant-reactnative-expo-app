@@ -18,7 +18,6 @@ export default function CartPage() {
   const [quantities, setQuantities] = useState({}); 
   const [visibleModal, setVisibleModal] = useState({});
   const showModal = (id) => {
-    console.log(id);
     setVisibleModal({ ...visibleModal, [id]: true });
   };
   const hideModal = (id) => {
@@ -26,7 +25,6 @@ export default function CartPage() {
   };
   let cartItems = [];
   cartItems = useSelector((state) => state.order.cartData);
-  console.log(cartItems);
   const dispatch = useDispatch();
   useEffect(() => {
     const initialQuantities = {};
@@ -179,7 +177,7 @@ export default function CartPage() {
                   <Heading text={product.itemDetail.name} alignStyle={{fontSize: f(1.8), fontWeight: '700'}} />
                  
                     <Text style={{color: customTheme.colors.primary, fontWeight: '700',fontSize: f(1.8)}}>
-                    PKR {calculateTotalPrice(product)}</Text>
+                    AED {calculateTotalPrice(product)}</Text>
                  
                   
                   {/* <Text style={{color: customTheme.colors.primary, fontWeight: '700',fontSize: f(1.8)}}>{calculateTotalPrice(product)}</Text> */}
@@ -258,12 +256,12 @@ export default function CartPage() {
           <View style={{paddingHorizontal: w(5), marginBottom: 20}}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15}}>
               <Text style={{color: '#767676', fontSize: f(1.6)}}>SubTitle</Text>
-              <Text style={{color: '#767676', fontWeight: '300', fontSize: f(1.6)}}>PKR {subtotal}</Text>
+              <Text style={{color: '#767676', fontWeight: '300', fontSize: f(1.6)}}>AED {subtotal}</Text>
             </View>
             
             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <Text style={{color: '#767676', fontSize: f(1.6)}}>GST 15%</Text>
-              <Text style={{color: '#767676', fontWeight: '300', fontSize: f(1.6)}}>PKR {GST}</Text>
+              <Text style={{color: '#767676', fontWeight: '300', fontSize: f(1.6)}}>AED {GST}</Text>
             </View>
           </View>
           <AddToCartButton

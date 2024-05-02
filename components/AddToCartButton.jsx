@@ -14,7 +14,7 @@ export const AddToCartButton = ({buttonLabel, leftContentType, buttonStyle, labe
       { leftContentType === 'price' ?
       <View style={{width: '25%', paddingLeft: h(2.4)}}>
         <Text style={{color: '#767676', fontSize: f(1.6), marginBottom: 6}}>Total</Text>
-        <Text style={{color: customTheme.colors.primary, fontWeight: '700', fontSize: f(1.7)}}>PKR {totalPrice}</Text>
+        <Text style={{color: customTheme.colors.primary, fontWeight: '700', fontSize: f(1.7)}}>AED {totalPrice}</Text>
       </View>
       :   
       <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '25%'}}>

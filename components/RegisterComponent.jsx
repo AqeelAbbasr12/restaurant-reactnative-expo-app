@@ -10,11 +10,12 @@ import { InputComponent } from "@/components/InputComponent";
 import { ButtonComponent } from "@/components/ButtonComponent";
 import { router } from "expo-router";
 import { calculateTextWidth_MENU } from "@/utils/utils";
-import { useSelector, useDispatch, unwrapResult } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { registerUser } from "@/store/auth/authSlice";
 import { switchAuthScreen } from "@/store/auth/authSlice";
 import { Divider, Portal, Snackbar } from "react-native-paper";
 import { useToast } from "react-native-toast-notifications";
+import { unwrapResult } from '@reduxjs/toolkit';
 
 
 export const RegisterComponent = () => {
@@ -40,8 +41,8 @@ export const RegisterComponent = () => {
       setLoading(true);
       const resultAction = await dispatch(registerUser({ email, password }));
       const result = unwrapResult(resultAction);
-      if (result.status === 401) {
-        toast.show(result.message, {
+      if (result.status === 400) {
+        toast.show('Password should contain one capital and alphanumeric key and more than 8 characters', {
           type: "danger",
           duration: 4000,
           offset: 30,
@@ -49,7 +50,7 @@ export const RegisterComponent = () => {
           placement: "top",
         });
       } else if (result.user) {
-        toast.show("Login Successful!", {
+        toast.show("Successfully registered!", {
           type: "success",
           duration: 4000,
           offset: 30,
@@ -65,7 +66,6 @@ export const RegisterComponent = () => {
 
     setError(false);
   };
-
   const handleInputChange = (text) => {
     const numericInput = text.replace(/[^0-9]/g, "");
     setPhoneNumber(numericInput);

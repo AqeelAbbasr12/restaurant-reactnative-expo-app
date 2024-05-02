@@ -41,6 +41,7 @@ const authSlice = createSliceWithThunks({
         authScreen: "login",
         refreshToken: null,
         userLocation: null,
+        responseMessage: null,
     },
     reducers: (create) => ({
         setUserLocation: create.reducer((state, action) => {
@@ -55,22 +56,41 @@ const authSlice = createSliceWithThunks({
                     },
                     body: JSON.stringify(data),
                 });
-                const responseJson = await res.json();
-                console.log("responseJson ", responseJson);
-                return await res.json();
+
+                if(res.status === 200){
+                    const loginRes = await login(data)
+                    if (loginRes.accessToken) {
+                        return {
+                            loginInfo: loginRes,
+                            user: data
+                        }
+                    }
+                    else {
+                        return {
+                            message: "Inavlid email or password",
+                            title: loginRes.title,
+                            status: loginRes.status
+                        };
+                    }
+                } else {
+                    return {
+                        message: "Password should match criteria",
+                        title: 'invalid',
+                        status: 400
+                    };
+                }
             },
             {
                 pending: (state) => {
                     state.loading = true
                 },
                 rejected: (state, action) => {
-                    console.log("Rejected")
                     state.error = action.payload ?? action.error
                 },
                 fulfilled: (state, action) => {
-                    console.log("action.payload ===> ", action.payload)
-                    if (action.payload.status === 401) {
-                        state.error = action.payload.title;
+                    if (action.payload.status === 400) {
+                        state.responseMessage = 400;
+                        state.error = action.payload.message;
                     } else {
                         state.accessToken = action.payload.loginInfo.accessToken;
                         state.refreshToken = action.payload.loginInfo.refreshToken;

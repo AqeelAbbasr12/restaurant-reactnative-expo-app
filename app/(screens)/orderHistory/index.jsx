@@ -88,7 +88,7 @@ export default function OrderHistory() {
                     <Heading text={moment(product.orderTime).format('MMMM D [at] h:mm a')} alignStyle={{ fontSize: f(1.3), paddingBottom: h(1.5), color: 'lightgray' }} />
                   </View>
                   <View style={{ width: '20%', borderStartWidth: 1, borderStartColor: 'gray', alignItems: 'center' }}>
-                    <Text style={{ color: '#FE5F55', paddingLeft: 4, fontWeight: '700' }}>PKR {product.grandTotal}</Text>
+                    <Text style={{ color: '#FE5F55', paddingLeft: 4, fontWeight: '700' }}>AED {product.grandTotal}</Text>
                     <Icon
                       name="chevron-down-circle"
                       size={25}
@@ -169,7 +169,7 @@ export default function OrderHistory() {
                           </Text>
                         </View>
                         <Text style={{ color: 'gray', fontWeight: '700' }}>
-                          PKR {item.totalPrice}
+                          AED {item.totalPrice}
                         </Text>
                       </View>
                     ))}
@@ -178,7 +178,7 @@ export default function OrderHistory() {
                         Subtotal
                       </Text>
                       <Text style={{ color: '#a7a7a7' }}>
-                        PKR {orderDetail?.subTotal}
+                        AED {orderDetail?.subTotal}
                       </Text>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: h(0) }}>
@@ -186,14 +186,14 @@ export default function OrderHistory() {
                         Shipping
                       </Text>
                       <Text style={{ color: '#a7a7a7' }}>
-                        PKR {orderDetail?.tax}
+                        AED {orderDetail?.tax}
                       </Text>
                     </View>
                   </Card.Content>
                   <Divider style={{ backgroundColor: 'lightgray' }} />
                   <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 16, paddingVertical: h(2) }}>
                     <Button style={{ backgroundColor: '#FE5F55', borderRadius: 50, paddingHorizontal: w(5) }} labelStyle={{ color: 'white', textTransform: 'none' }}>Reorder</Button>
-                    <Text style={{ color: '#000', fontWeight: '900' }}>PKR {orderDetail?.grandTotal}</Text>
+                    <Text style={{ color: '#000', fontWeight: '900' }}>AED {orderDetail?.grandTotal}</Text>
                   </View>
                 </Card>
               )}

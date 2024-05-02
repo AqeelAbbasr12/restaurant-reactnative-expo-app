@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   TouchableOpacity,
@@ -6,15 +6,25 @@ import {
 import { Badge, IconButton, Snackbar, Portal } from "react-native-paper";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 import { router } from "expo-router";
+import SnackBar from 'react-native-snackbar-component';
 
 export const MenuCartIcon = ({count, iconColor, badgeColor, badgeTextColor}) => {
   const { w } = useResponsiveScreen();
   const [visible, setVisible] = useState(false);
 
   const onToggleSnackBar = () => {
-    setVisible(!visible)
-    
+    setVisible(prevVisible => !prevVisible);
   };
+
+  useEffect(() => {
+    let timer;
+    if (visible) {
+      timer = setTimeout(() => {
+        setVisible(false);
+      }, 3000);
+    }
+    return () => clearTimeout(timer);
+  }, [visible]);
 
   const onDismissSnackBar = () => setVisible(false);
 
@@ -54,18 +64,15 @@ export const MenuCartIcon = ({count, iconColor, badgeColor, badgeTextColor}) => 
         </>
       )}
       <Portal>
-        <Snackbar
-          visible={visible}
-          onDismiss={onDismissSnackBar}
-          color="white"
-          textAlign="center"
-          wrapperStyle={{top: 0, left: 0, textAlign: 'center', color: "white", textAlign: 'center'}}
-          style={{backgroundColor: "red"}}
-          theme={{ colors: { onSurface: '#ffffff' } }}
-          rippleColor="white"
-          >
-          Cart is empty.
-        </Snackbar>
+        <SnackBar 
+          visible={visible} 
+          textMessage="Cart is empty!" 
+          autoHidingTime={3000}
+          containerStyle={{position: 'absolute',top: '100px'}}
+          messageStyle={{fontSize: 20}}
+          backgroundColor="red"
+          position="top"
+        />
         </Portal>
     </View>
   );

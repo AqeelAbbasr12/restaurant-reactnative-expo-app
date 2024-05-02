@@ -39,7 +39,9 @@ export default function CheckoutPage() {
 
   let subtotal = 0;
   cartItems.forEach(item => {
-    subtotal += item.quantity * item.itemDetail.price;
+    if(item.selectedOptions.length === 0) {
+      subtotal += item.quantity * item.itemDetail.price;
+    }
     for (const key in item.selectedOptions) {
       if (item.selectedOptions.hasOwnProperty(key)) {
         const option = item.selectedOptions[key];
@@ -378,7 +380,7 @@ export default function CheckoutPage() {
           </View>
           <View>
             <Text style={{ color: customTheme.colors.textDark, fontSize: f(1.8), fontWeight: 800 }}>
-              PKR {GST + subtotal}
+              AED {GST + subtotal}
             </Text>
           </View>
         </View>

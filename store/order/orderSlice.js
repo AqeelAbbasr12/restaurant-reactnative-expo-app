@@ -30,7 +30,6 @@ const orderSlice = createSliceWithThunks({
     fetchOrders: create.asyncThunk(
       async (data) => {
         const res = await fetchOrderData(data);
-
         if (res.status === 200) {
           const jsonData = await res.json();
           return jsonData;
@@ -92,7 +91,6 @@ const orderSlice = createSliceWithThunks({
       state.cartData = [...state.cartData, action.payload];
     },
     removeCartItem(state, action) {
-      console.log(state.cartData);
       state.cartData = state.cartData.filter(item => item.id !== action.payload);
     },
 

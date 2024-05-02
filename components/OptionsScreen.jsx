@@ -24,7 +24,7 @@ export const OptionComponent = ({
             <Text style={{color: 'black'}}>{text}</Text>
           </View>
           <View>
-            <Text style={{color: 'black'}}>PKR {price}</Text>
+            <Text style={{color: 'black'}}>AED {price}</Text>
           </View>
         </View>
       </RadioButton.Group>
