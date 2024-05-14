@@ -36,7 +36,7 @@ export const CardComponent = ({ imageSource, title, buttonText, onPress }) => {
           </Button>
         </View>
         <Card.Content>
-          <Text style={[styles.title, { fontSize: 16 }]}>{title}</Text>
+          <Text style={[styles.title, { fontSize: 15 }]}>{title}</Text>
         </Card.Content>
       </View>
 
@@ -85,10 +85,10 @@ const styles = StyleSheet.create({
   },
   image: {
     position: "absolute",
-    right: -35,
-    top: -15,
-    width: "105%",
-    height: "105%",
+    right: -25,
+    top: -10,
+    width: "85%",
+    height: "85%",
     alignContent: "center",
     resizeMode: "contain",
   },

@@ -96,7 +96,7 @@ export default function MenuPage() {
     <Screen
       SideBarIcons={SideBarIcons}
       sideBarItems={["All", ...categoryMenu.map((items) => items.name)]}
-      sidebarItemsMargin={5}
+      sidebarItemsMargin={10}
       calculateTextWidth={calculateTextWidth_MENU}
       sidebarTopMargin={10}
       selecteSideBarItem={selecteSideBarItem}

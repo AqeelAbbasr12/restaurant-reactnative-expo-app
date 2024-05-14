@@ -4,6 +4,7 @@ import {
   Heading,
   Header,
   AddToCartButton,  
+  ButtonComponent,
 } from "@/components";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { customTheme } from "@/utils/theme";
@@ -17,6 +18,9 @@ export default function CartPage() {
   const { w,h,f } = useResponsiveScreen();
   const [quantities, setQuantities] = useState({}); 
   const [visibleModal, setVisibleModal] = useState({});
+  const [emptyCartModal, setEmptyCartModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const showModal = (id) => {
     setVisibleModal({ ...visibleModal, [id]: true });
   };
@@ -62,6 +66,12 @@ export default function CartPage() {
 
   const emptyCart = () => {
     dispatch(emptyCartItems());
+  }
+  const emptyConfirmModal = () => {
+    setEmptyCartModal(true);
+  }
+  const hideConfirmModal = () => {
+    setEmptyCartModal(false);
   }
 
   let subtotal = 0;
@@ -141,7 +151,7 @@ export default function CartPage() {
                 }}
               >
                 <Icon
-                  onPress={emptyCart}
+                  onPress={emptyConfirmModal}
                   name="delete-outline"
                   size={30}
                   color={customTheme.colors.iconColorWhite}
@@ -232,13 +242,44 @@ export default function CartPage() {
                     </View>
                   </Modal>
                 </Portal>
+                <Portal>
+                  <Modal visible={emptyCartModal} contentContainerStyle={{backgroundColor: 'white', padding: 30, borderRadius: 4, elevation: 6}} style={{padding: w(9)}}>
+                    <Icon name="close" onPress={hideConfirmModal} 
+                      style={{
+                        position: 'absolute',
+                        top: -6,
+                        right: -5,
+                        backgroundColor: 'lightgrey',
+                        borderRadius: 50
+                      }}
+                        size={20}
+                      />
+                    <Text style={{color: 'black', fontSize: 24, textAlign: 'center', marginBottom: 20}}>This will empty your cart</Text>
+                    <ButtonComponent
+                      mode="contained"
+                      label="Proceed"
+                      textColor="white"
+                      textTransform="capitalize"
+                      labelStyle={{ textTransform: "capitalize", fontWeight: 700 }}
+                      style={{
+                        color: "white",
+                        borderRadius: 50,
+                        paddingVertical: 8,
+                        paddingHorizontal: 10,
+                      }}
+                      backgroundColor={customTheme.colors.primary}
+                      onPress={emptyCart}
+                      loading={loading}
+                    />
+                  </Modal>
+                </Portal>
               </View>
               
             ))}
             <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: h(3)}}>
               <Text style={{color: customTheme.colors.primary, fontWeight: '800', fontSize: f(1.8)}}><Link href={"/menu"}>+ Add More Items</Link></Text>
             </View>
-            </View>
+          </View>
         </View>
       </ScrollView>
       <View 

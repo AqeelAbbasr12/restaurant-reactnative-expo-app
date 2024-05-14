@@ -57,21 +57,21 @@ export const Drawer = () => {
       icon: 'lock-open-outline',
       link: '/changePassword',
     },
-    {
-      name: 'Privacy Policy',
-      icon: 'file-document-outline',
-      link: '/privacy-policy',
-    },
+    // {
+    //   name: 'Privacy Policy',
+    //   icon: 'file-document-outline',
+    //   link: '/privacy-policy',
+    // },
     {
       name: 'Account Deletion',
       icon: 'account-remove-outline',
-      link: '/account-deletion',
+      link: '/accountDelete',
     },
-    {
-      name: 'FAQ',
-      icon: 'chat-question-outline',
-      link: '/faq',
-    },
+    // {
+    //   name: 'FAQ',
+    //   icon: 'chat-question-outline',
+    //   link: '/faq',
+    // },
     {
       name: 'LOGOUT',
       icon: 'logout',
@@ -135,8 +135,8 @@ export const Drawer = () => {
               paddingHorizontal: w(3)
             }}
           >
-            <Text style={{ fontSize: f(2.8) }}>ABC</Text>
-            <Text style={{ fontSize: f(2), fontWeight: '300' }}>{auth?.user?.email}</Text>
+            <Text style={{ fontSize: f(2.5) }}>ABC</Text>
+            <Text style={{ fontSize: f(1.8), fontWeight: '300' }}>{auth?.user?.email}</Text>
           </View>
           {sideBarItems.map((item, key) => (
             <View style={{ borderBottomWidth: 1, borderBottomColor: 'lightgrey', paddingVertical: h(2), paddingHorizontal: w(2.5) }} key={key}>
@@ -149,7 +149,7 @@ export const Drawer = () => {
                   />
                 </View>
                 <View>
-                  <Text style={{ color: 'grey', fontSize: 20, textTransform: 'uppercase', paddingLeft: 17 }}>{item.name}</Text>
+                  <Text style={{ color: 'grey', fontSize: 18, textTransform: 'uppercase', paddingLeft: 17 }}>{item.name}</Text>
                 </View>
               </Link>
             </View>

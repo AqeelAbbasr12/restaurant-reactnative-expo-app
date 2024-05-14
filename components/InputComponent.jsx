@@ -18,6 +18,8 @@ export const InputComponent = ({
   keyboardType,
   outlineStyle,
   type,
+  disabled =  disabled ? disabled : false, 
+  textColor = textColor ? textColor : 'black'
 }) => {
   const { h } = useResponsiveScreen();
   const [secureText, setSecureText] = useState(secureTextEntry);
@@ -31,13 +33,14 @@ export const InputComponent = ({
         mode={mode}
         label={label}
         value={value}
+        disabled={disabled}
         placeholder={placeholder}
         onChangeText={onChangeText}
         secureTextEntry={secureText}
         placeholderTextColor={
           placeholderTextColor ? placeholderTextColor : "black"
         }
-        textColor="black"
+        textColor={textColor}
         style={style}
         keyboardType={keyboardType === "numeric" ? "numeric" : "default"}
         outlineColor="gray"

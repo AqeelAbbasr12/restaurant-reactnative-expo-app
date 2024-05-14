@@ -90,7 +90,11 @@ export const HomePageComponent = () => {
       router.navigate("/menu");
     }
     if (item === "cart") {
-      router.navigate("/cart");
+      if(itemCount.length > 0) {
+        router.navigate("/cart");
+      } else{
+        setVisible(!visible);
+      }
     }
   };
 
@@ -164,12 +168,12 @@ export const HomePageComponent = () => {
               </>    
             )}
           
-          <IconButton
+          {/* <IconButton
             icon="bell-outline"
             size={30}
             style={{paddingRight: 15, margin: 0}}
             iconColor={customTheme.colors.iconColorDark}
-          />
+          /> */}
         </View>
       </Header>
       <View>
