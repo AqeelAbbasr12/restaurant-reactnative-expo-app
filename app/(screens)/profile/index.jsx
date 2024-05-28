@@ -14,26 +14,50 @@ import {
 import { Link, router } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useToast } from "react-native-toast-notifications";
+import { fetchProfile, updateProfile } from "@/store/profile/profileSlice";
 
 export default function CheckoutPage() {
   const { w, h, f } = useResponsiveScreen();
   const auth = useSelector((state) => state.auth);
-  const [address, setAddress] = useState('');
-  const [name, setName] = useState('');
+  const userData = useSelector((state) => state.profile.profileData);
+  const [address, setAddress] = useState(userData?.address);
+  const [name, setName] = useState(userData?.fullName);
   const [email, setEmail] = useState(auth.user.email);
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState(userData?.phoneNumber);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const toast = useToast();
 
+  const toast = useToast();
+  useEffect(() => {
+    dispatch(fetchProfile(auth.accessToken));
+  },[dispatch]);
 
   const handleProfileUpdate = async () => {
-    if (!address || !name || !email || phoneNumber) {
+    if (!address || !name || !email || !phoneNumber) {
       setError(true);
       // return;
     } else {
       setLoading(false);
+      const profileData = {
+        phoneNumber,
+        fullName: name,
+        address: address,
+      };
+
+      const data = {
+        profileData,
+        token: auth.accessToken,
+      }
+      await dispatch(updateProfile(data));
+      toast.show("Profile information update successfully.", {
+        type: "success",
+        placement: "top",
+        duration: 4000,
+        offset: 30,
+        animationType: "slide-in",
+      });
+      // router.navigate('/');
     }
   };
 

@@ -1,7 +1,7 @@
 import { View, Image } from "react-native";
 import { customTheme } from "@/utils/theme";
 import { ActivityIndicator } from "react-native-paper";
-import DaiyDeliLogo from "@/assets/images/daily-deli.png";
+import DaiyDeliLogo from "@/assets/images/continental-Grill_Logo.png";
 
 export const SplashScreen = () => {
   return (

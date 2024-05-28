@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Text, View, ScrollView, TouchableOpacity } from "react-native";
+import { Text, View, ScrollView, TouchableOpacity, Image } from "react-native";
 import {
   Screen,
   Heading,
@@ -209,6 +209,7 @@ export const HomePageComponent = () => {
         </ScrollView>
       </View>
       <View style={{ marginTop: 10 }}>
+      
         <HomeComponent
           mainLabel="Our"
           subLabel="Menu"

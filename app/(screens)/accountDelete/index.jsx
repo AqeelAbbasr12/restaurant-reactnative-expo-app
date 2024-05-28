@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
-import { Text, Button } from "react-native-paper";
+import { Text, Button, Portal, Modal } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { customTheme } from "@/utils/theme";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
@@ -14,28 +14,41 @@ import {
 import { Link, router } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useToast } from "react-native-toast-notifications";
+import { fetchProfile, deleteProfileAccount } from "@/store/profile/profileSlice";
+import { logoutUser } from "@/store/auth/authSlice";
 
 export default function CheckoutPage() {
   const { w, h, f } = useResponsiveScreen();
   const auth = useSelector((state) => state.auth);
-  const [address, setAddress] = useState('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState(auth.user.email);
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const userData = useSelector((state) => state.profile.profileData);
+  const [address, setAddress] = useState(userData?.address);
+  const [name, setName] = useState(userData?.fullName);
+  const [email, setEmail] = useState(auth?.user?.email);
+  const [phoneNumber, setPhoneNumber] = useState(userData?.phoneNumber);
   const [error, setError] = useState(false);
-  console.log('auth', auth.user);
   const [loading, setLoading] = useState(false);
+  const [deleteAccountModal, setDeleteAccountModal] = useState(false);
   const dispatch = useDispatch();
   const toast = useToast();
 
+  useEffect(() => {
+    dispatch(fetchProfile(auth.accessToken))
+  },[dispatch])
 
   const handleDeleteAccount = async () => {
-    if (!address || !name || !email || phoneNumber) {
-      setError(true);
-      // return;
-    } else {
-      setLoading(false);
-    }
+    setDeleteAccountModal(true);
+  };
+  const deleteAccount = async () => {
+    await dispatch(deleteProfileAccount(auth.accessToken));
+    setDeleteAccountModal(false);
+    toast.show("User account deleted successfully!", {
+      type: "success",
+      placement: "top",
+      duration: 4000,
+      offset: 30,
+      animationType: "slide-in",
+    });
+    dispatch(logoutUser());
   };
 
 
@@ -193,6 +206,37 @@ export default function CheckoutPage() {
                 />
               </View>
             </View>
+            <Portal>
+              <Modal visible={deleteAccountModal} contentContainerStyle={{backgroundColor: 'white', padding: 30, borderRadius: 4, elevation: 6}} style={{padding: w(9)}}>
+                <Icon name="close" onPress={() => setDeleteAccountModal(false)} 
+                  style={{
+                    position: 'absolute',
+                    top: -6,
+                    right: -5,
+                    backgroundColor: 'lightgrey',
+                    borderRadius: 50
+                  }}
+                    size={20}
+                  />
+                <Text style={{color: 'black', fontSize: 24, textAlign: 'center', marginBottom: 20}}>This will delete your account!</Text>
+                <ButtonComponent
+                  mode="contained"
+                  label="Proceed"
+                  textColor="white"
+                  textTransform="capitalize"
+                  labelStyle={{ textTransform: "capitalize", fontWeight: 700 }}
+                  style={{
+                    color: "white",
+                    borderRadius: 50,
+                    paddingVertical: 8,
+                    paddingHorizontal: 10,
+                  }}
+                  backgroundColor={customTheme.colors.primary}
+                  onPress={deleteAccount}
+                  loading={loading}
+                />
+              </Modal>
+            </Portal>
         </View>
       </ScrollView>
     </View>

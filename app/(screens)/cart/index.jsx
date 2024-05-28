@@ -13,9 +13,12 @@ import { useState, useEffect } from "react";
 import { Link } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 import { removeCartItem, emptyCartItems, updateCartItemQuantity } from "@/store/order/orderSlice";
+import { fetchCommonInfo } from "@/store/auth/authSlice";
 
 export default function CartPage() {
   const { w,h,f } = useResponsiveScreen();
+  const token = useSelector((state) => state.auth.accessToken);
+  const auth = useSelector((state) => state.auth);
   const [quantities, setQuantities] = useState({}); 
   const [visibleModal, setVisibleModal] = useState({});
   const [emptyCartModal, setEmptyCartModal] = useState(false);
@@ -36,7 +39,8 @@ export default function CartPage() {
       initialQuantities[item.id] = item.quantity;
     });
     setQuantities(initialQuantities);
-  }, [cartItems]);
+    dispatch(fetchCommonInfo(token));
+  }, [cartItems,dispatch]);
 
   const incrementQuantity = (productId) => {
     setQuantities(prevQuantities => ({
@@ -86,7 +90,7 @@ export default function CartPage() {
       }
     }
   });
-  const GST = subtotal * 0.15;
+  const GST = subtotal * auth.commonData.taxRate;
 
   const getSelectedOptions = (item, customId) => {
       const option = item.selectedOptions[customId];
@@ -301,14 +305,14 @@ export default function CartPage() {
             </View>
             
             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Text style={{color: '#767676', fontSize: f(1.6)}}>GST 15%</Text>
-              <Text style={{color: '#767676', fontWeight: '300', fontSize: f(1.6)}}>AED {GST}</Text>
+              <Text style={{color: '#767676', fontSize: f(1.6)}}>GST {auth.commonData.taxRate * 100}%</Text>
+              <Text style={{color: '#767676', fontWeight: '300', fontSize: f(1.6)}}>AED {GST.toFixed(2)}</Text>
             </View>
           </View>
           <AddToCartButton
             buttonLabel="Proceed to Checkout"
             leftContentType="price"
-            totalPrice= { GST + subtotal }
+            totalPrice= { (GST + subtotal).toFixed(2) }
             buttonStyle={{paddingVertical: h(1.2)}}
             labelStyle={{fontSize: f(1.5), textTransform: 'uppercase'}}
             buttonType={cartItems?.length > 0 ? 'link' : ''}

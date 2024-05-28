@@ -49,7 +49,7 @@ export const InputComponent = ({
           secureTextEntry ? (
             <TextInput.Icon
               icon={secureText ? "eye" : "eye-off"}
-              color="#f7901e"
+              color="#281612"
               onPress={toggleSecureEntry}
               style={iconStyle}
             />

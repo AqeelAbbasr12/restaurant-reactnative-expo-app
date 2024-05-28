@@ -9,6 +9,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Link, router } from "expo-router";
 import { Text } from "react-native-paper";
 import { logoutUser } from "@/store/auth/authSlice";
+import { fetchProfile } from "@/store/profile/profileSlice";
 
 export const Drawer = () => {
   const drawerPosition = useState(new Animated.Value(0))[0];
@@ -16,11 +17,12 @@ export const Drawer = () => {
   const { w, h, f } = useResponsiveScreen();
   const drawer = useSelector((state) => state.drawer.value);
   const auth = useSelector((state) => state.auth);
+  const userData = useSelector((state) => state.profile.profileData);
   const dispatch = useDispatch();
   useEffect(() => {
     animateDrawer(drawer);
-  }, [drawer]);
-
+    dispatch(fetchProfile(auth.accessToken));
+  }, [drawer, dispatch]);
   const animateDrawer = (isOpen) => {
     Animated.parallel([
       Animated.timing(drawerPosition, {
@@ -135,7 +137,7 @@ export const Drawer = () => {
               paddingHorizontal: w(3)
             }}
           >
-            <Text style={{ fontSize: f(2.5) }}>ABC</Text>
+            <Text style={{ fontSize: f(2.5) }}>{userData?.fullName}</Text>
             <Text style={{ fontSize: f(1.8), fontWeight: '300' }}>{auth?.user?.email}</Text>
           </View>
           {sideBarItems.map((item, key) => (
