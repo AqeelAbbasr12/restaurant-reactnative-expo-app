@@ -1,4 +1,4 @@
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, StyleSheet } from "react-native";
 import { customTheme } from "@/utils/theme";
 import { useResponsiveScreen } from "@/hooks/useResponsiveScreen";
 import { Drawer } from "./Drawer";
@@ -56,10 +56,11 @@ export function Screen({
               <Svg
                 key={index}
                 width="50"
-                height={containerHeight}
-                style={{
+                
+                style={[{
                   marginBottom: sidebarItemsMargin,
-                }}
+                  height: containerHeight,
+                }, (item === 'Appetizers') ? styles.customStyle : '', (item === 'Panini') ? styles.customStyle2 : '']}
                 onPress={() => {
                   selecteSideBarItem(item.toLocaleLowerCase())
                 }}
@@ -76,6 +77,7 @@ export function Screen({
                       ? 700
                       : 200
                   }
+                  
                 >
                   {item}
                 </Text>
@@ -103,3 +105,11 @@ export function Screen({
     </View>
   );
 }
+const styles = StyleSheet.create({
+  customStyle: {
+    marginTop: -17,
+  },
+  customStyle2: {
+    marginTop: -17,
+  }
+})

@@ -16,26 +16,35 @@ import { Link, router } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useToast } from "react-native-toast-notifications";
 import { placeOrder } from "@/store/order/orderSlice";
+import { fetchProfile } from "@/store/profile/profileSlice";
+import { fetchCommonInfo } from "@/store/auth/authSlice";
 
 export default function CheckoutPage() {
   const { w, h, f } = useResponsiveScreen();
+  const userData = useSelector((state) => state.profile.profileData);
+  const token = useSelector((state) => state.auth.accessToken);
+  const auth = useSelector((state) => state.auth);
   const [cityName, setCityName] = useState('');
   const [area, setArea] = useState('');
   const [completeAddress, setCompleteAddress] = useState('');
   const [zipCode, setZipCode] = useState('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [name, setName] = useState(userData?.fullName);
+  const [email, setEmail] = useState(auth?.user?.email);
+  const [phoneNumber, setPhoneNumber] = useState(userData?.phoneNumber);
   const [addPhoneNumber, setAddPhoneNumber] = useState('');
   const [error, setError] = useState(false);
   const [checkoutType, setCheckoutType] = useState('delivery');
   const [isSummaryVisible, setIsSummaryVisible] = useState(false);
   const [paymentType, setPaymentType] = useState('cod');
-  const token = useSelector((state) => state.auth.accessToken);
 
   const cartItems = useSelector((state) => state.order.cartData);
   const dispatch = useDispatch();
   const toast = useToast();
+
+  useEffect(() => {
+    dispatch(fetchProfile(token));
+    dispatch(fetchCommonInfo(token));
+  }, [dispatch]);
 
   let subtotal = 0;
   cartItems.forEach(item => {
@@ -49,12 +58,12 @@ export default function CheckoutPage() {
       }
     }
   });
-  const GST = subtotal * 0.15;
+  const GST = subtotal * auth?.commonData?.taxRate ? auth.commonData.taxRate : 0.16;
 
   const handlePlaceOrder = async () => {
     if (!completeAddress || !zipCode || !cityName) {
       setError(true);
-      // return;
+      return;
     } else {
       const orderData = {
 
@@ -68,7 +77,7 @@ export default function CheckoutPage() {
           }))
         })),
         orderTime: new Date().toISOString(),
-        shipping: 0,
+        shipping: auth?.commonData?.deliveryCharges ? auth.commonData.deliveryCharges : 10,
         address: {
           streetAddress: completeAddress,
           zipCode: zipCode,
@@ -320,7 +329,7 @@ export default function CheckoutPage() {
                 value={addPhoneNumber}
                 onChangeText={setAddPhoneNumber}
                 error={error && !addPhoneNumber}
-                helperText="name is required"
+                helperText="Additional Phone Number is required"
                 placeholderTextColor="lightgray"
                 style={{
                   backgroundColor: "transparent",
@@ -380,7 +389,7 @@ export default function CheckoutPage() {
           </View>
           <View>
             <Text style={{ color: customTheme.colors.textDark, fontSize: f(1.8), fontWeight: 800 }}>
-              AED {GST + subtotal}
+              AED {(GST + subtotal).toFixed(2)}
             </Text>
           </View>
         </View>
@@ -398,8 +407,8 @@ export default function CheckoutPage() {
               <Text style={{ color: 'black' }}>{subtotal}</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text style={{ color: 'black' }}>GST 15%</Text>
-              <Text style={{ color: 'black' }}>{GST}</Text>
+              <Text style={{ color: 'black' }}>GST {auth.commonData.taxRate * 100}%</Text>
+              <Text style={{ color: 'black' }}>{GST.toFixed(2)}</Text>
             </View>
           </View>
         }

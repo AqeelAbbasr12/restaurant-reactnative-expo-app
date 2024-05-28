@@ -1,7 +1,7 @@
 import { View, Image, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import { customTheme } from "@/utils/theme";
-import DaiyDeliLogo from "@/assets/images/daily-deli.png";
+import DaiyDeliLogo from "@/assets/images/continental-Grill_Logo.png";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserLocation } from "@/store/auth/authSlice";

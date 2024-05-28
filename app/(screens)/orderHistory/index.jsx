@@ -29,7 +29,7 @@ export default function OrderHistory() {
   useEffect(() => {
     dispatch(fetchOrders(token));
   }, [dispatch]);
-
+  
   const [expanded, setExpanded] = useState(-1);
 
   const handlePress = (index, id) => {
@@ -75,6 +75,7 @@ export default function OrderHistory() {
         </View>
         <View style={{ paddingVertical: h(6), paddingHorizontal: w(4), flexDirection: 'column' }}>
           {productsList?.map((product, index) => (
+
             <>
               {expanded !== index && (
                 <View
@@ -83,12 +84,12 @@ export default function OrderHistory() {
                   <View style={{ width: '25%', borderRadius: 12 }}>
                     <Image source={image} resizeMode="cover" style={{ width: '100%', height: 80, borderRadius: 10 }}></Image>
                   </View>
-                  <View style={{ width: '55%', paddingLeft: 10 }}>
+                  <View style={{ width: '50%', paddingLeft: 10 }}>
                     <Heading text={`#${product.orderNumber}`} alignStyle={{ fontSize: f(1.5), paddingVertical: h(1) }} />
                     <Heading text={moment(product.orderTime).format('MMMM D [at] h:mm a')} alignStyle={{ fontSize: f(1.3), paddingBottom: h(1.5), color: 'lightgray' }} />
                   </View>
-                  <View style={{ width: '20%', borderStartWidth: 1, borderStartColor: 'gray', alignItems: 'center' }}>
-                    <Text style={{ color: '#FE5F55', paddingLeft: 4, fontWeight: '700' }}>AED {product.grandTotal}</Text>
+                  <View style={{ width: '25%', borderStartWidth: 1, borderStartColor: 'gray', alignItems: 'center' }}>
+                    <Text style={{ color: '#FE5F55', paddingLeft: 4, fontWeight: '700', fontSize: 12 }}>AED {product.grandTotal.toFixed(2)}</Text>
                     <Icon
                       name="chevron-down-circle"
                       size={25}
@@ -101,7 +102,7 @@ export default function OrderHistory() {
                 </View>
               )}
               {expanded === index && (
-                <Card style={[styles.cardContainer, { marginBottom: h(3.5), borderRadius: 12, backgroundColor: 'white' }]} key={index}>
+                <Card style={[styles.cardContainer, { marginBottom: h(3.5), borderRadius: 12, backgroundColor: 'white' }]} key={product.id + index}>
                   <View style={styles.bgImage}>
                     <ImageBackground source={image} resizeMode="cover" style={{ height: 100, width: '100%' }}>
                       <View
@@ -161,7 +162,7 @@ export default function OrderHistory() {
                       </Text> */}
                     </View>
                     {orderDetail?.items?.map((item, index) => (
-                      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: h(1) }}>
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: h(1) }} key={item.id}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                           <Badge style={{ color: '#A7A7A7', backgroundColor: '#f5f5f5', marginRight: 7, paddingHorizontal: 10, borderRadius: 5 }} size={20}>{item.quantity}x</Badge>
                           <Text style={{ color: 'gray', alignItems: 'center', display: 'flex', flexDirection: 'row', fontWeight: '700' }}>
@@ -175,10 +176,18 @@ export default function OrderHistory() {
                     ))}
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: h(1) }}>
                       <Text style={{ color: '#a7a7a7', alignItems: 'center', display: 'flex', flexDirection: 'row', marginLeft: 40 }}>
-                        Subtotal
+                        Sub total
                       </Text>
                       <Text style={{ color: '#a7a7a7' }}>
-                        AED {orderDetail?.subTotal}
+                        AED {(orderDetail?.subTotal)}
+                      </Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: h(1) }}>
+                      <Text style={{ color: '#a7a7a7', alignItems: 'center', display: 'flex', flexDirection: 'row', marginLeft: 40 }}>
+                        Tax/GST
+                      </Text>
+                      <Text style={{ color: '#a7a7a7' }}>
+                        AED {orderDetail?.tax}
                       </Text>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: h(0) }}>
@@ -186,14 +195,14 @@ export default function OrderHistory() {
                         Shipping
                       </Text>
                       <Text style={{ color: '#a7a7a7' }}>
-                        AED {orderDetail?.tax}
+                        AED {orderDetail?.shipping}
                       </Text>
                     </View>
                   </Card.Content>
                   <Divider style={{ backgroundColor: 'lightgray' }} />
                   <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 16, paddingVertical: h(2) }}>
                     <Button style={{ backgroundColor: '#FE5F55', borderRadius: 50, paddingHorizontal: w(5) }} labelStyle={{ color: 'white', textTransform: 'none' }}>Reorder</Button>
-                    <Text style={{ color: '#000', fontWeight: '900' }}>AED {orderDetail?.grandTotal}</Text>
+                    <Text style={{ color: '#000', fontWeight: '900' }}>AED {orderDetail?.grandTotal.toFixed(2)}</Text>
                   </View>
                 </Card>
               )}

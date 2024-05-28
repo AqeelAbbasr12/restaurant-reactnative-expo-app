@@ -12,7 +12,7 @@ export const HomeComponent = ({ mainLabel, subLabel, href = "/" }) => {
   return (
     <TouchableOpacity activeOpacity={1} onPress={() => router.navigate(href)}>
       <LinearGradient
-        colors={["rgba(74,74,74,1)", "rgba(0,0,0,1)"]}
+        colors={["#171717", "#4e4b4b"]}
         style={{
           display: "flex",
           flexDirection: "row",
@@ -35,7 +35,7 @@ export const HomeComponent = ({ mainLabel, subLabel, href = "/" }) => {
             style={{
               color: "#f29434",
               textTransform: "uppercase",
-              fontSize: f(3),
+              fontSize: 25,
               fontWeight: 800,
             }}
           >
@@ -44,7 +44,7 @@ export const HomeComponent = ({ mainLabel, subLabel, href = "/" }) => {
               style={{
                 color: customTheme.colors.textWhite,
                 textTransform: "uppercase",
-                fontSize: f(3),
+                fontSize: 25,
                 fontWeight: 800,
               }}
             >

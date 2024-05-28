@@ -128,7 +128,7 @@ export default function MenuPage() {
                   color={customTheme.colors.iconColorWhite}
                 ></Icon>
               </TouchableOpacity>
-              <Heading text={itemDetail.name} alignStyle={{color: customTheme.colors.textWhite, fontSize: f(2.5)}} />
+              <Heading text={itemDetail.name} alignStyle={{color: customTheme.colors.textWhite, fontSize: f(2.2), width: '80%'}} />
             </View>
             <MenuCartIcon 
               count={itemCount.length} 
@@ -167,8 +167,8 @@ export default function MenuPage() {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <Heading text={itemDetail.name} alignStyle={{fontSize: f(2.5), marginBottom: 20}}></Heading>
-            <Heading text={totalPrice ? totalPrice : itemDetail.price} alignStyle={{ color: customTheme.colors.primary, fontSize: f(2), marginBottom: 20}} />
+            <Heading text={itemDetail.name} alignStyle={{fontSize: f(2.2), marginBottom: 20, width: '75%'}}></Heading>
+            <Heading text={`AED ${totalPrice ? totalPrice : itemDetail.price}`} alignStyle={{ color: customTheme.colors.primary, fontSize: f(2), marginBottom: 20,  width: '25%', textAlign: 'right'}} />
           </View>
           <Text style={{color: 'black', fontWeight: 300, color: 'gray', fontSize: f(1.6), marginBottom: h(2)}}>
             {itemDetail.description}

@@ -21,7 +21,7 @@ export const Customization = ({ customization, selectedOption, onOptionSelect })
             status={selectedOption?.id === option.id ? 'checked' : 'unchecked'}
             onPress={() => onOptionSelect(customization.id, option)} color={customTheme.colors.primary} uncheckedColor={customTheme.colors.primary}
           />
-          <Text style={styles.optionName}>{option.name}</Text>
+          <Text style={styles.optionName} onPress={() => onOptionSelect(customization.id, option)}>{option.name}</Text>
           <Text style={styles.optionPrice}>AED {option.price}</Text>
         </View>
       ))}

@@ -28,7 +28,6 @@ export const LoginComponent = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const handleLogin = async () => {
     if (!email || !password) {
       setError(true);
@@ -109,6 +108,7 @@ export const LoginComponent = () => {
               onChangeText={setEmail}
               error={error && !email}
               helperText="Email is required"
+              placeholderTextColor="lightgray"
               style={{
                 backgroundColor: "transparent",
                 borderRadius: 4,
@@ -123,6 +123,7 @@ export const LoginComponent = () => {
               onChangeText={setPassword}
               error={error && !password}
               helperText="Password is required"
+              placeholderTextColor="lightgray"
               secureTextEntry
               style={{
                 backgroundColor: "white",

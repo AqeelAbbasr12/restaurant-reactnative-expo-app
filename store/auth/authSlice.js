@@ -12,6 +12,7 @@ const login = async (data) => {
         body: JSON.stringify(data),
     });
     const responseJson = await res.json();
+  
     return responseJson
 }
 
@@ -26,6 +27,17 @@ const refreshToken = async (data) => {
     });
     const responseJson = await res.json();
     return responseJson
+}
+const commonInfo = async (data) => {
+  const res = await fetch(`${Api_route}/api/info`, {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${data}`
+      },
+  });
+  const responseJson = await res.json();
+  return responseJson
 }
 
 const createSliceWithThunks = buildCreateSlice({
@@ -42,6 +54,7 @@ const authSlice = createSliceWithThunks({
         refreshToken: null,
         userLocation: null,
         responseMessage: null,
+        commonData: null,
     },
     reducers: (create) => ({
         setUserLocation: create.reducer((state, action) => {
@@ -173,6 +186,28 @@ const authSlice = createSliceWithThunks({
                 }
             }
         ),
+        fetchCommonInfo: create.asyncThunk(
+          async (data) => {
+            const res = await commonInfo(data);
+              const jsonData = res;
+              return jsonData;
+    
+          },
+          {
+            pending: (state) => {
+              state.loading = true
+            },
+            rejected: (state, action) => {
+              state.error = action.payload ?? action.error
+            },
+            fulfilled: (state, action) => {
+              state.commonData = action.payload;
+            },
+            settled: (state, action) => {
+              state.loading = false
+            }
+          }
+        ),
 
         logoutUser(state, action) {
             state.accessToken = null;
@@ -189,5 +224,5 @@ const authSlice = createSliceWithThunks({
     }),
 });
 
-export const { registerUser, setUserLocation, loginUser, getRefreshToken, logoutUser, switchAuthScreen } = authSlice.actions;
+export const { registerUser, setUserLocation, loginUser, getRefreshToken, logoutUser, switchAuthScreen, fetchCommonInfo } = authSlice.actions;
 export default authSlice.reducer;

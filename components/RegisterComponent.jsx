@@ -129,6 +129,7 @@ export const RegisterComponent = () => {
               error={error && !email}
               keyboardType="email-address"
               helperText="Email is required"
+              placeholderTextColor="lightgray"
               style={{
                 backgroundColor: "transparent",
                 borderRadius: 4,
@@ -143,6 +144,7 @@ export const RegisterComponent = () => {
               onChangeText={setPassword}
               error={error && !password}
               helperText="Password is required"
+              placeholderTextColor="lightgray"
               secureTextEntry
               style={{
                 backgroundColor: "white",

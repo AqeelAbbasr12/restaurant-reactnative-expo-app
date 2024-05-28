@@ -34,9 +34,10 @@ export const ItemComponent = ({ id, imageSource, name, price }) => {
             <Text
               style={{
                 color: "#000",
-                fontWeight: 900,
-                fontSize: f(1.9),
+                fontWeight: 700,
+                fontSize: 17,
                 textAlign: "center",
+                marginTop: 10,
               }}
               numberOfLines={2}
             >
@@ -45,8 +46,8 @@ export const ItemComponent = ({ id, imageSource, name, price }) => {
             <Text
               style={{
                 color: customTheme.colors.primary,
-                fontWeight: 900,
-                fontSize: f(1.9),
+                fontWeight: 700,
+                fontSize: 18,
                 marginTop: 5,
               }}
             >

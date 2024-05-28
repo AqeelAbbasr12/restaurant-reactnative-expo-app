@@ -40,12 +40,12 @@ export function calculateTextWidth_MENU(itemLength) {
         2: 25,
         3: 19,
         4: 17.7,
-        5: 16,
+        5: 16.5,
         6: 16,
-        7: 15.5,
+        7: 15,
         8: 15.5,
         9: 15,
-        10: 14.9,
+        10: 14.5,
         11: 14.7,
         12: 13.8,
         13: 13,
@@ -53,7 +53,7 @@ export function calculateTextWidth_MENU(itemLength) {
         15: 13,
         16: 13,
         17: 13,
-        18: 13.3,
+        18: 11,
         19: 13.3,
         20: 13.3,
         21: 13.3,
@@ -64,7 +64,6 @@ export function calculateTextWidth_MENU(itemLength) {
     };
 
     const width = widthTable[itemLength] || widthTable[25];
-
     return itemLength * width;
 }
 
